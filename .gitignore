@@ -1,0 +1,22 @@
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs/temp
+*.log
+*.tmp
+.cache/
+
+# Archives/build outputs
+*.zip
+*.7z
+*.rar
+build/
+dist/
+release/
+
+# Local secrets/config
+.env
+.env.*
