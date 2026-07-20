@@ -20,3 +20,6 @@ release/
 # Local secrets/config
 .env
 .env.*
+
+# Local Pi agent/runtime config
+.pi/
