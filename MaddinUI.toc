@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: MaddinUI
+## Notes: Ascension WoW UI bundle and companion addon.
+## Author: Maddin
+## Version: 0.1.0
+## SavedVariables: MaddinUIDB
+
+Core.lua
