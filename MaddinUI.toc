@@ -9,6 +9,7 @@ Core.lua
 Profiles\Data\ElvUI.lua
 Profiles\Data\Details.lua
 Profiles\Data\WeakAuras.lua
+Profiles\Data\KuiNameplates.lua
 Profiles\ElvUI.lua
 Profiles\Details.lua
 Profiles\KuiNameplates.lua

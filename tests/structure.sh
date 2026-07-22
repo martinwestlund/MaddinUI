@@ -8,6 +8,7 @@ required_files=(
   "Profiles/Data/ElvUI.lua"
   "Profiles/Data/Details.lua"
   "Profiles/Data/WeakAuras.lua"
+  "Profiles/Data/KuiNameplates.lua"
   "Profiles/ElvUI.lua"
   "Profiles/Details.lua"
   "Profiles/KuiNameplates.lua"
@@ -23,6 +24,7 @@ grep -q '^Installer.lua$' MaddinUI.toc
 grep -q '^Profiles\\Data\\ElvUI.lua$' MaddinUI.toc
 grep -q '^Profiles\\Data\\Details.lua$' MaddinUI.toc
 grep -q '^Profiles\\Data\\WeakAuras.lua$' MaddinUI.toc
+grep -q '^Profiles\\Data\\KuiNameplates.lua$' MaddinUI.toc
 grep -q '^Profiles\\ElvUI.lua$' MaddinUI.toc
 grep -q '^Profiles\\Details.lua$' MaddinUI.toc
 grep -q '^Profiles\\KuiNameplates.lua$' MaddinUI.toc
