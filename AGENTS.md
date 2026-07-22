@@ -81,6 +81,8 @@ Write Lua that works on Lua 5.1-era WoW:
 ## Development best practices for this repo
 
 - Keep generated/imported profile files separate from hand-written addon code where possible.
+- When the user asks to update profiles, auras, exports, or similar without narrowing the scope, compare the entire Windows Desktop source folder `/mnt/c/Users/Marti/Desktop/MaddinUI/` against the bundled addon data, not just the profile type mentioned casually. Update every changed bundled profile/export found there, including ElvUI, Details, WeakAuras, and other supported profile data.
+- For profile/export update commits, use clear end-user-oriented version notes/commit messages that name the changed profile(s). Prefer the format `Various updates to <profile list> profiles.` Example: if only ElvUI Healer and Pyromancer WeakAuras changed, use `Various updates to ElvUI Healer & Pyromancer profiles.` Unless the user specifies a different message, avoid vague commit messages like `Update profiles` so users can judge whether an update matters to them.
 - Document whether a profile/snippet targets:
   - Ascension launcher ElvUI fork
   - Ascension-compatible WeakAuras version
