@@ -6,8 +6,6 @@ end
 MaddinUI.profiles = MaddinUI.profiles or {}
 MaddinUI.profiles.ElvUI = MaddinUI.profiles.ElvUI or {
     uiScale = "0.5333333",
-    healer = nil,
-    dpsTank = nil,
 }
 
 local function GetElvUIEngine()
@@ -48,26 +46,55 @@ local function SetUIScale(scale, E)
     MaddinUI.Debug("ElvUI: set ElvDB.global.general.UIScale=" .. tostring(numericScale) .. ".")
 end
 
-local function GetCharacterProfileKey(E)
-    if E and E.myname and E.myrealm then
-        return E.myname .. " - " .. E.myrealm
+local function RefreshElvUIScale(E)
+    if E.PixelScaleChanged then
+        E:PixelScaleChanged(nil, true)
+        MaddinUI.Debug("ElvUI: called E:PixelScaleChanged(nil, true).")
+    elseif E.UIScale then
+        E:UIScale(true)
+        E:UIScale()
+        MaddinUI.Debug("ElvUI: called E:UIScale(true) and E:UIScale().")
+    else
+        MaddinUI.Debug("ElvUI: no known scale refresh method was found.")
+    end
+end
+
+local function ImportElvUIString(E, profileType, importString)
+    if type(importString) ~= "string" or importString == "" then
+        MaddinUI.Debug("ElvUI: no bundled " .. tostring(profileType) .. " import string found; skipped profile import.")
+        return false
     end
 
-    if UnitName and GetRealmName then
-        local name = UnitName("player")
-        local realm = GetRealmName()
-        if name and realm then
-            return name .. " - " .. realm
-        end
+    if not E.GetModule then
+        MaddinUI.Debug("ElvUI: E:GetModule is unavailable; skipped profile import.")
+        return false
     end
 
-    return nil
+    local distributor = E:GetModule("Distributor")
+    if not distributor or type(distributor.ImportProfile) ~= "function" then
+        MaddinUI.Debug("ElvUI: Distributor:ImportProfile is unavailable; skipped profile import.")
+        return false
+    end
+
+    local ok, result = pcall(distributor.ImportProfile, distributor, importString)
+    if not ok then
+        MaddinUI.Debug("ElvUI: import failed with Lua error: " .. tostring(result) .. ".")
+        return false
+    end
+
+    if result then
+        MaddinUI.Debug("ElvUI: imported " .. tostring(profileType) .. " profile string. Reload UI is recommended.")
+        MaddinUI.MarkInstallerStepComplete("elvui")
+        return true
+    end
+
+    MaddinUI.Debug("ElvUI: import did not complete. If the profile already exists, accept ElvUI's overwrite prompt or rename it.")
+    return false
 end
 
 function MaddinUI.ApplyElvUIProfile(profileType)
-    local profileData = MaddinUI.profiles.ElvUI and MaddinUI.profiles.ElvUI[profileType]
-    local profileName = profileType == "healer" and "MaddinUI Healer" or "MaddinUI DPS-Tank"
     local scale = MaddinUI.profiles.ElvUI and MaddinUI.profiles.ElvUI.uiScale or "0.5333333"
+    local importString = MaddinUI.profileData and MaddinUI.profileData.ElvUI and MaddinUI.profileData.ElvUI[profileType]
     local E = GetElvUIEngine()
 
     MaddinUI.Debug("ElvUI: requested profile " .. tostring(profileType) .. ".")
@@ -81,42 +108,7 @@ function MaddinUI.ApplyElvUIProfile(profileType)
     MaddinUI.Debug("ElvUI: detected engine version " .. tostring(E.version or E.Version or "unknown") .. ".")
 
     SetUIScale(scale, E)
+    RefreshElvUIScale(E)
 
-    if E.PixelScaleChanged then
-        E:PixelScaleChanged(nil, true)
-        MaddinUI.Debug("ElvUI: called E:PixelScaleChanged(nil, true).")
-    elseif E.UIScale then
-        E:UIScale(true)
-        E:UIScale()
-        MaddinUI.Debug("ElvUI: called E:UIScale(true) and E:UIScale().")
-    end
-
-    if type(profileData) ~= "table" then
-        MaddinUI.Debug("ElvUI: no bundled " .. tostring(profileType) .. " profile payload yet; skipped profile DB write.")
-        MaddinUI.Debug("ElvUI: if the visible scale did not update immediately, reload UI to force frame recalculation.")
-        MaddinUI.MarkInstallerStepComplete("elvui-scale")
-        return false
-    end
-
-    ElvDB = ElvDB or {}
-    ElvDB.profiles = ElvDB.profiles or {}
-    ElvDB.profileKeys = ElvDB.profileKeys or {}
-
-    ElvDB.profiles[profileName] = MaddinUI.CopyTable(profileData, {})
-
-    local characterKey = GetCharacterProfileKey(E)
-    if characterKey then
-        ElvDB.profileKeys[characterKey] = profileName
-        MaddinUI.Debug("ElvUI: assigned profile " .. profileName .. " to " .. characterKey .. ".")
-    else
-        MaddinUI.Debug("ElvUI: could not determine character profile key; profile payload was stored only.")
-    end
-
-    if E.db then
-        MaddinUI.CopyTable(profileData, E.db)
-        MaddinUI.Debug("ElvUI: copied payload into active E.db. Reload UI is recommended.")
-    end
-
-    MaddinUI.MarkInstallerStepComplete("elvui")
-    return true
+    return ImportElvUIString(E, profileType, importString)
 end

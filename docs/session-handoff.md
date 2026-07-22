@@ -260,3 +260,130 @@ Expected: no matches.
 - Details step cannot be fully implemented until the installed Details addon/profile format is available.
 - KuiNameplates profile write path needs AceDB verification before enabling writes.
 - WeakAuras imports need actual import strings.
+
+## Update: bundled profile exports added
+
+Profile exports from the Windows Desktop folder were bundled into the addon:
+
+Source folder used during development:
+
+```text
+/mnt/c/Users/Marti/Desktop/Profiles/
+```
+
+Bundled data files:
+
+- `Profiles/Data/ElvUI.lua`
+  - Contains `!E1!` exports for:
+    - DPS/Tank
+    - Healer
+- `Profiles/Data/Details.lua`
+  - Contains Details profile export string.
+- `Profiles/Data/WeakAuras.lua`
+  - Contains WeakAuras `!WA:2!` imports for:
+    - Essential
+    - Cultist
+    - Felsworn
+    - Pyromancer
+    - Starcaller
+    - Templar
+
+### New wiring
+
+ElvUI buttons now call ElvUI's built-in distributor importer:
+
+```lua
+local D = E:GetModule("Distributor")
+D:ImportProfile(exportString)
+```
+
+The UI scale is still applied first:
+
+```lua
+0.5333333
+```
+
+Details button now attempts:
+
+```lua
+Details:ImportProfile(profileString, "MaddinUI", false, true, true)
+```
+
+WeakAuras page now has separate buttons:
+
+- `Import Essential`
+- `Cultist`
+- `Felsworn`
+- `Pyromancer`
+- `Starcaller`
+- `Templar`
+
+This is intentional so the user can import Essential once, then import only the relevant class package. The installer can be reopened later with `/maddinui` or `/mui` for rerolls.
+
+### New verification
+
+Run:
+
+```bash
+./tests/structure.sh && ./tests/profile-data.sh
+```
+
+Expected:
+
+```text
+structure ok
+profile data ok
+```
+
+Source-only compatibility scan used:
+
+```bash
+rg "C_Timer|C_[A-Za-z]+|AuraUtil|CombatLogGetCurrentEventInfo|table\.unpack|goto|Mixin|CreateFromMixins|Enum\." Core.lua Installer.lua Profiles/ElvUI.lua Profiles/Details.lua Profiles/KuiNameplates.lua Profiles/WeakAuras.lua -n
+```
+
+Expected: no matches. Do not scan bundled compressed import strings for API names; compressed payloads can contain coincidental text matches.
+
+### Next in-game tests
+
+1. `/reload`
+2. `/maddinui`
+3. ElvUI page:
+   - Click `Apply DPS/Tank` on a disposable/test profile first.
+   - Confirm ElvUI import succeeds or shows an expected overwrite prompt.
+   - Confirm scale remains `0.5333333`.
+4. ElvUI page:
+   - Test `Apply Healer` similarly.
+5. Details page:
+   - Click `Load Details`.
+   - Confirm Details imports/applies profile `MaddinUI`.
+6. WeakAuras page:
+   - Click `Import Essential`.
+   - Confirm WeakAuras import flow opens/starts.
+   - Click one class package, e.g. `Felsworn`.
+   - Confirm import flow opens/starts.
+7. Reload UI after importing profile packages.
+
+## Known issue: Templar WeakAura export duplicate
+
+In-game testing showed the `Templar` WeakAuras button imported Starcaller auras.
+
+Root cause verified from source files:
+
+```text
+/mnt/c/Users/Marti/Desktop/Profiles/Weakauras Starcaller.txt
+/mnt/c/Users/Marti/Desktop/Profiles/Weakauras Templar.txt
+```
+
+These two files are byte-for-byte identical. This is a source export issue, not an installer routing issue. Replace `Weakauras Templar.txt` with the corrected Templar export and regenerate/update `Profiles/Data/WeakAuras.lua`.
+
+## In-game verification update
+
+User verified in-game that the following work as intended:
+
+- ElvUI profile import flow
+- ElvUI UI scale application at `0.5333333`
+- Details profile import flow
+- WeakAuras Essential import flow
+- Other class WeakAuras imports except Templar
+
+Only known bad profile source is Templar WeakAuras because its `.txt` export currently matches Starcaller exactly. Replace the Templar source export and regenerate the bundled WeakAuras data.

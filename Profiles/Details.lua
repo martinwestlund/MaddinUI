@@ -5,7 +5,7 @@ end
 
 MaddinUI.profiles = MaddinUI.profiles or {}
 MaddinUI.profiles.Details = MaddinUI.profiles.Details or {
-    profile = nil,
+    profileName = "MaddinUI",
 }
 
 function MaddinUI.ApplyDetailsProfile()
@@ -17,13 +17,34 @@ function MaddinUI.ApplyDetailsProfile()
         return false
     end
 
-    MaddinUI.Debug("Details: detected addon global.")
-
-    if type(MaddinUI.profiles.Details.profile) ~= "table" then
-        MaddinUI.Debug("Details: no bundled profile payload yet; skipped profile DB write.")
+    if type(details.ImportProfile) ~= "function" then
+        MaddinUI.Debug("Details: ImportProfile API was not found in this runtime.")
         return false
     end
 
-    MaddinUI.Debug("Details: profile payload exists, but Ascension Details DB write path still needs verification before enabling.")
+    local profileString = MaddinUI.profileData and MaddinUI.profileData.Details and MaddinUI.profileData.Details.profile
+    if type(profileString) ~= "string" or profileString == "" then
+        MaddinUI.Debug("Details: no bundled profile string found; skipped profile import.")
+        return false
+    end
+
+    local profileName = MaddinUI.profiles.Details.profileName or "MaddinUI"
+    local importAutoRunCode = false
+    local isFromImportPrompt = true
+    local overwriteExisting = true
+
+    local ok, result = pcall(details.ImportProfile, details, profileString, profileName, importAutoRunCode, isFromImportPrompt, overwriteExisting)
+    if not ok then
+        MaddinUI.Debug("Details: import failed with Lua error: " .. tostring(result) .. ".")
+        return false
+    end
+
+    if result then
+        MaddinUI.Debug("Details: imported and applied profile " .. tostring(profileName) .. ".")
+        MaddinUI.MarkInstallerStepComplete("details")
+        return true
+    end
+
+    MaddinUI.Debug("Details: import did not complete; check Details chat/error output.")
     return false
 end
