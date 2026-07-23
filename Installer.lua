@@ -27,7 +27,7 @@ local PAGES = {
     {
         key = "weakauras",
         title = "Step 4: WeakAuras",
-        body = "Import bundled MaddinUI WeakAuras once import strings are bundled.",
+        body = "Replace your current WeakAuras with the bundled MaddinUI set. This is intended to make the WeakAuras match the current MaddinUI release exactly.",
     },
     {
         key = "finish",
@@ -78,6 +78,18 @@ local function SaveCurrentStep(index)
     end
 end
 
+StaticPopupDialogs.MADDINUI_REPLACE_WEAKAURAS = {
+    text = "ARE YOU SURE?\n\nThis will delete ALL currently installed WeakAuras and replace them with the bundled MaddinUI WeakAuras. Choose No if you want to keep your existing WeakAuras.",
+    button1 = "Yes",
+    button2 = "No",
+    OnAccept = function()
+        MaddinUI.ReplaceWeakAuras()
+    end,
+    timeout = 0,
+    whileDead = 1,
+    hideOnEscape = 1,
+}
+
 local function BuildPageControls(frame, page)
     HidePageControls(frame)
     frame.pageControls = {}
@@ -102,33 +114,11 @@ local function BuildPageControls(frame, page)
             MaddinUI.ApplyKuiNameplatesProfile()
         end))
     elseif page.key == "weakauras" then
-        AddPageControl(frame, CreateButton(frame, "Import Essential", 170, 26, "TOP", frame.body, "BOTTOM", 0, -24, function()
-            MaddinUI.ApplyWeakAuraPackage("Essential")
+        AddPageControl(frame, CreateButton(frame, "Replace WeakAuras", 180, 26, "TOP", frame.body, "BOTTOM", 0, -24, function()
+            StaticPopup_Show("MADDINUI_REPLACE_WEAKAURAS")
         end))
-        AddPageControl(frame, CreateButton(frame, "Cultist", 110, 24, "TOP", frame.body, "BOTTOM", -174, -62, function()
-            MaddinUI.ApplyWeakAuraPackage("Cultist")
-        end))
-        AddPageControl(frame, CreateButton(frame, "Felsworn", 110, 24, "TOP", frame.body, "BOTTOM", -58, -62, function()
-            MaddinUI.ApplyWeakAuraPackage("Felsworn")
-        end))
-        AddPageControl(frame, CreateButton(frame, "Guardian", 110, 24, "TOP", frame.body, "BOTTOM", 58, -62, function()
-            MaddinUI.ApplyWeakAuraPackage("Guardian")
-        end))
-        AddPageControl(frame, CreateButton(frame, "Necromancer", 110, 24, "TOP", frame.body, "BOTTOM", 174, -62, function()
-            MaddinUI.ApplyWeakAuraPackage("Necromancer")
-        end))
-        AddPageControl(frame, CreateButton(frame, "Pyromancer", 110, 24, "TOP", frame.body, "BOTTOM", -174, -96, function()
-            MaddinUI.ApplyWeakAuraPackage("Pyromancer")
-        end))
-        AddPageControl(frame, CreateButton(frame, "Ranger", 110, 24, "TOP", frame.body, "BOTTOM", -58, -96, function()
-            MaddinUI.ApplyWeakAuraPackage("Ranger")
-        end))
-        AddPageControl(frame, CreateButton(frame, "Starcaller", 110, 24, "TOP", frame.body, "BOTTOM", 58, -96, function()
-            MaddinUI.ApplyWeakAuraPackage("Starcaller")
-        end))
-        AddPageControl(frame, CreateButton(frame, "Templar", 110, 24, "TOP", frame.body, "BOTTOM", 174, -96, function()
-            MaddinUI.ApplyWeakAuraPackage("Templar")
-        end))
+        local warning = AddPageControl(frame, CreateText(frame, "GameFontDisableSmall", "TOP", frame.body, "BOTTOM", 0, -60, 440, "CENTER"))
+        warning:SetText("This deletes all WeakAuras you have. If you do not want this, the WeakAuras can be found on Discord or Wago.io. This is to make sure there are no old aura conflicts or performance-degrading auras from other servers or older MaddinUI versions.")
     elseif page.key == "finish" then
         AddPageControl(frame, CreateButton(frame, "Reload UI", 140, 26, "TOP", frame.body, "BOTTOM", 0, -24, function()
             if ReloadUI then
