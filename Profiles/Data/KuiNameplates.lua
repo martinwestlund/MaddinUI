@@ -32,7 +32,7 @@ MaddinUI.profileData.KuiNameplates = {
 			},
 		},
     namespaces = {
-        Castbar = {
+        ["Castbar"] = {
 					["display"] = {
 						["casttime"] = true,
 						["cbheight"] = 14,
@@ -43,24 +43,24 @@ MaddinUI.profileData.KuiNameplates = {
 						},
 					},
 				},
-        LowHealthColours = {
+        ["LowHealthColours"] = {
 					["enabled"] = false,
 				},
-        Auras = {
+        ["TankMode"] = {
+					["tankmode"] = {
+						["enabled"] = 3,
+					},
+					["brackets"] = {
+						["scale"] = 0.599395751953125,
+					},
+				},
+        ["Auras"] = {
 					["display"] = {
 						["timerThreshold"] = 5,
 					},
 					["icons"] = {
 						["squareness"] = 0.7000000000000001,
 						["icon_size"] = 32,
-					},
-				},
-        TankMode = {
-					["brackets"] = {
-						["scale"] = 0.599395751953125,
-					},
-					["tankmode"] = {
-						["enabled"] = 3,
 					},
 				},
     },

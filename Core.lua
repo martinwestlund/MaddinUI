@@ -3,7 +3,7 @@ local MaddinUI = _G.MaddinUI or {}
 _G.MaddinUI = MaddinUI
 
 MaddinUI.name = ADDON_NAME
-MaddinUI.version = "0.1.0"
+MaddinUI.version = "0.1.1"
 MaddinUI.profiles = MaddinUI.profiles or {}
 
 local DEFAULT_DB = {
