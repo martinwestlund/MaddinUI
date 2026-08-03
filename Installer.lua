@@ -15,24 +15,30 @@ local PAGES = {
     {
         key = "elvui",
         title = "Step 1: ElvUI",
-        body = "Choose the MaddinUI ElvUI layout for this character. The button also sets the configured UI scale and prints debug output.",
+        body = "Choose the MaddinUI ElvUI layout for this character. This also sets UI scale and keeps ElvUI nameplates, party frames, and raid frames disabled for KuiNameplates and Cell_Ascension.",
         instruction = "Press the button to import the ElvUI profile.",
     },
     {
+        key = "cell_ascension",
+        title = "Step 2: Cell_Ascension",
+        body = "Load the MaddinUI Cell_Ascension layout for party and raid frames. The bundled settings hide Blizzard party and raid frames.",
+        instruction = "Press the button to import the Cell_Ascension profile.",
+    },
+    {
         key = "details",
-        title = "Step 2: Details",
+        title = "Step 3: Details",
         body = "Load the MaddinUI Details profile once a Details profile payload is bundled.",
         instruction = "Press the button to import the Details profile.",
     },
     {
         key = "kui",
-        title = "Step 3: KuiNameplates",
+        title = "Step 4: KuiNameplates",
         body = "Load the MaddinUI KuiNameplates profile once a KuiNameplates profile payload is bundled.",
         instruction = "Press the button to import the KuiNameplates profile.",
     },
     {
         key = "weakauras",
-        title = "Step 4: WeakAuras",
+        title = "Step 5: WeakAuras",
         body = "Replace your current WeakAuras with the bundled MaddinUI set. This is intended to make the WeakAuras match the current MaddinUI release exactly.",
         instruction = "Press the button to import the WeakAuras profile.",
     },
@@ -190,6 +196,34 @@ local function AddPageControl(frame, control)
     return control
 end
 
+local function UpdateLogoForPage(frame, page)
+    local accentR, accentG, accentB = GetClassColor()
+    local isLanding = page and page.key == "landing"
+    local logoSize = isLanding and frame.landingLogoSize or frame.stepLogoSize
+
+    ApplyFont(frame.logoMaddin, logoSize, 1, 1, 1, 1)
+    ApplyFont(frame.logoUI, logoSize, accentR, accentG, accentB, 1)
+
+    frame.logoMaddin:ClearAllPoints()
+    frame.logoUI:ClearAllPoints()
+
+    if isLanding then
+        frame.logoMaddin:SetPoint("TOP", frame, "TOP", -46, -66)
+        frame.logoUI:SetPoint("LEFT", frame.logoMaddin, "RIGHT", 0, 0)
+        frame.title:Hide()
+        frame.body:ClearAllPoints()
+        frame.body:SetPoint("TOP", frame.logoMaddin, "BOTTOM", 46, -28)
+    else
+        frame.logoMaddin:SetPoint("TOP", frame, "TOP", -26, -30)
+        frame.logoUI:SetPoint("LEFT", frame.logoMaddin, "RIGHT", 0, 0)
+        frame.title:Show()
+        frame.title:ClearAllPoints()
+        frame.title:SetPoint("TOP", frame.accent, "BOTTOM", 0, -22)
+        frame.body:ClearAllPoints()
+        frame.body:SetPoint("TOP", frame.title, "BOTTOM", 0, -14)
+    end
+end
+
 local function BuildPageControls(frame, page)
     HidePageControls(frame)
     frame.pageControls = {}
@@ -204,6 +238,10 @@ local function BuildPageControls(frame, page)
         end))
         AddPageControl(frame, CreateButton(frame, "Apply Healer", 160, 30, "TOP", frame.instruction, "BOTTOM", 88, -18, function()
             MaddinUI.ApplyElvUIProfile("healer")
+        end))
+    elseif page.key == "cell_ascension" then
+        AddPageControl(frame, CreateButton(frame, "Load Cell_Ascension", 190, 30, "TOP", frame.instruction, "BOTTOM", 0, -18, function()
+            MaddinUI.ApplyCellAscensionProfile()
         end))
     elseif page.key == "details" then
         AddPageControl(frame, CreateButton(frame, "Load Details", 160, 30, "TOP", frame.instruction, "BOTTOM", 0, -18, function()
@@ -251,10 +289,11 @@ local function CreateInstaller()
     frame.inner:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 10)
     SetFrameBackdrop(frame.inner, 0, 0, 0, 1, 0.04, 0.04, 0.04, 1)
 
-    local logoSize = 54
-    frame.logoMaddin = CreateText(frame, "GameFontNormalLarge", "TOP", frame, "TOP", -40, -38, 250, "RIGHT", logoSize, 1, 1, 1)
+    frame.landingLogoSize = 66
+    frame.stepLogoSize = 34
+    frame.logoMaddin = CreateText(frame, "GameFontNormalLarge", "TOP", frame, "TOP", -46, -66, 250, "RIGHT", frame.landingLogoSize, 1, 1, 1)
     frame.logoMaddin:SetText("Maddin")
-    frame.logoUI = CreateText(frame, "GameFontNormalLarge", "LEFT", frame.logoMaddin, "RIGHT", 0, 0, 90, "LEFT", logoSize, accentR, accentG, accentB)
+    frame.logoUI = CreateText(frame, "GameFontNormalLarge", "LEFT", frame.logoMaddin, "RIGHT", 0, 0, 90, "LEFT", frame.landingLogoSize, accentR, accentG, accentB)
     frame.logoUI:SetText("UI")
 
     frame.accent = frame:CreateTexture(nil, "ARTWORK")
@@ -266,7 +305,8 @@ local function CreateInstaller()
     frame.title = CreateText(frame, "GameFontNormalLarge", "TOP", frame.accent, "BOTTOM", 0, -24, 500, "CENTER", 18, 1, 1, 1)
     frame.body = CreateText(frame, "GameFontHighlight", "TOP", frame.title, "BOTTOM", 0, -16, 500, "CENTER", 13, 0.72, 0.72, 0.72)
     frame.body:SetJustifyV("TOP")
-    frame.instruction = CreateText(frame, "GameFontNormal", "TOP", frame.body, "BOTTOM", 0, -32, 500, "CENTER", 15, accentR, accentG, accentB)
+    frame.profileLabel = CreateText(frame, "GameFontNormal", "TOP", frame.body, "BOTTOM", 0, -22, 500, "CENTER", 15, accentR, accentG, accentB)
+    frame.instruction = CreateText(frame, "GameFontNormal", "TOP", frame.profileLabel, "BOTTOM", 0, -14, 500, "CENTER", 14, 0.9, 0.9, 0.9)
 
     frame.step = CreateText(frame, "GameFontDisableSmall", "BOTTOMLEFT", frame, "BOTTOMLEFT", 34, 28, 180, "LEFT", 11, 0.45, 0.45, 0.45)
 
@@ -317,9 +357,20 @@ local function CreateInstaller()
         self.pageIndex = index
 
         local page = PAGES[index]
+        UpdateLogoForPage(self, page)
         self.title:SetText(page.title)
         self.body:SetText(page.body)
-        self.instruction:SetText(page.instruction or "")
+        if index == 1 then
+            self.profileLabel:Hide()
+            self.instruction:ClearAllPoints()
+            self.instruction:SetPoint("TOP", self.body, "BOTTOM", 0, -34)
+        else
+            self.profileLabel:Show()
+            self.profileLabel:SetText(page.instruction or "")
+            self.instruction:ClearAllPoints()
+            self.instruction:SetPoint("TOP", self.profileLabel, "BOTTOM", 0, -14)
+        end
+        self.instruction:SetText(index == 1 and (page.instruction or "") or "Use Next when this step finishes, or Previous to go back.")
         self.step:SetText(string.format("%02d / %02d", index, #PAGES))
 
         SetButtonEnabled(self.previous, index ~= 1)

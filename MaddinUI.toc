@@ -6,12 +6,15 @@
 ## SavedVariables: MaddinUIDB
 
 Core.lua
+ElvUITags.lua
 Profiles\Data\ElvUI.lua
 Profiles\Data\Details.lua
 Profiles\Data\WeakAuras.lua
 Profiles\Data\KuiNameplates.lua
+Profiles\Data\Cell_Ascension.lua
 Profiles\ElvUI.lua
 Profiles\Details.lua
 Profiles\KuiNameplates.lua
+Profiles\Cell_Ascension.lua
 Profiles\WeakAuras.lua
 Installer.lua

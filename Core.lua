@@ -99,6 +99,31 @@ local function GetElvPrivateProfileName()
     return characterKey or "Default"
 end
 
+local function DisableElvUINameplatesAndGroupFrames(db)
+    if type(db) ~= "table" then
+        return
+    end
+
+    db.nameplates = db.nameplates or {}
+    db.nameplates.enable = false
+
+    db.unitframe = db.unitframe or {}
+    local unitframe = db.unitframe
+    unitframe.disabledBlizzardFrames = unitframe.disabledBlizzardFrames or {}
+    unitframe.disabledBlizzardFrames.party = true
+    unitframe.disabledBlizzardFrames.raid = true
+
+    unitframe.units = unitframe.units or {}
+    unitframe.units.party = unitframe.units.party or {}
+    unitframe.units.party.enable = false
+    unitframe.units.raid = unitframe.units.raid or {}
+    unitframe.units.raid.enable = false
+    unitframe.units.raid2 = unitframe.units.raid2 or {}
+    unitframe.units.raid2.enable = false
+    unitframe.units.raid40 = unitframe.units.raid40 or {}
+    unitframe.units.raid40.enable = false
+end
+
 local function EnsureElvPrivateProfile()
     ElvPrivateDB = ElvPrivateDB or {}
     ElvPrivateDB.profiles = ElvPrivateDB.profiles or {}
@@ -115,13 +140,88 @@ local function EnsureElvPrivateProfile()
     return ElvPrivateDB.profiles[profileName]
 end
 
+local function HideFrameByName(frameName)
+    local frame = _G[frameName]
+    if frame and frame.Hide then
+        frame:Hide()
+    end
+end
+
+function MaddinUI.SuppressAddonFirstRunPopups()
+    local E = GetElvUIEngine()
+    if E then
+        E.db = E.db or {}
+        E.db.hideTutorial = true
+        E.private = E.private or {}
+        E.private.install_complete = E.version or E.private.install_complete or true
+
+        if E.TutorialFrame and E.TutorialFrame.Hide then
+            E.TutorialFrame:Hide()
+        end
+        HideFrameByName("ElvUITutorialWindow")
+        if E.StaticPopup_Hide then
+            E:StaticPopup_Hide("INCOMPATIBLE_ADDON")
+        end
+    end
+
+    if type(_G.CellDB) == "table" then
+        CellDB.firstRun = false
+        if type(_G.Cell) == "table" and Cell.version then
+            CellDB.changelogsViewed = Cell.version
+        elseif CellDB.revise then
+            CellDB.changelogsViewed = CellDB.revise
+        end
+    end
+
+    local Details = _G.Details or _G._detalhes
+    if type(Details) == "table" then
+        Details.auto_open_news_window = false
+        Details.is_first_run = false
+        Details.is_version_first_run = false
+        if Details.last_changelog_size == nil and type(_G.Loc) == "table" and type(_G.Loc.STRING_VERSION_LOG) == "string" then
+            Details.last_changelog_size = string.len(_G.Loc.STRING_VERSION_LOG)
+        end
+    end
+
+    HideFrameByName("CellChangelogsFrame")
+    HideFrameByName("ElvUITutorialWindow")
+    HideFrameByName("DetailsNewsWindow")
+    HideFrameByName("DetailsWelcomeWindow")
+    HideFrameByName("ElvUI_TutorialFrame")
+end
+
+local popupSuppressFrame = CreateFrame("Frame")
+popupSuppressFrame.elapsed = 0
+popupSuppressFrame.tries = 0
+popupSuppressFrame:SetScript("OnUpdate", function(self, elapsed)
+    self.elapsed = (self.elapsed or 0) + (elapsed or 0)
+    if self.elapsed < 0.5 then
+        return
+    end
+
+    self.elapsed = 0
+    self.tries = (self.tries or 0) + 1
+    MaddinUI.SuppressAddonFirstRunPopups()
+
+    if self.tries >= 30 then
+        self:Hide()
+    end
+end)
+popupSuppressFrame:Hide()
+
 function MaddinUI.PrepareSmoothFirstRun()
     local E = GetElvUIEngine()
+
+    MaddinUI.SuppressAddonFirstRunPopups()
+    popupSuppressFrame.tries = 0
+    popupSuppressFrame:Show()
 
     if E then
         E.private = E.private or {}
         E.private.nameplates = E.private.nameplates or {}
         E.private.nameplates.enable = false
+        DisableElvUINameplatesAndGroupFrames(E.private)
+        DisableElvUINameplatesAndGroupFrames(E.db)
 
         if E.version then
             E.private.install_complete = E.version
@@ -137,6 +237,7 @@ function MaddinUI.PrepareSmoothFirstRun()
     local privateProfile = EnsureElvPrivateProfile()
     privateProfile.nameplates = privateProfile.nameplates or {}
     privateProfile.nameplates.enable = false
+    DisableElvUINameplatesAndGroupFrames(privateProfile)
     privateProfile.install_complete = (E and E.version) or privateProfile.install_complete or true
 end
 
@@ -167,6 +268,7 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         MaddinUIDB.installer.currentStep = nil
         MaddinUIDB.installer.autoShown = MaddinUIDB.installer.autoShown or {}
         MaddinUI.PrepareSmoothFirstRun()
+        MaddinUI.SuppressAddonFirstRunPopups()
 
         SLASH_MADDINUI1 = "/maddinui"
         SLASH_MADDINUI2 = "/mui"
@@ -182,6 +284,7 @@ frame:SetScript("OnEvent", function(self, event, addonName)
         MaddinUIDB = CopyDefaults(DEFAULT_DB, MaddinUIDB)
         MaddinUIDB.installer.currentStep = nil
         MaddinUI.PrepareSmoothFirstRun()
+        MaddinUI.SuppressAddonFirstRunPopups()
 
         local characterKey = GetCharacterKey() or "account"
         MaddinUIDB.installer.autoShown = MaddinUIDB.installer.autoShown or {}

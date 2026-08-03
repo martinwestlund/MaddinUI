@@ -8,7 +8,8 @@ Target components:
 - Ascension launcher fork of ElvUI
 - Details profiles
 - KuiNameplates profiles
+- Cell_Ascension party/raid frame profile
+- Built-in ElvUI `[targetwitharrow]` custom tag
 - Custom KuiNameplates spell-ID recolor plugin
-- Custom ElvUI party/raid frame texture overlay
 
 This repository is being prepared for a public release.

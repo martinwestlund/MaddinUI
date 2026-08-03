@@ -81,6 +81,31 @@ local function RefreshElvUIScale(E)
     end
 end
 
+local function DisableElvUINameplatesAndGroupFrames(db)
+    if type(db) ~= "table" then
+        return
+    end
+
+    db.nameplates = db.nameplates or {}
+    db.nameplates.enable = false
+
+    db.unitframe = db.unitframe or {}
+    local unitframe = db.unitframe
+    unitframe.disabledBlizzardFrames = unitframe.disabledBlizzardFrames or {}
+    unitframe.disabledBlizzardFrames.party = true
+    unitframe.disabledBlizzardFrames.raid = true
+
+    unitframe.units = unitframe.units or {}
+    unitframe.units.party = unitframe.units.party or {}
+    unitframe.units.party.enable = false
+    unitframe.units.raid = unitframe.units.raid or {}
+    unitframe.units.raid.enable = false
+    unitframe.units.raid2 = unitframe.units.raid2 or {}
+    unitframe.units.raid2.enable = false
+    unitframe.units.raid40 = unitframe.units.raid40 or {}
+    unitframe.units.raid40.enable = false
+end
+
 local function ApplyElvUIProfileTable(E, profileType, profileName, profileTable, data)
     if type(profileTable) ~= "table" then
         MaddinUI.Debug("ElvUI: no bundled " .. tostring(profileType) .. " profile table found; skipped profile write.")
@@ -93,6 +118,7 @@ local function ApplyElvUIProfileTable(E, profileType, profileName, profileTable,
     ElvDB.global = ElvDB.global or {}
 
     ElvDB.profiles[profileName] = MaddinUI.CopyTable(profileTable, {})
+    DisableElvUINameplatesAndGroupFrames(ElvDB.profiles[profileName])
 
     if type(data.global) == "table" then
         ElvDB.global = MaddinUI.CopyTable(data.global, {})
@@ -100,6 +126,11 @@ local function ApplyElvUIProfileTable(E, profileType, profileName, profileTable,
 
     if type(data.private) == "table" then
         ElvPrivateDB = MaddinUI.CopyTable(data.private, {})
+        if type(ElvPrivateDB.profiles) == "table" then
+            for _, privateProfile in pairs(ElvPrivateDB.profiles) do
+                DisableElvUINameplatesAndGroupFrames(privateProfile)
+            end
+        end
     end
 
     local characterKey = GetCharacterKey()
@@ -112,6 +143,7 @@ local function ApplyElvUIProfileTable(E, profileType, profileName, profileTable,
 
     if E then
         E.db = MaddinUI.CopyTable(profileTable, {})
+        DisableElvUINameplatesAndGroupFrames(E.db)
         if type(ElvDB.global) == "table" then
             E.global = MaddinUI.CopyTable(ElvDB.global, {})
         end
