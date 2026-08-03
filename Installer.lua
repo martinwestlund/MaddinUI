@@ -7,7 +7,7 @@ local EXPRESSWAY_FONT = "Interface\\AddOns\\ElvUI\\Media\\Fonts\\Expressway.ttf"
 
 local ADDON_REQUIREMENTS = {
     { name = "ElvUI", label = "ElvUI", globals = { "ElvUI" } },
-    { name = "Cell_Ascension", label = "Cell_Ascension", globals = { "Cell" } },
+    { name = "Cell_Ascension", label = "Cell", globals = { "Cell" } },
     { name = "Details", label = "Details", globals = { "Details", "_detalhes" } },
     { name = "Kui_Nameplates", label = "KuiNameplates", globals = { "KuiNameplates", "KuiNameplatesCore" } },
     { name = "WeakAuras", label = "WeakAuras", globals = { "WeakAuras" } },
@@ -255,13 +255,11 @@ local function UpdateAddonChecklist(frame)
     for _, addon in ipairs(ADDON_REQUIREMENTS) do
         local status = GetAddonStatus(addon)
         if status == "ready" then
-            table.insert(lines, "|cff33ff99" .. addon.label .. ": installed and enabled|r")
-        elseif status == "missing" then
-            table.insert(lines, "|cffff5555" .. addon.label .. ": Missing, please install and enable the addon before running the installer!|r")
-        elseif status == "disabled" then
-            table.insert(lines, "|cffffaa33" .. addon.label .. ": Disabled, please enable the addon before running the installer!|r")
+            table.insert(lines, "|cff33ff99" .. addon.label .. ": Found!|r")
+        elseif status == "missing" or status == "disabled" then
+            table.insert(lines, "|cffff5555" .. addon.label .. ": Not found, please install and enable the addon!|r")
         else
-            table.insert(lines, "|cffffaa33" .. addon.label .. ": unable to check addon status|r")
+            table.insert(lines, "|cffffaa33" .. addon.label .. ": Unable to check addon status.|r")
         end
     end
 

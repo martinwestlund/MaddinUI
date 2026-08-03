@@ -137,8 +137,12 @@ if ! grep -q 'ADDON_REQUIREMENTS' Installer.lua || ! grep -q 'GetAddOnInfo' Inst
   echo "installer landing page must check required addon installation/enabled/loaded state" >&2
   exit 1
 fi
-if ! grep -q 'Missing, please install and enable' Installer.lua || ! grep -q 'installed and enabled' Installer.lua; then
-  echo "installer addon checklist must show missing/enabled status text" >&2
+if ! grep -q 'Not found, please install and enable the addon!' Installer.lua || ! grep -q 'Found!' Installer.lua; then
+  echo "installer addon checklist must show found/not-found status text" >&2
+  exit 1
+fi
+if ! grep -q 'label = "Cell"' Installer.lua; then
+  echo "installer addon checklist must display Cell with a clean label" >&2
   exit 1
 fi
 if ! grep -q 'SuppressAddonFirstRunPopups' Core.lua; then
