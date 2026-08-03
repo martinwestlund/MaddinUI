@@ -2,7 +2,7 @@
 ## Title: MaddinUI
 ## Notes: Ascension WoW UI bundle and companion addon.
 ## Author: Maddin
-## Version: 0.1.4
+## Version: 0.1.5
 ## SavedVariables: MaddinUIDB
 
 Core.lua
@@ -11,6 +11,7 @@ Profiles\Data\ElvUI.lua
 Profiles\Data\Details.lua
 Profiles\Data\WeakAuras.lua
 Profiles\Data\KuiNameplates.lua
+Profiles\Data\KuiNameplatesAuras.lua
 Profiles\Data\Cell_Ascension.lua
 Profiles\ElvUI.lua
 Profiles\Details.lua

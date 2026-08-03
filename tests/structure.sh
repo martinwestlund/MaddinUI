@@ -10,6 +10,7 @@ required_files=(
   "Profiles/Data/Details.lua"
   "Profiles/Data/WeakAuras.lua"
   "Profiles/Data/KuiNameplates.lua"
+  "Profiles/Data/KuiNameplatesAuras.lua"
   "Profiles/Data/Cell_Ascension.lua"
   "Profiles/ElvUI.lua"
   "Profiles/Details.lua"
@@ -29,6 +30,7 @@ grep -q '^Profiles\\Data\\ElvUI.lua$' MaddinUI.toc
 grep -q '^Profiles\\Data\\Details.lua$' MaddinUI.toc
 grep -q '^Profiles\\Data\\WeakAuras.lua$' MaddinUI.toc
 grep -q '^Profiles\\Data\\KuiNameplates.lua$' MaddinUI.toc
+grep -q '^Profiles\\Data\\KuiNameplatesAuras.lua$' MaddinUI.toc
 grep -q '^Profiles\\Data\\Cell_Ascension.lua$' MaddinUI.toc
 grep -q '^Profiles\\ElvUI.lua$' MaddinUI.toc
 grep -q '^Profiles\\Details.lua$' MaddinUI.toc
@@ -131,6 +133,14 @@ if ! grep -q 'profileLabel' Installer.lua || ! grep -q 'Press the button to impo
   echo "installer step pages must include profile import helper text" >&2
   exit 1
 fi
+if ! grep -q 'ADDON_REQUIREMENTS' Installer.lua || ! grep -q 'GetAddOnInfo' Installer.lua || ! grep -q 'GetAddOnEnableState' Installer.lua || ! grep -q 'IsAddOnLoaded' Installer.lua; then
+  echo "installer landing page must check required addon installation/enabled/loaded state" >&2
+  exit 1
+fi
+if ! grep -q 'Missing, please install and enable' Installer.lua || ! grep -q 'installed and enabled' Installer.lua; then
+  echo "installer addon checklist must show missing/enabled status text" >&2
+  exit 1
+fi
 if ! grep -q 'SuppressAddonFirstRunPopups' Core.lua; then
   echo "core must suppress supported addon first-run popups" >&2
   exit 1
@@ -147,8 +157,8 @@ if ! grep -q 'E.db.hideTutorial = true' Core.lua || ! grep -q 'E.TutorialFrame:H
   echo "core must suppress ElvUI tutorial/support popup" >&2
   exit 1
 fi
-if ! grep -q 'SetBackdropColor(0, 0, 0, 1)' Installer.lua; then
-  echo "installer background must be opaque black" >&2
+if ! grep -q 'SetBackdropColor(0, 0, 0, 0.8)' Installer.lua; then
+  echo "installer background must use 80 percent opacity" >&2
   exit 1
 fi
 if ! grep -q 'instruction = "Press the button to import' Installer.lua; then

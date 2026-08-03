@@ -5,6 +5,14 @@ end
 
 local EXPRESSWAY_FONT = "Interface\\AddOns\\ElvUI\\Media\\Fonts\\Expressway.ttf"
 
+local ADDON_REQUIREMENTS = {
+    { name = "ElvUI", label = "ElvUI", globals = { "ElvUI" } },
+    { name = "Cell_Ascension", label = "Cell_Ascension", globals = { "Cell" } },
+    { name = "Details", label = "Details", globals = { "Details", "_detalhes" } },
+    { name = "Kui_Nameplates", label = "KuiNameplates", globals = { "KuiNameplates", "KuiNameplatesCore" } },
+    { name = "WeakAuras", label = "WeakAuras", globals = { "WeakAuras" } },
+}
+
 local PAGES = {
     {
         key = "landing",
@@ -71,6 +79,11 @@ local function ApplyFont(fontString, size, r, g, b, a)
     if fontString.SetTextColor then
         fontString:SetTextColor(r or 1, g or 1, b or 1, a or 1)
     end
+end
+
+local function GetClassColorHex()
+    local r, g, b = GetClassColor()
+    return string.format("|cff%02x%02x%02x", r * 255, g * 255, b * 255)
 end
 
 local function SetFrameBackdrop(frame, bgR, bgG, bgB, bgA, edgeR, edgeG, edgeB, edgeA)
@@ -179,6 +192,82 @@ local function CreateText(parent, font, point, relativeTo, relativePoint, x, y, 
     return text
 end
 
+local function HasAnyGlobal(globalNames)
+    if type(globalNames) ~= "table" then
+        return false
+    end
+
+    for _, globalName in ipairs(globalNames) do
+        if _G[globalName] ~= nil then
+            return true
+        end
+    end
+
+    return false
+end
+
+local function GetAddonStatus(addon)
+    local addonName = addon.name
+    if type(GetAddOnInfo) ~= "function" then
+        return "unknown"
+    end
+
+    local name, _, _, _, loadable = GetAddOnInfo(addonName)
+    if not name then
+        return "missing"
+    end
+
+    if type(GetAddOnEnableState) == "function" then
+        local character = nil
+        if UnitName then
+            character = UnitName("player")
+        end
+
+        local enabledState = GetAddOnEnableState(character, addonName)
+        if type(enabledState) == "number" and enabledState <= 0 then
+            return "disabled"
+        elseif enabledState == false then
+            return "disabled"
+        end
+    end
+
+    if loadable == false then
+        return "disabled"
+    end
+
+    if type(IsAddOnLoaded) == "function" and IsAddOnLoaded(addonName) then
+        return "ready"
+    end
+
+    if HasAnyGlobal(addon.globals) then
+        return "ready"
+    end
+
+    return "disabled"
+end
+
+local function UpdateAddonChecklist(frame)
+    if not frame.addonChecklist then
+        return
+    end
+
+    local lines = {}
+    for _, addon in ipairs(ADDON_REQUIREMENTS) do
+        local status = GetAddonStatus(addon)
+        if status == "ready" then
+            table.insert(lines, "|cff33ff99" .. addon.label .. ": installed and enabled|r")
+        elseif status == "missing" then
+            table.insert(lines, "|cffff5555" .. addon.label .. ": Missing, please install and enable the addon before running the installer!|r")
+        elseif status == "disabled" then
+            table.insert(lines, "|cffffaa33" .. addon.label .. ": Disabled, please enable the addon before running the installer!|r")
+        else
+            table.insert(lines, "|cffffaa33" .. addon.label .. ": unable to check addon status|r")
+        end
+    end
+
+    frame.addonChecklist:SetText(table.concat(lines, "\n"))
+end
+
 local function HidePageControls(frame)
     local controls = frame.pageControls
     if not controls then
@@ -202,26 +291,26 @@ local function UpdateLogoForPage(frame, page)
     local logoSize = isLanding and frame.landingLogoSize or frame.stepLogoSize
 
     ApplyFont(frame.logoMaddin, logoSize, 1, 1, 1, 1)
-    ApplyFont(frame.logoUI, logoSize, accentR, accentG, accentB, 1)
+    frame.logoMaddin:SetText("Maddin" .. GetClassColorHex() .. "UI|r")
+    frame.logoUI:Hide()
 
     frame.logoMaddin:ClearAllPoints()
-    frame.logoUI:ClearAllPoints()
 
     if isLanding then
-        frame.logoMaddin:SetPoint("TOP", frame, "TOP", -64, -72)
-        frame.logoUI:SetPoint("LEFT", frame.logoMaddin, "RIGHT", 0, 0)
+        frame.logoMaddin:SetPoint("TOP", frame, "TOP", 0, -72)
         frame.accent:Hide()
         frame.title:Hide()
         frame.landingSubtitle:Show()
         frame.landingSubtitle:SetText("Ascension profile installer")
+        frame.addonChecklist:Show()
         frame.body:ClearAllPoints()
-        frame.body:SetPoint("TOP", frame.landingSubtitle, "BOTTOM", 0, -28)
+        frame.body:SetPoint("TOP", frame.landingSubtitle, "BOTTOM", 0, -22)
     else
-        frame.logoMaddin:SetPoint("TOP", frame, "TOP", -26, -30)
-        frame.logoUI:SetPoint("LEFT", frame.logoMaddin, "RIGHT", 0, 0)
+        frame.logoMaddin:SetPoint("TOP", frame, "TOP", 0, -30)
         frame.accent:Show()
         frame.title:Show()
         frame.landingSubtitle:Hide()
+        frame.addonChecklist:Hide()
         frame.title:ClearAllPoints()
         frame.title:SetPoint("TOP", frame.accent, "BOTTOM", 0, -22)
         frame.body:ClearAllPoints()
@@ -286,20 +375,22 @@ local function CreateInstaller()
     frame:SetScript("OnDragStart", function(self) self:StartMoving() end)
     frame:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
 
-    SetFrameBackdrop(frame, 0, 0, 0, 1, 0, 0, 0, 1)
-    frame:SetBackdropColor(0, 0, 0, 1)
+    SetFrameBackdrop(frame, 0, 0, 0, 0.8, 0, 0, 0, 0.9)
+    frame:SetBackdropColor(0, 0, 0, 0.8)
 
     frame.inner = CreateFrame("Frame", nil, frame)
     frame.inner:SetPoint("TOPLEFT", frame, "TOPLEFT", 10, -10)
     frame.inner:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 10)
     SetFrameBackdrop(frame.inner, 0, 0, 0, 1, 0.04, 0.04, 0.04, 1)
+    frame.inner:Hide()
 
     frame.landingLogoSize = 86
     frame.stepLogoSize = 34
-    frame.logoMaddin = CreateText(frame, "GameFontNormalLarge", "TOP", frame, "TOP", -64, -72, 360, "RIGHT", frame.landingLogoSize, 1, 1, 1)
-    frame.logoMaddin:SetText("Maddin")
-    frame.logoUI = CreateText(frame, "GameFontNormalLarge", "LEFT", frame.logoMaddin, "RIGHT", 0, 0, 130, "LEFT", frame.landingLogoSize, accentR, accentG, accentB)
-    frame.logoUI:SetText("UI")
+    frame.logoMaddin = CreateText(frame, "GameFontNormalLarge", "TOP", frame, "TOP", 0, -72, 520, "CENTER", frame.landingLogoSize, 1, 1, 1)
+    frame.logoMaddin:SetText("Maddin" .. GetClassColorHex() .. "UI|r")
+    frame.logoUI = CreateText(frame, "GameFontNormalLarge", "TOP", frame, "TOP", 0, -72, 1, "CENTER", frame.landingLogoSize, accentR, accentG, accentB)
+    frame.logoUI:SetText("")
+    frame.logoUI:Hide()
 
     frame.accent = frame:CreateTexture(nil, "ARTWORK")
     frame.accent:SetHeight(1)
@@ -307,7 +398,9 @@ local function CreateInstaller()
     frame.accent:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -54, -116)
     frame.accent:SetTexture(accentR, accentG, accentB, 0.85)
 
-    frame.landingSubtitle = CreateText(frame, "GameFontNormal", "TOP", frame.logoMaddin, "BOTTOM", 64, -12, 500, "CENTER", 18, accentR, accentG, accentB)
+    frame.landingSubtitle = CreateText(frame, "GameFontNormal", "TOP", frame.logoMaddin, "BOTTOM", 0, -12, 500, "CENTER", 18, accentR, accentG, accentB)
+    frame.addonChecklist = CreateText(frame, "GameFontHighlight", "TOP", frame, "TOP", 0, -220, 540, "CENTER", 12, 0.82, 0.82, 0.82)
+    frame.addonChecklist:SetJustifyV("TOP")
     frame.title = CreateText(frame, "GameFontNormalLarge", "TOP", frame.accent, "BOTTOM", 0, -24, 500, "CENTER", 18, 1, 1, 1)
     frame.body = CreateText(frame, "GameFontHighlight", "TOP", frame.title, "BOTTOM", 0, -16, 500, "CENTER", 13, 0.72, 0.72, 0.72)
     frame.body:SetJustifyV("TOP")
@@ -368,8 +461,10 @@ local function CreateInstaller()
         self.body:SetText(page.body)
         if index == 1 then
             self.profileLabel:Hide()
+            self.addonChecklist:ClearAllPoints()
+            self.addonChecklist:SetPoint("TOP", self.body, "BOTTOM", 0, -22)
             self.instruction:ClearAllPoints()
-            self.instruction:SetPoint("TOP", self.body, "BOTTOM", 0, -34)
+            self.instruction:SetPoint("TOP", self.addonChecklist, "BOTTOM", 0, -26)
         else
             self.profileLabel:Show()
             self.profileLabel:SetText(page.instruction or "")
@@ -378,6 +473,7 @@ local function CreateInstaller()
         end
         self.instruction:SetText(index == 1 and (page.instruction or "") or "Use Next when this step finishes, or Previous to go back.")
         self.step:SetText(string.format("%02d / %02d", index, #PAGES))
+        UpdateAddonChecklist(self)
 
         SetButtonEnabled(self.previous, index ~= 1)
         SetButtonEnabled(self.next, index ~= #PAGES)

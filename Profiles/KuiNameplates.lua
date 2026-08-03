@@ -80,6 +80,11 @@ function MaddinUI.ApplyKuiNameplatesProfile()
         end
     end
 
+    if type(MaddinUI.profileData.KuiSpellListCustom) == "table" then
+        KuiSpellListCustom = MaddinUI.CopyTable(MaddinUI.profileData.KuiSpellListCustom, {})
+        MaddinUI.Debug("KuiNameplates: wrote bundled custom aura spell list.")
+    end
+
     if characterKey then
         KuiNameplatesGDB.profileKeys[characterKey] = profileName
         MaddinUI.Debug("KuiNameplates: assigned profile " .. tostring(profileName) .. " to this character.")

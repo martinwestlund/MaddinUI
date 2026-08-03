@@ -6,6 +6,7 @@ required_files=(
   "Profiles/Data/WeakAuras.lua"
   "Profiles/Data/Details.lua"
   "Profiles/Data/KuiNameplates.lua"
+  "Profiles/Data/KuiNameplatesAuras.lua"
   "Profiles/Data/Cell_Ascension.lua"
 )
 
@@ -26,6 +27,8 @@ grep -q 'MaddinUI.profileData.KuiNameplates' Profiles/Data/KuiNameplates.lua
 grep -q 'profileName = "MaddinUI"' Profiles/Data/KuiNameplates.lua
 grep -q 'Castbar' Profiles/Data/KuiNameplates.lua
 grep -q 'TankMode' Profiles/Data/KuiNameplates.lua
+grep -q 'MaddinUI.profileData.KuiSpellListCustom' Profiles/Data/KuiNameplatesAuras.lua
+grep -q 'KuiSpellListCustom = MaddinUI.CopyTable' Profiles/KuiNameplates.lua
 grep -q 'MaddinUI.profileData.Cell_Ascension' Profiles/Data/Cell_Ascension.lua
 grep -q '\["hideBlizzardParty"\] = true' Profiles/Data/Cell_Ascension.lua
 grep -q '\["hideBlizzardRaid"\] = true' Profiles/Data/Cell_Ascension.lua

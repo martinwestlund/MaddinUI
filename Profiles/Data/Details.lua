@@ -6,14 +6,7 @@ MaddinUI.profileData.Details = {
     profileName = "MaddinUI",
     profile = {
 			["show_arena_role_icon"] = false,
-			["capture_real"] = {
-				["heal"] = true,
-				["spellcast"] = true,
-				["miscdata"] = true,
-				["aura"] = true,
-				["energy"] = true,
-				["damage"] = true,
-			},
+			["use_realtimedps"] = false,
 			["row_fade_in"] = {
 				"in", -- [1]
 				0.2, -- [2]
@@ -24,15 +17,54 @@ MaddinUI.profileData.Details = {
 				["reset_spec_cache"] = false,
 				["no_alerts"] = false,
 				["no_helptips"] = false,
-				["disable_mythic_dungeon"] = false,
 				["use_animation_accel"] = true,
+				["disable_mythic_dungeon"] = false,
 			},
-			["all_players_are_group"] = false,
+			["numerical_system"] = 1,
 			["use_row_animations"] = true,
 			["report_heal_links"] = false,
-			["remove_realm_from_name"] = true,
+			["windows_fade_out"] = {
+				"out", -- [1]
+				0.2, -- [2]
+			},
 			["minimum_overall_combat_time"] = 10,
-			["time_type_original"] = 2,
+			["event_tracker"] = {
+				["enabled"] = false,
+				["font_color"] = {
+					1, -- [1]
+					1, -- [2]
+					1, -- [3]
+					1, -- [4]
+				},
+				["show_crowdcontrol_pvm"] = false,
+				["line_color"] = {
+					0.1, -- [1]
+					0.1, -- [2]
+					0.1, -- [3]
+					0.3, -- [4]
+				},
+				["font_shadow"] = "NONE",
+				["font_size"] = 10,
+				["font_face"] = "Friz Quadrata TT",
+				["line_height"] = 16,
+				["show_crowdcontrol_pvp"] = true,
+				["frame"] = {
+					["show_title"] = true,
+					["strata"] = "LOW",
+					["backdrop_color"] = {
+						0.16, -- [1]
+						0.16, -- [2]
+						0.16, -- [3]
+						0.47, -- [4]
+					},
+					["locked"] = false,
+					["height"] = 300,
+					["width"] = 250,
+				},
+				["line_texture"] = "Details Serenity",
+				["options_frame"] = {
+				},
+			},
 			["report_to_who"] = "",
 			["class_specs_coords"] = {
 				{
@@ -642,7 +674,81 @@ MaddinUI.profileData.Details = {
 					0.41015625, -- [4]
 				}, -- [101]
 			},
-			["profile_save_pos"] = true,
+			["clear_ungrouped"] = true,
+			["use_battleground_server_parser"] = false,
+			["default_bg_color"] = 0.0941,
+			["world_combat_is_trash"] = false,
+			["pvp_as_group"] = true,
+			["bookmark_text_size"] = 11,
+			["animation_speed_mintravel"] = 0.45,
+			["track_item_level"] = true,
+			["fade_speed"] = 0.15,
+			["death_tooltip_spark"] = false,
+			["windows_fade_in"] = {
+				"in", -- [1]
+				0.2, -- [2]
+			},
+			["instances_menu_click_to_open"] = false,
+			["overall_clear_newchallenge"] = true,
+			["segments_amount_boss_wipes"] = 10,
+			["use_self_color"] = false,
+			["data_cleanup_logout"] = false,
+			["instances_disable_bar_highlight"] = false,
+			["disable_stretch_from_toolbar"] = false,
+			["grouping_horizontal_gap"] = 0,
+			["default_bg_alpha"] = 0.5,
+			["disable_lock_ungroup_buttons"] = true,
+			["trash_concatenate"] = false,
+			["deny_score_messages"] = false,
+			["death_tooltip_width"] = 350,
+			["animate_scroll"] = false,
+			["animation_speed"] = 33,
+			["all_in_one_windows"] = {
+			},
+			["standard_skin"] = false,
+			["realtime_dps_meter"] = {
+				["enabled"] = false,
+				["font_color"] = {
+					1, -- [1]
+					1, -- [2]
+					1, -- [3]
+					1, -- [4]
+				},
+				["arena_enabled"] = true,
+				["font_shadow"] = "NONE",
+				["font_size"] = 18,
+				["mythic_dungeon_enabled"] = false,
+				["frame_settings"] = {
+					["show_title"] = true,
+					["strata"] = "LOW",
+					["point"] = "TOP",
+					["scale"] = 1,
+					["width"] = 300,
+					["y"] = -110,
+					["x"] = 0,
+					["backdrop_color"] = {
+						0, -- [1]
+						0, -- [2]
+						0, -- [3]
+						0.2, -- [4]
+					},
+					["locked"] = true,
+					["height"] = 23,
+				},
+				["sample_size"] = 3,
+				["font_face"] = "Friz Quadrata TT",
+				["text_offset"] = 2,
+				["update_interval"] = 0.3,
+				["options_frame"] = {
+				},
+			},
+			["memory_ram"] = 64,
+			["overall_clear_newboss"] = true,
+			["class_icons_small"] = "Interface\\AddOns\\Details\\images\\classes_small",
+			["disable_window_groups"] = true,
+			["force_activity_time_pvp"] = true,
+			["ps_abbreviation"] = 2,
+			["instances_suppress_trash"] = 0,
 			["tooltip"] = {
 				["tooltip_max_abilities"] = 8,
 				["bar_color"] = {
@@ -706,17 +812,12 @@ MaddinUI.profileData.Details = {
 				},
 				["anchor_relative"] = "topright",
 				["anchored_to"] = 2,
-				["fontsize"] = 14,
+				["show_amount"] = true,
 				["submenu_wallpaper"] = true,
 				["fontsize_title"] = 10,
 				["commands"] = {
 				},
-				["menus_bg_color"] = {
-					0.8, -- [1]
-					0.8, -- [2]
-					0.8, -- [3]
-					0.2, -- [4]
-				},
+				["show_border_shadow"] = true,
 				["fontface"] = "Expressway",
 				["border_color"] = {
 					0, -- [1]
@@ -725,17 +826,17 @@ MaddinUI.profileData.Details = {
 					1, -- [4]
 				},
 				["border_texture"] = "Details BarBorder 3",
-				["fontcolor"] = {
-					0.9019608497619629, -- [1]
-					0.9019608497619629, -- [2]
-					0.9019608497619629, -- [3]
-					1, -- [4]
+				["icon_border_texcoord"] = {
+					["B"] = 0.921875,
+					["L"] = 0.078125,
+					["T"] = 0.078125,
+					["R"] = 0.921875,
 				},
 				["anchor_offset"] = {
 					5, -- [1]
 					-28, -- [2]
 				},
-				["show_amount"] = true,
+				["fontsize"] = 14,
 				["border_size"] = 14,
 				["maximize_method"] = 1,
 				["fontshadow"] = true,
@@ -746,149 +847,31 @@ MaddinUI.profileData.Details = {
 					0.213000011444092, -- [3]
 					0.279000015258789, -- [4]
 				},
-				["icon_border_texcoord"] = {
-					["R"] = 0.921875,
-					["L"] = 0.078125,
-					["T"] = 0.078125,
-					["B"] = 0.921875,
-				},
-				["show_border_shadow"] = true,
-			},
-			["ps_abbreviation"] = 2,
-			["world_combat_is_trash"] = false,
-			["pvp_as_group"] = true,
-			["bookmark_text_size"] = 11,
-			["animation_speed_mintravel"] = 0.45,
-			["track_item_level"] = true,
-			["fade_speed"] = 0.15,
-			["death_tooltip_spark"] = false,
-			["windows_fade_in"] = {
-				"in", -- [1]
-				0.2, -- [2]
-			},
-			["overall_clear_newboss"] = true,
-			["overall_clear_newchallenge"] = true,
-			["segments_amount_boss_wipes"] = 10,
-			["use_self_color"] = false,
-			["data_cleanup_logout"] = false,
-			["instances_disable_bar_highlight"] = false,
-			["death_log_colors"] = {
-				["debuff"] = "purple",
-				["buff"] = "silver",
-				["friendlyfire"] = "darkorange",
-				["heal"] = "green",
-				["cooldown"] = "yellow",
-				["damage"] = "red",
-			},
-			["grouping_horizontal_gap"] = 0,
-			["deadlog_limit"] = 16,
-			["instances_segments_locked"] = true,
-			["trash_concatenate"] = false,
-			["deny_score_messages"] = false,
-			["instances_no_libwindow"] = false,
-			["data_broker_text"] = "",
-			["animation_speed"] = 33,
-			["disable_lock_ungroup_buttons"] = true,
-			["standard_skin"] = false,
-			["realtime_dps_meter"] = {
-				["enabled"] = false,
-				["font_color"] = {
-					1, -- [1]
-					1, -- [2]
-					1, -- [3]
+				["fontcolor"] = {
+					0.9019608497619629, -- [1]
+					0.9019608497619629, -- [2]
+					0.9019608497619629, -- [3]
 					1, -- [4]
 				},
-				["arena_enabled"] = true,
-				["font_shadow"] = "NONE",
-				["font_size"] = 18,
-				["mythic_dungeon_enabled"] = false,
-				["sample_size"] = 3,
-				["frame_settings"] = {
-					["show_title"] = true,
-					["strata"] = "LOW",
-					["point"] = "TOP",
-					["scale"] = 1,
-					["width"] = 300,
-					["y"] = -110,
-					["x"] = 0,
-					["backdrop_color"] = {
-						0, -- [1]
-						0, -- [2]
-						0, -- [3]
-						0.2, -- [4]
-					},
-					["locked"] = true,
-					["height"] = 23,
-				},
-				["update_interval"] = 0.3,
-				["text_offset"] = 2,
-				["font_face"] = "Friz Quadrata TT",
-				["options_frame"] = {
+				["menus_bg_color"] = {
+					0.8, -- [1]
+					0.8, -- [2]
+					0.8, -- [3]
+					0.2, -- [4]
 				},
 			},
-			["memory_ram"] = 64,
-			["event_tracker"] = {
-				["enabled"] = false,
-				["font_color"] = {
-					1, -- [1]
-					1, -- [2]
-					1, -- [3]
-					1, -- [4]
-				},
-				["line_height"] = 16,
-				["line_color"] = {
-					0.1, -- [1]
-					0.1, -- [2]
-					0.1, -- [3]
-					0.3, -- [4]
-				},
-				["font_shadow"] = "NONE",
-				["font_size"] = 10,
-				["font_face"] = "Friz Quadrata TT",
-				["show_crowdcontrol_pvm"] = false,
-				["show_crowdcontrol_pvp"] = true,
-				["frame"] = {
-					["show_title"] = true,
-					["strata"] = "LOW",
-					["backdrop_color"] = {
-						0.16, -- [1]
-						0.16, -- [2]
-						0.16, -- [3]
-						0.47, -- [4]
-					},
-					["locked"] = false,
-					["height"] = 300,
-					["width"] = 250,
-				},
-				["line_texture"] = "Details Serenity",
-				["options_frame"] = {
-				},
-			},
-			["numerical_system_symbols"] = "auto",
-			["disable_window_groups"] = true,
-			["report_schema"] = 1,
-			["update_speed"] = 0.5,
-			["instances_suppress_trash"] = 0,
-			["time_type"] = 2,
 			["options_window"] = {
 				["scale"] = 1.2,
 			},
 			["animation_speed_maxtravel"] = 3,
-			["player_details_window"] = {
-				["scale"] = 1,
-				["skin"] = "ElvUI",
-				["bar_texture"] = "Skyline",
-			},
-			["row_fade_out"] = {
-				"out", -- [1]
-				0.2, -- [2]
-			},
+			["profile_save_pos"] = true,
+			["auto_swap_to_dynamic_overall"] = false,
 			["font_faces"] = {
 				["menus"] = "Expressway",
 			},
-			["overall_clear_newtorghast"] = true,
 			["segments_amount"] = 15,
-			["report_lines"] = 3,
+			["time_type_original"] = 2,
+			["overall_clear_pvp"] = true,
 			["instances"] = {
 				{
 					["__pos"] = {
@@ -1043,12 +1026,12 @@ MaddinUI.profileData.Details = {
 					["skin"] = "Minimalistic",
 					["switch_damager_in_combat"] = false,
 					["following"] = {
-						["enabled"] = false,
 						["bar_color"] = {
 							1, -- [1]
 							1, -- [2]
 							1, -- [3]
 						},
+						["enabled"] = false,
 						["text_color"] = {
 							1, -- [1]
 							1, -- [2]
@@ -1138,10 +1121,10 @@ MaddinUI.profileData.Details = {
 					["__locked"] = true,
 					["menu_alpha"] = {
 						["enabled"] = false,
-						["onleave"] = 1,
-						["ignorebars"] = false,
-						["iconstoo"] = true,
 						["onenter"] = 1,
+						["iconstoo"] = true,
+						["ignorebars"] = false,
+						["onleave"] = 1,
 					},
 					["menu_anchor_down"] = {
 						16, -- [1]
@@ -1212,8 +1195,8 @@ MaddinUI.profileData.Details = {
 							-16, -- [1]
 							3, -- [2]
 						},
-						["enable_custom_text"] = false,
 						["text_size"] = 14,
+						["enable_custom_text"] = false,
 						["show_timer_bg"] = true,
 					},
 					["hide_in_combat"] = false,
@@ -1247,8 +1230,8 @@ MaddinUI.profileData.Details = {
 							0, -- [3]
 							0.7, -- [4]
 						},
-						["height"] = 114.042518615723,
 						["anchor"] = "all",
+						["height"] = 114.042518615723,
 						["level"] = 2,
 						["alpha"] = 0.5,
 						["width"] = 283.000183105469,
@@ -1266,32 +1249,27 @@ MaddinUI.profileData.Details = {
 							["bottom"] = 0,
 						},
 						["texture_highlight"] = "Interface\\FriendsFrame\\UI-FriendsList-Highlight",
-						["textL_outline_small"] = true,
-						["textL_enable_custom_text"] = false,
+						["textR_show_data"] = {
+							false, -- [1]
+							true, -- [2]
+							false, -- [3]
+						},
+						["show_faction_icon"] = true,
 						["fixed_text_color"] = {
 							1, -- [1]
 							1, -- [2]
 							1, -- [3]
 						},
-						["textL_offset"] = 0,
+						["space"] = {
+							["right"] = 0,
+							["left"] = 0,
+							["between"] = 1,
+						},
 						["text_yoffset"] = 0,
 						["texture_background_class_color"] = false,
 						["start_after_icon"] = false,
 						["font_face_file"] = "Interface\\AddOns\\ElvUI\\Media\\Fonts\\Expressway.ttf",
 						["faction_icon_size_offset"] = -10,
-						["height"] = 23,
-						["textL_custom_text"] = "{data1}. {data3}{data2}",
-						["backdrop"] = {
-							["color"] = {
-								0, -- [1]
-								0, -- [2]
-								0, -- [3]
-								1, -- [4]
-							},
-							["texture"] = "Details BarBorder 2",
-							["enabled"] = false,
-							["size"] = 0.2999999821186066,
-						},
 						["models"] = {
 							["upper_model"] = "Spells\\AcidBreath_SuperGreen.M2",
 							["lower_model"] = "World\\EXPANSION02\\DOODADS\\Coldarra\\COLDARRALOCUS.m2",
@@ -1300,18 +1278,26 @@ MaddinUI.profileData.Details = {
 							["lower_alpha"] = 0.1,
 							["upper_enabled"] = false,
 						},
-						["percent_type"] = 1,
-						["textL_outline_small_color"] = {
-							0, -- [1]
-							0, -- [2]
-							0, -- [3]
-							0.2000000029802322, -- [4]
+						["backdrop"] = {
+							["color"] = {
+								0, -- [1]
+								0, -- [2]
+								0, -- [3]
+								1, -- [4]
+							},
+							["size"] = 0.2999999821186066,
+							["enabled"] = false,
+							["texture"] = "Details BarBorder 2",
 						},
+						["textL_custom_text"] = "{data1}. {data3}{data2}",
+						["font_size"] = 14,
+						["textL_enable_custom_text"] = false,
+						["textL_offset"] = 0,
 						["textL_translit_text"] = false,
 						["texture_custom_file"] = "Interface\\",
 						["texture_file"] = "Interface\\Buttons\\WHITE8X8",
 						["icon_size_offset"] = 0,
-						["show_faction_icon"] = true,
+						["percent_type"] = 1,
 						["icon_mask"] = "",
 						["overlay_color"] = {
 							0.7019608020782471, -- [1]
@@ -1319,17 +1305,13 @@ MaddinUI.profileData.Details = {
 							0.7019608020782471, -- [3]
 							0, -- [4]
 						},
-						["textR_show_data"] = {
-							false, -- [1]
-							true, -- [2]
-							false, -- [3]
-						},
-						["textR_bracket"] = "NONE",
+						["textL_outline_small"] = true,
 						["icon_file"] = "Interface\\AddOns\\Details\\images\\classes_small",
+						["arena_role_icon_size_offset"] = -10,
 						["icon_grayscale"] = false,
-						["texture_custom"] = "",
-						["use_spec_icons"] = true,
 						["textR_enable_custom_text"] = false,
+						["use_spec_icons"] = true,
+						["texture_custom"] = "",
 						["show_arena_role_icon"] = false,
 						["fixed_texture_color"] = {
 							0, -- [1]
@@ -1337,43 +1319,44 @@ MaddinUI.profileData.Details = {
 							0, -- [3]
 						},
 						["textL_show_number"] = false,
-						["alpha"] = 1,
-						["textL_class_colors"] = false,
-						["textR_custom_text"] = "{data1} | {data2}",
-						["texture"] = "Solid",
-						["fixed_texture_background_color"] = {
-							0, -- [1]
-							0, -- [2]
-							0, -- [3]
-							0, -- [4]
-						},
-						["texture_background_file"] = "Interface\\TargetingFrame\\UI-StatusBar",
-						["overlay_texture"] = "Atrocity",
-						["textR_outline_small"] = true,
-						["texture_background"] = "Atrocity",
-						["textR_class_colors"] = false,
 						["textR_outline_small_color"] = {
 							0, -- [1]
 							0, -- [2]
 							0, -- [3]
 							0.1500000357627869, -- [4]
 						},
+						["textR_class_colors"] = false,
+						["textR_custom_text"] = "{data1} | {data2}",
+						["texture"] = "Solid",
+						["texture_background"] = "Atrocity",
+						["textR_outline_small"] = true,
+						["overlay_texture"] = "Atrocity",
+						["texture_background_file"] = "Interface\\TargetingFrame\\UI-StatusBar",
+						["fixed_texture_background_color"] = {
+							0, -- [1]
+							0, -- [2]
+							0, -- [3]
+							0, -- [4]
+						},
+						["textL_class_colors"] = false,
+						["alpha"] = 1,
 						["no_icon"] = false,
 						["icon_offset"] = {
 							0, -- [1]
 							0, -- [2]
 						},
-						["arena_role_icon_size_offset"] = -10,
+						["textR_bracket"] = "NONE",
 						["font_face"] = "Expressway",
 						["texture_class_colors"] = true,
-						["space"] = {
-							["right"] = 0,
-							["left"] = 0,
-							["between"] = 1,
+						["textL_outline_small_color"] = {
+							0, -- [1]
+							0, -- [2]
+							0, -- [3]
+							0.2000000029802322, -- [4]
 						},
 						["fast_ps_update"] = false,
 						["textR_separator"] = "NONE",
-						["font_size"] = 14,
+						["height"] = 23,
 					},
 					["menu_icons_color"] = {
 						1, -- [1]
@@ -1540,12 +1523,12 @@ MaddinUI.profileData.Details = {
 					["skin"] = "Minimalistic",
 					["switch_damager_in_combat"] = false,
 					["following"] = {
+						["enabled"] = false,
 						["bar_color"] = {
 							1, -- [1]
 							1, -- [2]
 							1, -- [3]
 						},
-						["enabled"] = false,
 						["text_color"] = {
 							1, -- [1]
 							1, -- [2]
@@ -1635,10 +1618,10 @@ MaddinUI.profileData.Details = {
 					["__locked"] = true,
 					["menu_alpha"] = {
 						["enabled"] = false,
-						["onenter"] = 1,
-						["iconstoo"] = true,
-						["ignorebars"] = false,
 						["onleave"] = 1,
+						["ignorebars"] = false,
+						["iconstoo"] = true,
+						["onenter"] = 1,
 					},
 					["menu_anchor_down"] = {
 						16, -- [1]
@@ -1709,8 +1692,8 @@ MaddinUI.profileData.Details = {
 							-16, -- [1]
 							3, -- [2]
 						},
-						["enable_custom_text"] = false,
 						["show_timer"] = false,
+						["enable_custom_text"] = false,
 						["show_timer_bg"] = true,
 					},
 					["hide_in_combat"] = false,
@@ -1744,8 +1727,8 @@ MaddinUI.profileData.Details = {
 							0, -- [3]
 							0.7, -- [4]
 						},
-						["height"] = 114.042518615723,
 						["anchor"] = "all",
+						["height"] = 114.042518615723,
 						["level"] = 2,
 						["alpha"] = 0.5,
 						["width"] = 283.000183105469,
@@ -1763,18 +1746,18 @@ MaddinUI.profileData.Details = {
 							["bottom"] = 0,
 						},
 						["texture_highlight"] = "Interface\\FriendsFrame\\UI-FriendsList-Highlight",
-						["textR_show_data"] = {
-							false, -- [1]
-							true, -- [2]
-							false, -- [3]
-						},
-						["textL_enable_custom_text"] = false,
+						["textL_outline_small"] = true,
+						["show_faction_icon"] = true,
 						["fixed_text_color"] = {
 							1, -- [1]
 							1, -- [2]
 							1, -- [3]
 						},
-						["textL_offset"] = 0,
+						["space"] = {
+							["right"] = 0,
+							["left"] = 0,
+							["between"] = 1,
+						},
 						["text_yoffset"] = 0,
 						["texture_background_class_color"] = false,
 						["textL_outline_small_color"] = {
@@ -1785,19 +1768,6 @@ MaddinUI.profileData.Details = {
 						},
 						["font_face_file"] = "Interface\\AddOns\\ElvUI\\Media\\Fonts\\Expressway.ttf",
 						["faction_icon_size_offset"] = -10,
-						["height"] = 23,
-						["textL_custom_text"] = "{data1}. {data3}{data2}",
-						["backdrop"] = {
-							["color"] = {
-								1, -- [1]
-								1, -- [2]
-								1, -- [3]
-								1, -- [4]
-							},
-							["size"] = 0.2999999821186066,
-							["enabled"] = false,
-							["texture"] = "Details BarBorder 2",
-						},
 						["models"] = {
 							["upper_model"] = "Spells\\AcidBreath_SuperGreen.M2",
 							["lower_model"] = "World\\EXPANSION02\\DOODADS\\Coldarra\\COLDARRALOCUS.m2",
@@ -1806,13 +1776,26 @@ MaddinUI.profileData.Details = {
 							["lower_alpha"] = 0.1,
 							["upper_enabled"] = false,
 						},
-						["percent_type"] = 1,
-						["start_after_icon"] = false,
+						["backdrop"] = {
+							["color"] = {
+								1, -- [1]
+								1, -- [2]
+								1, -- [3]
+								1, -- [4]
+							},
+							["texture"] = "Details BarBorder 2",
+							["enabled"] = false,
+							["size"] = 0.2999999821186066,
+						},
+						["textL_custom_text"] = "{data1}. {data3}{data2}",
+						["font_size"] = 14,
+						["textL_enable_custom_text"] = false,
+						["textL_offset"] = 0,
 						["textL_translit_text"] = false,
 						["texture_custom_file"] = "Interface\\",
 						["texture_file"] = "Interface\\Buttons\\WHITE8X8",
 						["icon_size_offset"] = 0,
-						["show_faction_icon"] = true,
+						["percent_type"] = 1,
 						["icon_mask"] = "",
 						["overlay_color"] = {
 							0.7019608020782471, -- [1]
@@ -1820,12 +1803,16 @@ MaddinUI.profileData.Details = {
 							0.7019608020782471, -- [3]
 							0, -- [4]
 						},
-						["textL_outline_small"] = true,
-						["textR_outline_small"] = true,
+						["textR_show_data"] = {
+							false, -- [1]
+							true, -- [2]
+							false, -- [3]
+						},
+						["arena_role_icon_size_offset"] = -10,
 						["icon_file"] = "Interface\\AddOns\\Details\\images\\classes_small",
 						["icon_grayscale"] = false,
-						["textR_bracket"] = "NONE",
 						["use_spec_icons"] = true,
+						["textR_bracket"] = "NONE",
 						["textR_enable_custom_text"] = false,
 						["textR_outline"] = true,
 						["fixed_texture_color"] = {
@@ -1834,13 +1821,8 @@ MaddinUI.profileData.Details = {
 							0, -- [3]
 						},
 						["textL_show_number"] = false,
-						["textR_outline_small_color"] = {
-							0, -- [1]
-							0, -- [2]
-							0, -- [3]
-							0.1500000357627869, -- [4]
-						},
-						["texture_background"] = "Atrocity",
+						["alpha"] = 1,
+						["textL_class_colors"] = false,
 						["textR_custom_text"] = "{data1} | {data2}",
 						["fixed_texture_background_color"] = {
 							0, -- [1]
@@ -1848,29 +1830,30 @@ MaddinUI.profileData.Details = {
 							0, -- [3]
 							0, -- [4]
 						},
-						["texture_custom"] = "",
-						["texture_background_file"] = "Interface\\TargetingFrame\\UI-StatusBar",
-						["overlay_texture"] = "Atrocity",
-						["texture"] = "Solid",
 						["textR_class_colors"] = false,
-						["textL_class_colors"] = false,
-						["alpha"] = 1,
+						["texture"] = "Solid",
+						["overlay_texture"] = "Atrocity",
+						["texture_background_file"] = "Interface\\TargetingFrame\\UI-StatusBar",
+						["texture_custom"] = "",
+						["texture_background"] = "Atrocity",
+						["textR_outline_small_color"] = {
+							0, -- [1]
+							0, -- [2]
+							0, -- [3]
+							0.1500000357627869, -- [4]
+						},
 						["no_icon"] = false,
 						["icon_offset"] = {
 							0, -- [1]
 							0, -- [2]
 						},
-						["arena_role_icon_size_offset"] = -10,
+						["textR_outline_small"] = true,
 						["font_face"] = "Expressway",
 						["texture_class_colors"] = true,
-						["space"] = {
-							["right"] = 0,
-							["left"] = 0,
-							["between"] = 1,
-						},
+						["start_after_icon"] = false,
 						["fast_ps_update"] = false,
 						["textR_separator"] = "NONE",
-						["font_size"] = 14,
+						["height"] = 23,
 					},
 					["menu_icons_color"] = {
 						1, -- [1]
@@ -2037,12 +2020,12 @@ MaddinUI.profileData.Details = {
 					["skin"] = "Minimalistic",
 					["switch_damager_in_combat"] = false,
 					["following"] = {
-						["enabled"] = false,
 						["bar_color"] = {
 							1, -- [1]
 							1, -- [2]
 							1, -- [3]
 						},
+						["enabled"] = false,
 						["text_color"] = {
 							1, -- [1]
 							1, -- [2]
@@ -2137,10 +2120,10 @@ MaddinUI.profileData.Details = {
 					["__locked"] = true,
 					["menu_alpha"] = {
 						["enabled"] = false,
-						["onleave"] = 1,
-						["ignorebars"] = false,
-						["iconstoo"] = true,
 						["onenter"] = 1,
+						["iconstoo"] = true,
+						["ignorebars"] = false,
+						["onleave"] = 1,
 					},
 					["menu_anchor_down"] = {
 						16, -- [1]
@@ -2211,8 +2194,8 @@ MaddinUI.profileData.Details = {
 							-16, -- [1]
 							4, -- [2]
 						},
-						["show_timer"] = false,
 						["enable_custom_text"] = false,
+						["show_timer"] = false,
 						["show_timer_bg"] = true,
 					},
 					["hide_in_combat"] = false,
@@ -2246,8 +2229,8 @@ MaddinUI.profileData.Details = {
 							0, -- [3]
 							0.7, -- [4]
 						},
-						["anchor"] = "all",
 						["height"] = 114.042518615723,
+						["anchor"] = "all",
 						["level"] = 2,
 						["alpha"] = 0.5,
 						["width"] = 283.000183105469,
@@ -2265,7 +2248,11 @@ MaddinUI.profileData.Details = {
 							["bottom"] = 0,
 						},
 						["textR_outline_small"] = true,
-						["textL_outline_small"] = true,
+						["textR_show_data"] = {
+							false, -- [1]
+							true, -- [2]
+							false, -- [3]
+						},
 						["percent_type"] = 1,
 						["fixed_text_color"] = {
 							1, -- [1]
@@ -2278,8 +2265,19 @@ MaddinUI.profileData.Details = {
 						["start_after_icon"] = false,
 						["font_face_file"] = "Interface\\AddOns\\ElvUI\\Media\\Fonts\\Expressway.ttf",
 						["faction_icon_size_offset"] = -10,
-						["height"] = 23,
-						["textL_custom_text"] = "{data1}. {data3}{data2}",
+						["show_faction_icon"] = true,
+						["backdrop"] = {
+							["color"] = {
+								1, -- [1]
+								1, -- [2]
+								1, -- [3]
+								1, -- [4]
+							},
+							["size"] = 0.2999999821186066,
+							["enabled"] = false,
+							["texture"] = "Details BarBorder 2",
+						},
+						["font_size"] = 14,
 						["models"] = {
 							["upper_model"] = "Spells\\AcidBreath_SuperGreen.M2",
 							["lower_model"] = "World\\EXPANSION02\\DOODADS\\Coldarra\\COLDARRALOCUS.m2",
@@ -2288,33 +2286,13 @@ MaddinUI.profileData.Details = {
 							["lower_alpha"] = 0.1,
 							["upper_enabled"] = false,
 						},
-						["font_size"] = 14,
-						["backdrop"] = {
-							["color"] = {
-								1, -- [1]
-								1, -- [2]
-								1, -- [3]
-								1, -- [4]
-							},
-							["texture"] = "Details BarBorder 2",
-							["enabled"] = false,
-							["size"] = 0.2999999821186066,
-						},
-						["textL_outline_small_color"] = {
-							0, -- [1]
-							0, -- [2]
-							0, -- [3]
-							0.2000000029802322, -- [4]
-						},
+						["textL_custom_text"] = "{data1}. {data3}{data2}",
+						["textL_enable_custom_text"] = false,
 						["textL_translit_text"] = false,
 						["texture_custom_file"] = "Interface\\",
 						["texture_file"] = "Interface\\Buttons\\WHITE8X8",
 						["icon_size_offset"] = 0,
-						["textR_show_data"] = {
-							false, -- [1]
-							true, -- [2]
-							false, -- [3]
-						},
+						["textL_outline_small"] = true,
 						["icon_mask"] = "",
 						["overlay_color"] = {
 							0.7, -- [1]
@@ -2322,57 +2300,62 @@ MaddinUI.profileData.Details = {
 							0.7, -- [3]
 							0, -- [4]
 						},
-						["icon_file"] = "Interface\\AddOns\\Details\\images\\classes_small",
-						["textR_outline"] = true,
 						["arena_role_icon_size_offset"] = -10,
-						["icon_grayscale"] = false,
-						["texture_custom"] = "",
 						["textR_bracket"] = "NONE",
+						["icon_file"] = "Interface\\AddOns\\Details\\images\\classes_small",
+						["icon_grayscale"] = false,
 						["textR_enable_custom_text"] = false,
-						["textL_class_colors"] = false,
+						["use_spec_icons"] = true,
+						["texture_custom"] = "",
+						["texture_background"] = "Atrocity",
 						["fixed_texture_color"] = {
 							0, -- [1]
 							0, -- [2]
 							0, -- [3]
 						},
 						["textL_show_number"] = false,
-						["alpha"] = 1,
-						["texture_background"] = "Atrocity",
-						["textR_custom_text"] = "{data1} ({data2}, {data3}%)",
-						["texture"] = "Solid",
-						["space"] = {
-							["right"] = 0,
-							["left"] = 0,
-							["between"] = 1,
-						},
-						["fixed_texture_background_color"] = {
-							0, -- [1]
-							0, -- [2]
-							0, -- [3]
-							0.150228589773178, -- [4]
-						},
-						["overlay_texture"] = "Atrocity",
-						["texture_background_file"] = "Interface\\TargetingFrame\\UI-StatusBar",
-						["texture_highlight"] = "Interface\\FriendsFrame\\UI-FriendsList-Highlight",
-						["textR_class_colors"] = false,
 						["textR_outline_small_color"] = {
 							0, -- [1]
 							0, -- [2]
 							0, -- [3]
 							0.1500000357627869, -- [4]
 						},
+						["textR_class_colors"] = false,
+						["textR_custom_text"] = "{data1} ({data2}, {data3}%)",
+						["texture"] = "Solid",
+						["texture_highlight"] = "Interface\\FriendsFrame\\UI-FriendsList-Highlight",
+						["texture_background_file"] = "Interface\\TargetingFrame\\UI-StatusBar",
+						["overlay_texture"] = "Atrocity",
+						["fixed_texture_background_color"] = {
+							0, -- [1]
+							0, -- [2]
+							0, -- [3]
+							0.150228589773178, -- [4]
+						},
+						["space"] = {
+							["right"] = 0,
+							["left"] = 0,
+							["between"] = 1,
+						},
+						["textL_class_colors"] = false,
+						["alpha"] = 1,
 						["no_icon"] = false,
 						["icon_offset"] = {
 							0, -- [1]
 							0, -- [2]
 						},
-						["use_spec_icons"] = true,
+						["textR_outline"] = true,
 						["font_face"] = "Expressway",
 						["texture_class_colors"] = true,
-						["textL_enable_custom_text"] = false,
+						["textL_outline_small_color"] = {
+							0, -- [1]
+							0, -- [2]
+							0, -- [3]
+							0.2000000029802322, -- [4]
+						},
 						["fast_ps_update"] = false,
 						["textR_separator"] = "NONE",
-						["show_faction_icon"] = true,
+						["height"] = 23,
 					},
 					["menu_icons_color"] = {
 						1, -- [1]
@@ -2387,12 +2370,19 @@ MaddinUI.profileData.Details = {
 					},
 				}, -- [3]
 			},
-			["overall_clear_pvp"] = true,
-			["overall_flag"] = 16,
-			["use_scroll"] = false,
+			["report_lines"] = 3,
+			["remove_realm_from_name"] = true,
+			["all_players_are_group"] = false,
 			["skin"] = "Minimalistic",
 			["override_spellids"] = true,
-			["color_by_arena_team"] = true,
+			["capture_real"] = {
+				["heal"] = true,
+				["spellcast"] = true,
+				["miscdata"] = true,
+				["aura"] = true,
+				["energy"] = true,
+				["damage"] = true,
+			},
 			["overall_clear_logout"] = false,
 			["minimum_combat_time"] = 5,
 			["new_window_size"] = {
@@ -2400,7 +2390,13 @@ MaddinUI.profileData.Details = {
 				["width"] = 310,
 			},
 			["realtimedps_always_arena"] = false,
-			["memory_threshold"] = 3,
+			["chat_tab_embed"] = {
+				["enabled"] = false,
+				["tab_name"] = "",
+				["x_offset"] = 0,
+				["y_offset"] = 0,
+				["single_window"] = false,
+			},
 			["cloud_capture"] = true,
 			["damage_taken_everything"] = false,
 			["scroll_speed"] = 2,
@@ -2410,16 +2406,216 @@ MaddinUI.profileData.Details = {
 				21, -- [3]
 				-14, -- [4]
 			},
-			["chat_tab_embed"] = {
-				["enabled"] = false,
-				["y_offset"] = 0,
-				["x_offset"] = 0,
-				["tab_name"] = "",
-				["single_window"] = false,
-			},
+			["memory_threshold"] = 3,
 			["deadlog_events"] = 32,
-			["hotcorner_topleft"] = {
-				["hide"] = false,
+			["class_colors"] = {
+				["HUNTER"] = {
+					0.67, -- [1]
+					0.83, -- [2]
+					0.45, -- [3]
+				},
+				["WARRIOR"] = {
+					0.78, -- [1]
+					0.61, -- [2]
+					0.43, -- [3]
+				},
+				["PALADIN"] = {
+					0.96, -- [1]
+					0.55, -- [2]
+					0.73, -- [3]
+				},
+				["MAGE"] = {
+					0.41, -- [1]
+					0.8, -- [2]
+					0.94, -- [3]
+				},
+				["TINKER"] = {
+					0.64, -- [1]
+					0.64, -- [2]
+					0.64, -- [3]
+				},
+				["PROPHET"] = {
+					1, -- [1]
+					0.49, -- [2]
+					0.04, -- [3]
+				},
+				["RANGER"] = {
+					1, -- [1]
+					0.96, -- [2]
+					0.41, -- [3]
+				},
+				["NECROMANCER"] = {
+					0.53, -- [1]
+					0.53, -- [2]
+					0.9300000000000001, -- [3]
+				},
+				["WILDWALKER"] = {
+					0.05, -- [1]
+					0.18, -- [2]
+					0.84, -- [3]
+				},
+				["PET"] = {
+					0.3, -- [1]
+					0.4, -- [2]
+					0.5, -- [3]
+				},
+				["DRUID"] = {
+					1, -- [1]
+					0.49, -- [2]
+					0.04, -- [3]
+				},
+				["ARENA_GREEN"] = {
+					0.6862745098039216, -- [1]
+					0.3843137254901961, -- [2]
+					1, -- [3]
+				},
+				["BARBARIAN"] = {
+					0.54, -- [1]
+					0.2, -- [2]
+					0.01, -- [3]
+				},
+				["HERO"] = {
+					1, -- [1]
+					0.84, -- [2]
+					0.14, -- [3]
+				},
+				["STORMBRINGER"] = {
+					0, -- [1]
+					0.44, -- [2]
+					0.87, -- [3]
+				},
+				["SPIRITMAGE"] = {
+					0.25, -- [1]
+					0.78, -- [2]
+					0.92, -- [3]
+				},
+				["PYROMANCER"] = {
+					1, -- [1]
+					0.19, -- [2]
+					0.06, -- [3]
+				},
+				["version"] = 1,
+				["DEMONHUNTER"] = {
+					0.64, -- [1]
+					0.19, -- [2]
+					0.79, -- [3]
+				},
+				["SUNCLERIC"] = {
+					0.96, -- [1]
+					0.55, -- [2]
+					0.73, -- [3]
+				},
+				["EVOKER"] = {
+					0.2, -- [1]
+					0.498, -- [2]
+					0.5764, -- [3]
+				},
+				["FLESHWARDEN"] = {
+					0.84, -- [1]
+					0.28, -- [2]
+					0.28, -- [3]
+				},
+				["SHAMAN"] = {
+					0, -- [1]
+					0.44, -- [2]
+					0.87, -- [3]
+				},
+				["REAPER"] = {
+					0.77, -- [1]
+					0.12, -- [2]
+					0.23, -- [3]
+				},
+				["CULTIST"] = {
+					0.88, -- [1]
+					0.78, -- [2]
+					1, -- [3]
+				},
+				["GUARDIAN"] = {
+					0.78, -- [1]
+					0.61, -- [2]
+					0.43, -- [3]
+				},
+				["SONOFARUGAL"] = {
+					0.8, -- [1]
+					0.6, -- [2]
+					0, -- [3]
+				},
+				["DEATHKNIGHT"] = {
+					0.77, -- [1]
+					0.12, -- [2]
+					0.23, -- [3]
+				},
+				["WITCHHUNTER"] = {
+					0.67, -- [1]
+					0.83, -- [2]
+					0.45, -- [3]
+				},
+				["SELF"] = {
+					0.89019, -- [1]
+					0.32156, -- [2]
+					0.89019, -- [3]
+				},
+				["CHRONOMANCER"] = {
+					0.95, -- [1]
+					0.9, -- [2]
+					0.6, -- [3]
+				},
+				["WITCHDOCTOR"] = {
+					0.43, -- [1]
+					1, -- [2]
+					0, -- [3]
+				},
+				["UNKNOW"] = {
+					0.2, -- [1]
+					0.2, -- [2]
+					0.2, -- [3]
+				},
+				["PRIEST"] = {
+					1, -- [1]
+					1, -- [2]
+					1, -- [3]
+				},
+				["STARCALLER"] = {
+					0.71, -- [1]
+					1, -- [2]
+					1, -- [3]
+				},
+				["MONK"] = {
+					0, -- [1]
+					1, -- [2]
+					0.59, -- [3]
+				},
+				["UNGROUPPLAYER"] = {
+					0.4, -- [1]
+					0.4, -- [2]
+					0.4, -- [3]
+				},
+				["ROGUE"] = {
+					1, -- [1]
+					0.96, -- [2]
+					0.41, -- [3]
+				},
+				["ARENA_YELLOW"] = {
+					1, -- [1]
+					1, -- [2]
+					0.25, -- [3]
+				},
+				["NEUTRAL"] = {
+					1, -- [1]
+					1, -- [2]
+					0, -- [3]
+				},
+				["ENEMY"] = {
+					0.94117, -- [1]
+					0, -- [2]
+					0.0196, -- [3]
+					1, -- [4]
+				},
+				["WARLOCK"] = {
+					0.58, -- [1]
+					0.51, -- [2]
+					0.79, -- [3]
+				},
 			},
 			["close_shields"] = false,
 			["class_coords"] = {
@@ -2633,23 +2829,11 @@ MaddinUI.profileData.Details = {
 					0.375, -- [3]
 					0.5, -- [4]
 				},
-				["SUNCLERIC"] = {
-					0.125, -- [1]
-					0.25, -- [2]
-					0.375, -- [3]
-					0.5, -- [4]
-				},
-				["CHRONOMANCER"] = {
-					0.125, -- [1]
-					0.25, -- [2]
-					0, -- [3]
-					0.125, -- [4]
-				},
-				["PALADIN"] = {
+				["ENEMY"] = {
 					0, -- [1]
 					0.125, -- [2]
-					0.25, -- [3]
-					0.375, -- [4]
+					0.375, -- [3]
+					0.5, -- [4]
 				},
 				["PET"] = {
 					0.125, -- [1]
@@ -2657,239 +2841,45 @@ MaddinUI.profileData.Details = {
 					0.375, -- [3]
 					0.5, -- [4]
 				},
-				["ENEMY"] = {
+				["PALADIN"] = {
 					0, -- [1]
 					0.125, -- [2]
+					0.25, -- [3]
+					0.375, -- [4]
+				},
+				["CHRONOMANCER"] = {
+					0.125, -- [1]
+					0.25, -- [2]
+					0, -- [3]
+					0.125, -- [4]
+				},
+				["SUNCLERIC"] = {
+					0.125, -- [1]
+					0.25, -- [2]
 					0.375, -- [3]
 					0.5, -- [4]
 				},
 			},
-			["trash_auto_remove"] = true,
+			["hotcorner_topleft"] = {
+				["hide"] = false,
+			},
 			["disable_alldisplays_window"] = false,
-			["segments_amount_to_save"] = 15.22327136993408,
+			["broadcaster_enabled"] = false,
 			["segments_boss_wipes_keep_best_performance"] = true,
+			["trash_auto_remove"] = true,
+			["segments_auto_erase"] = 1,
+			["clear_graphic"] = true,
 			["total_abbreviation"] = 2,
 			["animation_speed_triggertravel"] = 5,
-			["clear_graphic"] = true,
-			["class_colors"] = {
-				["HUNTER"] = {
-					0.67, -- [1]
-					0.83, -- [2]
-					0.45, -- [3]
-				},
-				["WARRIOR"] = {
-					0.78, -- [1]
-					0.61, -- [2]
-					0.43, -- [3]
-				},
-				["PALADIN"] = {
-					0.96, -- [1]
-					0.55, -- [2]
-					0.73, -- [3]
-				},
-				["MAGE"] = {
-					0.41, -- [1]
-					0.8, -- [2]
-					0.94, -- [3]
-				},
-				["TINKER"] = {
-					0.64, -- [1]
-					0.64, -- [2]
-					0.64, -- [3]
-				},
-				["PROPHET"] = {
-					1, -- [1]
-					0.49, -- [2]
-					0.04, -- [3]
-				},
-				["RANGER"] = {
-					1, -- [1]
-					0.96, -- [2]
-					0.41, -- [3]
-				},
-				["NECROMANCER"] = {
-					0.53, -- [1]
-					0.53, -- [2]
-					0.9300000000000001, -- [3]
-				},
-				["WILDWALKER"] = {
-					0.05, -- [1]
-					0.18, -- [2]
-					0.84, -- [3]
-				},
-				["SELF"] = {
-					0.89019, -- [1]
-					0.32156, -- [2]
-					0.89019, -- [3]
-				},
-				["DRUID"] = {
-					1, -- [1]
-					0.49, -- [2]
-					0.04, -- [3]
-				},
-				["ARENA_GREEN"] = {
-					0.6862745098039216, -- [1]
-					0.3843137254901961, -- [2]
-					1, -- [3]
-				},
-				["BARBARIAN"] = {
-					0.54, -- [1]
-					0.2, -- [2]
-					0.01, -- [3]
-				},
-				["HERO"] = {
-					1, -- [1]
-					0.84, -- [2]
-					0.14, -- [3]
-				},
-				["STORMBRINGER"] = {
-					0, -- [1]
-					0.44, -- [2]
-					0.87, -- [3]
-				},
-				["SPIRITMAGE"] = {
-					0.25, -- [1]
-					0.78, -- [2]
-					0.92, -- [3]
-				},
-				["PYROMANCER"] = {
-					1, -- [1]
-					0.19, -- [2]
-					0.06, -- [3]
-				},
-				["version"] = 1,
-				["DEMONHUNTER"] = {
-					0.64, -- [1]
-					0.19, -- [2]
-					0.79, -- [3]
-				},
-				["SUNCLERIC"] = {
-					0.96, -- [1]
-					0.55, -- [2]
-					0.73, -- [3]
-				},
-				["EVOKER"] = {
-					0.2, -- [1]
-					0.498, -- [2]
-					0.5764, -- [3]
-				},
-				["FLESHWARDEN"] = {
-					0.84, -- [1]
-					0.28, -- [2]
-					0.28, -- [3]
-				},
-				["SHAMAN"] = {
-					0, -- [1]
-					0.44, -- [2]
-					0.87, -- [3]
-				},
-				["REAPER"] = {
-					0.77, -- [1]
-					0.12, -- [2]
-					0.23, -- [3]
-				},
-				["CULTIST"] = {
-					0.88, -- [1]
-					0.78, -- [2]
-					1, -- [3]
-				},
-				["GUARDIAN"] = {
-					0.78, -- [1]
-					0.61, -- [2]
-					0.43, -- [3]
-				},
-				["SONOFARUGAL"] = {
-					0.8, -- [1]
-					0.6, -- [2]
-					0, -- [3]
-				},
-				["DEATHKNIGHT"] = {
-					0.77, -- [1]
-					0.12, -- [2]
-					0.23, -- [3]
-				},
-				["ENEMY"] = {
-					0.94117, -- [1]
-					0, -- [2]
-					0.0196, -- [3]
-					1, -- [4]
-				},
-				["CHRONOMANCER"] = {
-					0.95, -- [1]
-					0.9, -- [2]
-					0.6, -- [3]
-				},
-				["WITCHHUNTER"] = {
-					0.67, -- [1]
-					0.83, -- [2]
-					0.45, -- [3]
-				},
-				["WITCHDOCTOR"] = {
-					0.43, -- [1]
-					1, -- [2]
-					0, -- [3]
-				},
-				["UNKNOW"] = {
-					0.2, -- [1]
-					0.2, -- [2]
-					0.2, -- [3]
-				},
-				["PRIEST"] = {
-					1, -- [1]
-					1, -- [2]
-					1, -- [3]
-				},
-				["STARCALLER"] = {
-					0.71, -- [1]
-					1, -- [2]
-					1, -- [3]
-				},
-				["ARENA_YELLOW"] = {
-					1, -- [1]
-					1, -- [2]
-					0.25, -- [3]
-				},
-				["ROGUE"] = {
-					1, -- [1]
-					0.96, -- [2]
-					0.41, -- [3]
-				},
-				["UNGROUPPLAYER"] = {
-					0.4, -- [1]
-					0.4, -- [2]
-					0.4, -- [3]
-				},
-				["MONK"] = {
-					0, -- [1]
-					1, -- [2]
-					0.59, -- [3]
-				},
-				["NEUTRAL"] = {
-					1, -- [1]
-					1, -- [2]
-					0, -- [3]
-				},
-				["PET"] = {
-					0.3, -- [1]
-					0.4, -- [2]
-					0.5, -- [3]
-				},
-				["WARLOCK"] = {
-					0.58, -- [1]
-					0.51, -- [2]
-					0.79, -- [3]
-				},
-			},
-			["segments_auto_erase"] = 1,
 			["options_group_edit"] = true,
-			["broadcaster_enabled"] = false,
+			["segments_amount_to_save"] = 15.22327136993408,
 			["minimap"] = {
-				["onclick_what_todo"] = 1,
-				["radius"] = 160,
-				["hide"] = true,
 				["minimapPos"] = 220,
-				["text_format"] = 3,
+				["radius"] = 160,
 				["text_type"] = 1,
+				["onclick_what_todo"] = 1,
+				["text_format"] = 3,
+				["hide"] = true,
 			},
 			["instances_amount"] = 3,
 			["max_window_size"] = {
@@ -2901,28 +2891,38 @@ MaddinUI.profileData.Details = {
 			},
 			["only_pvp_frags"] = false,
 			["disable_stretch_button"] = true,
-			["use_realtimedps"] = false,
-			["numerical_system"] = 1,
-			["windows_fade_out"] = {
+			["color_by_arena_team"] = true,
+			["use_scroll"] = false,
+			["overall_flag"] = 16,
+			["segments_panic_mode"] = false,
+			["realtimedps_order_bars"] = false,
+			["overall_clear_newtorghast"] = true,
+			["row_fade_out"] = {
 				"out", -- [1]
 				0.2, -- [2]
 			},
-			["segments_panic_mode"] = false,
-			["realtimedps_order_bars"] = false,
-			["class_icons_small"] = "Interface\\AddOns\\Details\\images\\classes_small",
-			["auto_swap_to_dynamic_overall"] = false,
-			["default_bg_color"] = 0.0941,
-			["clear_ungrouped"] = true,
-			["use_battleground_server_parser"] = false,
-			["force_activity_time_pvp"] = true,
-			["instances_menu_click_to_open"] = false,
+			["player_details_window"] = {
+				["scale"] = 1,
+				["bar_texture"] = "Skyline",
+				["skin"] = "ElvUI",
+			},
+			["time_type"] = 2,
+			["update_speed"] = 0.5,
+			["report_schema"] = 1,
+			["numerical_system_symbols"] = "auto",
 			["death_tooltip_texture"] = "Details Serenity",
 			["disable_reset_button"] = false,
-			["animate_scroll"] = false,
-			["disable_stretch_from_toolbar"] = false,
-			["death_tooltip_width"] = 350,
-			["default_bg_alpha"] = 0.5,
-			["all_in_one_windows"] = {
+			["data_broker_text"] = "",
+			["instances_no_libwindow"] = false,
+			["instances_segments_locked"] = true,
+			["deadlog_limit"] = 16,
+			["death_log_colors"] = {
+				["heal"] = "green",
+				["buff"] = "silver",
+				["friendlyfire"] = "darkorange",
+				["debuff"] = "purple",
+				["cooldown"] = "yellow",
+				["damage"] = "red",
 			},
 		},
 }
