@@ -26,7 +26,11 @@ grep -q 'profileName = "MaddinUI"' Profiles/Data/KuiNameplates.lua
 grep -q 'Castbar' Profiles/Data/KuiNameplates.lua
 grep -q 'TankMode' Profiles/Data/KuiNameplates.lua
 grep -q 'Replace WeakAuras' Installer.lua
-grep -q 'MADDINUI_REPLACE_WEAKAURAS' Installer.lua
+if grep -q 'MADDINUI_REPLACE_WEAKAURAS\|StaticPopup_Show' Installer.lua; then
+    echo "installer must use a custom dark WeakAuras confirmation, not Blizzard StaticPopup" >&2
+    exit 1
+fi
+grep -q 'ShowWeakAurasConfirm' Installer.lua
 grep -q 'ReplaceWeakAuras' Profiles/WeakAuras.lua
 grep -q 'PrepareSmoothFirstRun' Profiles/ElvUI.lua
 

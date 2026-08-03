@@ -68,4 +68,41 @@ if ! grep -q 'RegisterEvent("PLAYER_LOGIN")' Core.lua; then
   exit 1
 fi
 
+if grep -q 'UIPanelButtonTemplate' Installer.lua; then
+  echo "installer must not use Blizzard panel button templates" >&2
+  exit 1
+fi
+if grep -q 'UI-DialogBox-Background\|UI-DialogBox-Border' Installer.lua; then
+  echo "installer must not use Blizzard dialog artwork" >&2
+  exit 1
+fi
+if ! grep -q 'Interface\\\\AddOns\\\\ElvUI\\\\Media\\\\Fonts\\\\Expressway.ttf' Installer.lua; then
+  echo "installer must use the Expressway font path" >&2
+  exit 1
+fi
+if ! grep -q 'function GetClassColor' Installer.lua; then
+  echo "installer must use class-colored accents" >&2
+  exit 1
+fi
+if ! grep -q 'frame.logoMaddin' Installer.lua || ! grep -q 'frame.logoUI' Installer.lua; then
+  echo "installer must render split MaddinUI logo text" >&2
+  exit 1
+fi
+if ! grep -q 'SetBackdropColor(0, 0, 0, 1)' Installer.lua; then
+  echo "installer background must be opaque black" >&2
+  exit 1
+fi
+if ! grep -q 'instruction = "Press the button to import' Installer.lua; then
+  echo "installer pages must include action instructions above buttons" >&2
+  exit 1
+fi
+if ! grep -q 'frame.instruction' Installer.lua; then
+  echo "installer must render per-page instruction text" >&2
+  exit 1
+fi
+if ! grep -q 'local logoSize = 54' Installer.lua; then
+  echo "installer must use a larger MaddinUI logo" >&2
+  exit 1
+fi
+
 echo "structure ok"
