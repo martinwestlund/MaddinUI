@@ -358,6 +358,7 @@ MaddinUI.profileData.ElvUI = {
 				["leftChatPanel"] = false,
 				["fontSize"] = 14,
 				["timeFormat"] = "%H:%M",
+				["dateFormat"] = "",
 				["rightChatPanel"] = false,
 			},
 			["unitframe"] = {
@@ -3160,6 +3161,7 @@ MaddinUI.profileData.ElvUI = {
 				["rightChatPanel"] = false,
 				["noCombatClick"] = true,
 				["timeFormat"] = "%H:%M",
+				["dateFormat"] = "",
 				["font"] = "Expressway",
 				["fontSize"] = 14,
 			},

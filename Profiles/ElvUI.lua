@@ -117,6 +117,10 @@ local function ApplyElvUIProfileTable(E, profileType, profileName, profileTable,
         end
     end
 
+    if MaddinUI.PrepareSmoothFirstRun then
+        MaddinUI.PrepareSmoothFirstRun()
+    end
+
     MaddinUI.Debug("ElvUI: wrote bundled " .. tostring(profileType) .. " profile. Reload UI is recommended.")
     MaddinUI.MarkInstallerStepComplete("elvui")
     return true

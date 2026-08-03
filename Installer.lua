@@ -71,13 +71,6 @@ local function AddPageControl(frame, control)
     return control
 end
 
-local function SaveCurrentStep(index)
-    if MaddinUIDB then
-        MaddinUIDB.installer = MaddinUIDB.installer or {}
-        MaddinUIDB.installer.currentStep = index
-    end
-end
-
 StaticPopupDialogs.MADDINUI_REPLACE_WEAKAURAS = {
     text = "ARE YOU SURE?\n\nThis will delete ALL currently installed WeakAuras and replace them with the bundled MaddinUI WeakAuras. Choose No if you want to keep your existing WeakAuras.",
     button1 = "Yes",
@@ -179,7 +172,6 @@ local function CreateInstaller()
         end
 
         self.pageIndex = index
-        SaveCurrentStep(index)
 
         local page = PAGES[index]
         self.title:SetText(page.title)
@@ -202,7 +194,7 @@ local function CreateInstaller()
     end
 
     frame:Hide()
-    frame:ShowPage(MaddinUIDB and MaddinUIDB.installer and MaddinUIDB.installer.currentStep or 1)
+    frame:ShowPage(1)
     return frame
 end
 
