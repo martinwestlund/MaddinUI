@@ -159,8 +159,12 @@ if ! grep -q 'frame.instruction' Installer.lua; then
   echo "installer must render per-page instruction text" >&2
   exit 1
 fi
-if ! grep -q 'frame.landingLogoSize = 66' Installer.lua; then
-  echo "installer must use a larger MaddinUI landing logo" >&2
+if ! grep -q 'frame.landingLogoSize = 86' Installer.lua; then
+  echo "installer must use a large MaddinUI landing logo" >&2
+  exit 1
+fi
+if ! grep -q 'landingSubtitle' Installer.lua || ! grep -q 'frame.accent:Hide()' Installer.lua; then
+  echo "installer landing page must have a distinct hero layout" >&2
   exit 1
 fi
 

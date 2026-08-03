@@ -2,7 +2,7 @@
 ## Title: MaddinUI
 ## Notes: Ascension WoW UI bundle and companion addon.
 ## Author: Maddin
-## Version: 0.1.3
+## Version: 0.1.4
 ## SavedVariables: MaddinUIDB
 
 Core.lua

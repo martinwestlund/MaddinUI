@@ -208,15 +208,20 @@ local function UpdateLogoForPage(frame, page)
     frame.logoUI:ClearAllPoints()
 
     if isLanding then
-        frame.logoMaddin:SetPoint("TOP", frame, "TOP", -46, -66)
+        frame.logoMaddin:SetPoint("TOP", frame, "TOP", -64, -72)
         frame.logoUI:SetPoint("LEFT", frame.logoMaddin, "RIGHT", 0, 0)
+        frame.accent:Hide()
         frame.title:Hide()
+        frame.landingSubtitle:Show()
+        frame.landingSubtitle:SetText("Ascension profile installer")
         frame.body:ClearAllPoints()
-        frame.body:SetPoint("TOP", frame.logoMaddin, "BOTTOM", 46, -28)
+        frame.body:SetPoint("TOP", frame.landingSubtitle, "BOTTOM", 0, -28)
     else
         frame.logoMaddin:SetPoint("TOP", frame, "TOP", -26, -30)
         frame.logoUI:SetPoint("LEFT", frame.logoMaddin, "RIGHT", 0, 0)
+        frame.accent:Show()
         frame.title:Show()
+        frame.landingSubtitle:Hide()
         frame.title:ClearAllPoints()
         frame.title:SetPoint("TOP", frame.accent, "BOTTOM", 0, -22)
         frame.body:ClearAllPoints()
@@ -229,7 +234,7 @@ local function BuildPageControls(frame, page)
     frame.pageControls = {}
 
     if page.key == "landing" then
-        AddPageControl(frame, CreateButton(frame, "Start", 150, 30, "TOP", frame.instruction, "BOTTOM", 0, -18, function()
+        AddPageControl(frame, CreateButton(frame, "Start", 180, 36, "TOP", frame.instruction, "BOTTOM", 0, -22, function()
             frame:ShowPage(2)
         end))
     elseif page.key == "elvui" then
@@ -289,11 +294,11 @@ local function CreateInstaller()
     frame.inner:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -10, 10)
     SetFrameBackdrop(frame.inner, 0, 0, 0, 1, 0.04, 0.04, 0.04, 1)
 
-    frame.landingLogoSize = 66
+    frame.landingLogoSize = 86
     frame.stepLogoSize = 34
-    frame.logoMaddin = CreateText(frame, "GameFontNormalLarge", "TOP", frame, "TOP", -46, -66, 250, "RIGHT", frame.landingLogoSize, 1, 1, 1)
+    frame.logoMaddin = CreateText(frame, "GameFontNormalLarge", "TOP", frame, "TOP", -64, -72, 360, "RIGHT", frame.landingLogoSize, 1, 1, 1)
     frame.logoMaddin:SetText("Maddin")
-    frame.logoUI = CreateText(frame, "GameFontNormalLarge", "LEFT", frame.logoMaddin, "RIGHT", 0, 0, 90, "LEFT", frame.landingLogoSize, accentR, accentG, accentB)
+    frame.logoUI = CreateText(frame, "GameFontNormalLarge", "LEFT", frame.logoMaddin, "RIGHT", 0, 0, 130, "LEFT", frame.landingLogoSize, accentR, accentG, accentB)
     frame.logoUI:SetText("UI")
 
     frame.accent = frame:CreateTexture(nil, "ARTWORK")
@@ -302,6 +307,7 @@ local function CreateInstaller()
     frame.accent:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -54, -116)
     frame.accent:SetTexture(accentR, accentG, accentB, 0.85)
 
+    frame.landingSubtitle = CreateText(frame, "GameFontNormal", "TOP", frame.logoMaddin, "BOTTOM", 64, -12, 500, "CENTER", 18, accentR, accentG, accentB)
     frame.title = CreateText(frame, "GameFontNormalLarge", "TOP", frame.accent, "BOTTOM", 0, -24, 500, "CENTER", 18, 1, 1, 1)
     frame.body = CreateText(frame, "GameFontHighlight", "TOP", frame.title, "BOTTOM", 0, -16, 500, "CENTER", 13, 0.72, 0.72, 0.72)
     frame.body:SetJustifyV("TOP")
