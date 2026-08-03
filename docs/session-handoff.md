@@ -2,30 +2,20 @@
 
 ## Current stage
 
-MaddinUI now has a minimal Project Ascension/WotLK-compatible addon skeleton plus a first step-by-step installer scaffold.
-
-The addon is installed directly at:
+MaddinUI is an Ascension/WotLK 3.3.5a-compatible addon profile installer located at:
 
 ```text
 Interface/AddOns/MaddinUI
 ```
 
-Expected addon entry point is present:
+Target runtime:
 
 ```text
-Interface/AddOns/MaddinUI/MaddinUI.toc
+## Interface: 30300
+Lua 5.1-era WoW Lua
 ```
 
-Current installer flow:
-
-1. Landing page
-2. ElvUI page
-   - `Apply DPS/Tank`
-   - `Apply Healer`
-3. Details page
-4. KuiNameplates page
-5. WeakAuras page
-6. Finish/reload page
+Use old global WoW APIs. Do **not** use Retail/modern APIs such as `C_Timer`, `C_AddOns`, `C_NamePlate`, `C_Container`, `AuraUtil`, `Enum.*`, or Lua 5.2+ syntax.
 
 Slash commands:
 
@@ -34,356 +24,314 @@ Slash commands:
 /mui
 ```
 
-## Files added/changed in current worktree
+## Current installer flow
 
-- `MaddinUI.toc`
-  - Loads the addon core, profile modules, and installer.
-  - Uses `## Interface: 30300`.
-  - Important: nested file paths in the `.toc` must use backslashes for this Ascension/WotLK client, e.g. `Profiles\ElvUI.lua`.
+1. Landing page
+   - Large centered `MaddinUI` logo in ElvUI Expressway font.
+   - `UI` is class-colored using inline WoW color codes.
+   - Frame backdrop is 80% black opacity.
+   - Addon dependency checklist shows:
+     - green: `<Addon>: Found!`
+     - red: `<Addon>: Not found, please install and enable the addon!`
+   - Checklist display labels:
+     - `ElvUI`
+     - `Cell`
+     - `Details`
+     - `KuiNameplates`
+     - `WeakAuras`
+2. ElvUI page
+   - `Apply DPS/Tank`
+   - `Apply Healer`
+3. Cell_Ascension page
+   - Button label still imports Cell_Ascension, but landing checklist calls it `Cell` for cleanliness.
+4. Details page
+5. KuiNameplates page
+6. WeakAuras page
+   - Full replacement flow with custom dark confirmation, not Blizzard `StaticPopup`.
+7. Finish/reload page
 
-- `Core.lua`
-  - Creates global `MaddinUI` namespace.
-  - Initializes `MaddinUIDB` saved variables.
-  - Registers `/maddinui` and `/mui`.
-  - Provides debug chat helper and table-copy helper.
+## Addon dependency checking
 
-- `Installer.lua`
-  - Builds the step-by-step installer frame.
-  - Provides navigation and per-page action buttons.
+Implemented in `Installer.lua` with `ADDON_REQUIREMENTS`.
+
+Compatibility notes:
+
+- Uses old globals: `GetAddOnInfo`, `GetAddOnEnableState`, `IsAddOnLoaded`.
+- Does not use `C_AddOns`.
+- Runtime readiness also checks expected globals because enabled-state APIs can be unreliable in this client:
+  - ElvUI: `ElvUI`
+  - Cell: `Cell`
+  - Details: `Details` or `_detalhes`
+  - KuiNameplates: `KuiNameplates` or `KuiNameplatesCore`
+  - WeakAuras: `WeakAuras`
+
+## Bundled profile data
+
+Profile data is bundled from live SavedVariables, not export strings.
+
+Current bundled profile modules:
+
+- `Profiles/Data/ElvUI.lua`
+- `Profiles/Data/Details.lua`
+- `Profiles/Data/WeakAuras.lua`
+- `Profiles/Data/KuiNameplates.lua`
+- `Profiles/Data/KuiNameplatesAuras.lua`
+- `Profiles/Data/Cell_Ascension.lua`
+
+Current importer modules:
 
 - `Profiles/ElvUI.lua`
-  - Wires ElvUI DPS/Tank and Healer buttons.
-  - Detects Ascension ElvUI engine.
-  - Sets UI scale to `0.5333333`.
-  - Does not yet apply full ElvUI profile payloads because they are not bundled yet.
-
 - `Profiles/Details.lua`
-  - Debug/detection scaffold only.
-
 - `Profiles/KuiNameplates.lua`
-  - Debug/detection scaffold only.
-
+- `Profiles/Cell_Ascension.lua`
 - `Profiles/WeakAuras.lua`
-  - Detects `WeakAuras.Import` and is ready for import strings later.
 
-- `tests/structure.sh`
-  - Simple static structure check for required files and `.toc` entries.
+### Live SavedVariables sources
 
-## In-game test results so far
-
-Initial addon skeleton:
-
-- `/reload` showed `MaddinUI Loaded` / `MaddinUI Loaded.` style chat output.
-- No Lua errors.
-
-Installer ElvUI button bug:
-
-- Error seen initially:
+When the user asks to “grab/update profiles”, update all supported profile data from:
 
 ```text
-MaddinUI\Installer.lua:91: attempt to call field 'ApplyElvUIProfile' (a nil value)
+/mnt/c/Program Files (x86)/Ascension Launcher/resources/client/WTF/Account/MADDINWINS/SavedVariables/ElvUI.lua
+/mnt/c/Program Files (x86)/Ascension Launcher/resources/client/WTF/Account/MADDINWINS/SavedVariables/Details.lua
+/mnt/c/Program Files (x86)/Ascension Launcher/resources/client/WTF/Account/MADDINWINS/SavedVariables/WeakAuras.lua
+/mnt/c/Program Files (x86)/Ascension Launcher/resources/client/WTF/Account/MADDINWINS/SavedVariables/Kui_Nameplates.lua
+/mnt/c/Program Files (x86)/Ascension Launcher/resources/client/WTF/Account/MADDINWINS/SavedVariables/Kui_Nameplates_Auras.lua
+/mnt/c/Program Files (x86)/Ascension Launcher/resources/client/WTF/Account/MADDINWINS/SavedVariables/Cell_Ascension.lua
 ```
 
-Root cause:
+### ElvUI profile handling
 
-- `Installer.lua` loaded, but `Profiles/ElvUI.lua` did not.
-- `.toc` used forward slashes for nested files.
-- Changed paths from `Profiles/ElvUI.lua` to `Profiles\ElvUI.lua`.
+Expected profile names:
 
-After fix:
+- `MaddinUI DPS/Tank`
+- `MaddinUI Healer`
 
-- ElvUI DPS/Tank button runs successfully.
-- Chat output confirms:
+Important: live ElvUI may only contain one of these profiles depending on the currently tested character. If a live profile is missing, preserve the existing bundled profile rather than deleting it.
+
+ElvUI importer behavior:
+
+- Sets UI scale to bundled `uiScale` / default `0.5333333`.
+- Writes selected profile into `ElvDB.profiles`.
+- Assigns current character to the selected profile.
+- Applies global/private DB payloads.
+- Disables ElvUI nameplates, party frames, and raid frames so KuiNameplates and Cell own those areas.
+- Calls `MaddinUI.PrepareSmoothFirstRun()`.
+
+ElvUI frame disable behavior is duplicated in `Core.lua` for smooth first-run and in `Profiles/ElvUI.lua` for profile application.
+
+### Cell_Ascension handling
+
+Cell data source:
+
+```lua
+CellDB
+```
+
+Bundled as:
+
+```lua
+MaddinUI.profileData.Cell_Ascension
+```
+
+Importer writes:
+
+```lua
+CellDB = MaddinUI.CopyTable(data, {})
+```
+
+It also forces:
+
+```lua
+CellDB.general.hideBlizzardParty = true
+CellDB.general.hideBlizzardRaid = true
+CellDB.general.hideBlizzardRaidManager = true
+CellDB.firstRun = false
+CellDB.changelogsViewed = Cell.version or CellDB.revise
+```
+
+### Details handling
+
+Details data source:
+
+```lua
+_detalhes_global.__profiles["MaddinUI"]
+```
+
+Bundled as:
+
+```lua
+MaddinUI.profileData.Details = {
+    profileName = "MaddinUI",
+    profile = <profile table>,
+}
+```
+
+Do not bundle `_detalhes_database`, combat history, or character-local bookkeeping.
+
+Importer writes `_detalhes_global.__profiles["MaddinUI"]` and calls:
+
+```lua
+Details:ApplyProfile("MaddinUI", true)
+```
+
+The second argument is important. Without it, Details saves the current runtime/default profile first and can overwrite the just-imported MaddinUI profile during clean SavedVariables tests.
+
+The importer also reapplies bundled Details window positions/locks/snaps to live Details instances with `RestoreMainWindowPosition()` because Details can otherwise restore one window from local/default state.
+
+### WeakAuras handling
+
+WeakAuras data source:
+
+```lua
+WeakAurasSaved
+```
+
+Bundled as:
+
+```lua
+MaddinUI.profileData.WeakAurasSaved
+```
+
+Installer behavior is a full replacement flow. It replaces all saved WeakAuras with the bundled MaddinUI set. Keep this as full replacement unless the user explicitly asks otherwise.
+
+### KuiNameplates handling
+
+Kui data source:
+
+```lua
+KuiNameplatesGDB
+```
+
+Bundled as:
+
+```lua
+MaddinUI.profileData.KuiNameplates
+```
+
+Importer writes:
+
+- `KuiNameplatesGDB.profiles["MaddinUI"]`
+- namespace profiles under `KuiNameplatesGDB.namespaces[*].profiles["MaddinUI"]`
+- current character profile key
+- attempts runtime AceDB `SetProfile("MaddinUI")` if available
+
+### KuiNameplates custom aura spell list
+
+Kui aura spell list data source:
+
+```lua
+KuiSpellListCustom
+```
+
+SavedVariables file:
 
 ```text
-MaddinUI ElvUI: requested profile dpsTank.
-MaddinUI ElvUI: detected engine version 7.27.
-MaddinUI ElvUI: set CVars useUiScale=1 and uiScale=0.5333333.
-MaddinUI ElvUI: set E.global.general.UIScale=0.5333333.
-MaddinUI ElvUI: set ElvDB.global.general.UIScale=0.5333333.
-MaddinUI ElvUI: called E:PixelScaleChanged(nil, true).
-MaddinUI ElvUI: no bundled dpsTank profile payload yet; skipped profile DB write.
+Kui_Nameplates_Auras.lua
 ```
 
-User confirmed the UI scale visibly changes immediately when pressing the button.
+Bundled as:
 
-## Important learnings
+```lua
+MaddinUI.profileData.KuiSpellListCustom
+```
 
-### Target runtime
+Importer writes:
 
-Per `AGENTS.md`, MaddinUI targets Project Ascension based on WotLK 3.3.5a:
+```lua
+KuiSpellListCustom = MaddinUI.CopyTable(MaddinUI.profileData.KuiSpellListCustom, {})
+```
+
+At the time this handoff was written, the live table was empty, but support is now wired so future custom spell IDs are bundled/imported.
+
+## Built-in ElvUI tag
+
+`ElvUITags.lua` includes only the custom MartinTools tag:
 
 ```text
-## Interface: 30300
+[targetwitharrow]
 ```
 
-Use Lua 5.1-era WoW Lua and old global APIs. Avoid modern Retail APIs such as:
+Behavior:
 
-- `C_Timer`
-- `C_*` namespaces
-- `AuraUtil`
-- `CombatLogGetCurrentEventInfo()`
-- `Enum.*`
-- modern nameplate APIs
-- Lua 5.2+ features
+- Uses `unit .. "target"`.
+- Returns nil if no target.
+- Displays a white `»` arrow.
+- Class-colors player target names using `CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS`.
+- Falls back to white for NPCs/unknown classes.
+- Registers through Ascension ElvUI `E.AddTag`.
+- Suppresses only the known Ascension `RefreshEvents` registration error.
 
-### ElvUI specifics found in installed Ascension fork
+Do not import unrelated MartinTools modules such as minimap buttons or profile viewers.
 
-Installed ElvUI:
+## Popup suppression / clean first-run
 
-```text
-ElvUI version 7.27
-Interface 30300
-SavedVariables: ElvDB, ElvPrivateDB
-SavedVariablesPerCharacter: ElvCharacterDB
+`Core.lua` includes `MaddinUI.SuppressAddonFirstRunPopups()` and a short `OnUpdate` retry frame.
+
+It suppresses/hides:
+
+- ElvUI tutorial/support popup:
+  - `E.db.hideTutorial = true`
+  - hide `ElvUITutorialWindow`
+  - hide `E.TutorialFrame` if present
+- ElvUI incompatible addon popup:
+  - `E:StaticPopup_Hide("INCOMPATIBLE_ADDON")`
+- Details news/welcome:
+  - `Details.auto_open_news_window = false`
+  - `Details.is_first_run = false`
+  - `Details.is_version_first_run = false`
+  - hide `DetailsNewsWindow`
+  - hide `DetailsWelcomeWindow`
+- Cell changelog/first-run:
+  - `CellDB.firstRun = false`
+  - `CellDB.changelogsViewed = Cell.version or CellDB.revise`
+  - hide `CellChangelogsFrame`
+
+No `C_Timer` is used; suppression retries use a throttled `OnUpdate` frame for 3.3.5 compatibility.
+
+## Release history notes
+
+Recent relevant releases/commits:
+
+- `v0.1.5`: refreshed profiles and added Kui_Nameplates_Auras support.
+- `v0.1.4`: made installer landing logo prominent.
+- `v0.1.3`: installer UI cleanup, Cell support, Details apply fixes, ElvUI `[targetwitharrow]` tag.
+- Latest pushed docs/checklist commit after `v0.1.5`: installer landing checklist wording changed to `Found!` / `Not found...` and Cell label cleaned up.
+
+The user may ask for local testing only. Do not push releases unless explicitly asked. Local game files are the working repo in the AddOns folder.
+
+## Packaging / release process
+
+`release/` is gitignored. When the user asks for a release:
+
+1. Bump version in:
+   - `MaddinUI.toc`
+   - `Core.lua`
+2. Build zip with root folder `MaddinUI/` inside the archive.
+3. Include all runtime files from `.toc`, including profile data files.
+4. Run verification:
+
+```bash
+bash tests/structure.sh && bash tests/profile-data.sh
 ```
 
-ElvUI global is `_G.ElvUI`, unpacked like:
+5. Commit source changes.
+6. Create annotated tag.
+7. Push `main` and tag.
+8. Use `gh release create ...` to attach the zip.
 
-```lua
-local E, L, V, P, G = unpack(_G.ElvUI)
-```
+If a requested tag already exists, do not overwrite it without explicit permission. Bump to the next patch version instead.
 
-ElvUI scale source of truth is **not only** the Blizzard CVar. It uses:
-
-```lua
-E.global.general.UIScale
-ElvDB.global.general.UIScale
-```
-
-Visible scale refresh should call:
-
-```lua
-E:PixelScaleChanged(nil, true)
-```
-
-Fallback if unavailable:
-
-```lua
-E:UIScale(true)
-E:UIScale()
-```
-
-Calling only `E:UIScale(true)` recalculates pixel variables but does not visibly apply the scale.
-
-Desired MaddinUI UI scale:
-
-```lua
-0.5333333
-```
-
-### WeakAuras specifics found
-
-Installed WeakAuras:
-
-```text
-WeakAuras 5.21.2
-X-Flavor: 3.3.5
-SavedVariables: WeakAurasSaved
-```
-
-The installed WeakAuras exposes:
-
-```lua
-WeakAuras.Import(inData, target, callbackFunc, linkedAuras)
-```
-
-So future WeakAuras support should use bundled import strings and call `WeakAuras.Import` conservatively with debug output.
-
-### KuiNameplates specifics found
-
-Installed KuiNameplates:
-
-```text
-Kui_Nameplates
-SavedVariables: KuiNameplatesGDB
-```
-
-It uses AceDB:
-
-```lua
-LibStub("AceDB-3.0"):New("KuiNameplatesGDB", defaults)
-```
-
-Future profile application should verify AceDB profile APIs/runtime state before writing profile data.
-
-### Details status
-
-No Details `.toc` was found in the sibling AddOns folder during this session. The Details installer step currently only detects whether `_G.Details` or `_G._detalhes` exists and prints debug output.
-
-## Current verification commands
+## Verification commands
 
 Run from repo root:
 
 ```bash
-./tests/structure.sh
+bash tests/structure.sh
+bash tests/profile-data.sh
 ```
 
-Expected output:
+Both should pass before claiming work is complete or pushing.
 
-```text
-structure ok
-```
+## Public release safety
 
-Compatibility scan used:
-
-```bash
-rg "C_Timer|C_[A-Za-z]+|AuraUtil|CombatLogGetCurrentEventInfo|table\.unpack|goto|Mixin|CreateFromMixins|Enum\." . -n --glob '!AGENTS.md'
-```
-
-Expected: no matches.
-
-## Next steps
-
-1. Commit current installer scaffold if not already committed.
-2. Obtain/export actual profile payloads:
-   - ElvUI DPS/Tank profile
-   - ElvUI Healer profile
-   - Details profile, once Details install/addon location is known
-   - KuiNameplates profile data
-   - WeakAuras import strings
-3. Add ElvUI profile payloads first.
-   - Store payloads in `Profiles/ElvUI.lua` or separate data files if large.
-   - Keep DPS/Tank and Healer separate.
-   - Apply by writing/copying into `ElvDB.profiles[...]`, assigning `ElvDB.profileKeys[characterKey]`, copying to active `E.db` if safe, and recommending reload.
-4. Validate ElvUI profile application in-game with debug output.
-5. Then implement the next profile step, likely WeakAuras because the import API is already identified.
-6. Keep all code 3.3.5/Lua 5.1-compatible.
-7. Do not create a nested `MaddinUI` directory; `.toc` belongs directly in repo root.
-8. Do not commit/push unless explicitly asked.
-
-## Current known limitations
-
-- Installer UI is functional but basic.
-- Only ElvUI scale application has been verified in-game.
-- ElvUI profile buttons do not apply actual layouts yet because no profile payloads are bundled.
-- Details step cannot be fully implemented until the installed Details addon/profile format is available.
-- KuiNameplates profile write path needs AceDB verification before enabling writes.
-- WeakAuras imports need actual import strings.
-
-## Update: bundled profile exports added
-
-Profile exports from the Windows Desktop folder were bundled into the addon:
-
-Source folder used during development:
-
-```text
-/mnt/c/Users/Marti/Desktop/Profiles/
-```
-
-Bundled data files:
-
-- `Profiles/Data/ElvUI.lua`
-  - Contains `!E1!` exports for:
-    - DPS/Tank
-    - Healer
-- `Profiles/Data/Details.lua`
-  - Contains Details profile export string.
-- `Profiles/Data/WeakAuras.lua`
-  - Contains WeakAuras `!WA:2!` imports for:
-    - Essential
-    - Cultist
-    - Felsworn
-    - Pyromancer
-    - Starcaller
-    - Templar
-
-### New wiring
-
-ElvUI buttons now call ElvUI's built-in distributor importer:
-
-```lua
-local D = E:GetModule("Distributor")
-D:ImportProfile(exportString)
-```
-
-The UI scale is still applied first:
-
-```lua
-0.5333333
-```
-
-Details button now attempts:
-
-```lua
-Details:ImportProfile(profileString, "MaddinUI", false, true, true)
-```
-
-WeakAuras page now has separate buttons:
-
-- `Import Essential`
-- `Cultist`
-- `Felsworn`
-- `Pyromancer`
-- `Starcaller`
-- `Templar`
-
-This is intentional so the user can import Essential once, then import only the relevant class package. The installer can be reopened later with `/maddinui` or `/mui` for rerolls.
-
-### New verification
-
-Run:
-
-```bash
-./tests/structure.sh && ./tests/profile-data.sh
-```
-
-Expected:
-
-```text
-structure ok
-profile data ok
-```
-
-Source-only compatibility scan used:
-
-```bash
-rg "C_Timer|C_[A-Za-z]+|AuraUtil|CombatLogGetCurrentEventInfo|table\.unpack|goto|Mixin|CreateFromMixins|Enum\." Core.lua Installer.lua Profiles/ElvUI.lua Profiles/Details.lua Profiles/KuiNameplates.lua Profiles/WeakAuras.lua -n
-```
-
-Expected: no matches. Do not scan bundled compressed import strings for API names; compressed payloads can contain coincidental text matches.
-
-### Next in-game tests
-
-1. `/reload`
-2. `/maddinui`
-3. ElvUI page:
-   - Click `Apply DPS/Tank` on a disposable/test profile first.
-   - Confirm ElvUI import succeeds or shows an expected overwrite prompt.
-   - Confirm scale remains `0.5333333`.
-4. ElvUI page:
-   - Test `Apply Healer` similarly.
-5. Details page:
-   - Click `Load Details`.
-   - Confirm Details imports/applies profile `MaddinUI`.
-6. WeakAuras page:
-   - Click `Import Essential`.
-   - Confirm WeakAuras import flow opens/starts.
-   - Click one class package, e.g. `Felsworn`.
-   - Confirm import flow opens/starts.
-7. Reload UI after importing profile packages.
-
-## Known issue: Templar WeakAura export duplicate
-
-In-game testing showed the `Templar` WeakAuras button imported Starcaller auras.
-
-Root cause verified from source files:
-
-```text
-/mnt/c/Users/Marti/Desktop/Profiles/Weakauras Starcaller.txt
-/mnt/c/Users/Marti/Desktop/Profiles/Weakauras Templar.txt
-```
-
-These two files are byte-for-byte identical. This is a source export issue, not an installer routing issue. Replace `Weakauras Templar.txt` with the corrected Templar export and regenerate/update `Profiles/Data/WeakAuras.lua`.
-
-## In-game verification update
-
-User verified in-game that the following work as intended:
-
-- ElvUI profile import flow
-- ElvUI UI scale application at `0.5333333`
-- Details profile import flow
-- WeakAuras Essential import flow
-- Other class WeakAuras imports except Templar
-
-Only known bad profile source is Templar WeakAuras because its `.txt` export currently matches Starcaller exactly. Replace the Templar source export and regenerate the bundled WeakAuras data.
+Do not commit account names, machine-local paths, credentials, combat history, character gold/bookkeeping, or full WTF folders. This repo intentionally bundles sanitized profile payloads, not entire SavedVariables files except where the target addon’s supported profile data requires full replacement (WeakAuras uses the full `WeakAurasSaved` table by design).
