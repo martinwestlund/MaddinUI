@@ -299,25 +299,87 @@ Recent relevant releases/commits:
 
 The user may ask for local testing only. Do not push releases unless explicitly asked. Local game files are the working repo in the AddOns folder.
 
-## Packaging / release process
+## Profile update to GitHub checklist
 
-`release/` is gitignored. When the user asks for a release:
+When the user asks to “grab/update all profiles” and push to GitHub, refresh every supported data file, not just the profile type mentioned casually.
 
-1. Bump version in:
-   - `MaddinUI.toc`
-   - `Core.lua`
-2. Build zip with root folder `MaddinUI/` inside the archive.
-3. Include all runtime files from `.toc`, including profile data files.
-4. Run verification:
+Required live inputs and bundled outputs:
+
+| Addon/profile | Live SavedVariables input | Bundled output |
+| --- | --- | --- |
+| ElvUI | `WTF/Account/MADDINWINS/SavedVariables/ElvUI.lua` | `Profiles/Data/ElvUI.lua` |
+| Details | `WTF/Account/MADDINWINS/SavedVariables/Details.lua` | `Profiles/Data/Details.lua` |
+| WeakAuras | `WTF/Account/MADDINWINS/SavedVariables/WeakAuras.lua` | `Profiles/Data/WeakAuras.lua` |
+| KuiNameplates | `WTF/Account/MADDINWINS/SavedVariables/Kui_Nameplates.lua` | `Profiles/Data/KuiNameplates.lua` |
+| KuiNameplates custom auras | `WTF/Account/MADDINWINS/SavedVariables/Kui_Nameplates_Auras.lua` | `Profiles/Data/KuiNameplatesAuras.lua` |
+| Cell | `WTF/Account/MADDINWINS/SavedVariables/Cell_Ascension.lua` | `Profiles/Data/Cell_Ascension.lua` |
+
+Profile extraction rules:
+
+- ElvUI: extract `MaddinUI DPS/Tank`, `MaddinUI Healer`, `ElvDB.global`, and `ElvPrivateDB`; do not bundle account gold/character bookkeeping. If one expected profile is missing from the live file, preserve the previous bundled version of that profile instead of deleting it.
+- Details: extract only `_detalhes_global.__profiles["MaddinUI"]`; do not bundle `_detalhes_database`, combat history, or character-local data.
+- WeakAuras: replace the bundled `MaddinUI.profileData.WeakAurasSaved` with the full live `WeakAurasSaved` table.
+- KuiNameplates: extract `KuiNameplatesGDB.profiles["MaddinUI"]` and every namespace profile named `MaddinUI`.
+- KuiNameplates custom auras: extract the full `KuiSpellListCustom` table from `Kui_Nameplates_Auras.lua`, even if it is empty, so future spell IDs are retained.
+- Cell: extract the full `CellDB` table from `Cell_Ascension.lua`; importer keeps Blizzard party/raid/raid-manager hiding enabled and suppresses Cell first-run/changelog state.
+
+Runtime files that must be present in `.toc` and release zips after the Cell/Kui aura additions:
+
+```text
+Core.lua
+ElvUITags.lua
+Profiles\Data\ElvUI.lua
+Profiles\Data\Details.lua
+Profiles\Data\WeakAuras.lua
+Profiles\Data\KuiNameplates.lua
+Profiles\Data\KuiNameplatesAuras.lua
+Profiles\Data\Cell_Ascension.lua
+Profiles\ElvUI.lua
+Profiles\Details.lua
+Profiles\KuiNameplates.lua
+Profiles\Cell_Ascension.lua
+Profiles\WeakAuras.lua
+Installer.lua
+```
+
+Before pushing profile updates:
 
 ```bash
 bash tests/structure.sh && bash tests/profile-data.sh
 ```
 
-5. Commit source changes.
-6. Create annotated tag.
-7. Push `main` and tag.
-8. Use `gh release create ...` to attach the zip.
+Suggested profile update commit message format:
+
+```text
+Various updates to <profile list> profiles.
+```
+
+Example with the current supported set:
+
+```text
+Various updates to ElvUI Healer, Details, KuiNameplates, Cell_Ascension & WeakAuras profiles.
+```
+
+## Packaging / release process
+
+`release/` is gitignored. When the user asks for a release:
+
+1. Refresh profile data first if requested, using the checklist above.
+2. Bump version in:
+   - `MaddinUI.toc`
+   - `Core.lua`
+3. Build zip with root folder `MaddinUI/` inside the archive.
+4. Include all runtime files from `.toc`, including `Profiles/Data/Cell_Ascension.lua` and `Profiles/Data/KuiNameplatesAuras.lua`.
+5. Run verification:
+
+```bash
+bash tests/structure.sh && bash tests/profile-data.sh
+```
+
+6. Commit source changes.
+7. Create annotated tag.
+8. Push `main` and tag.
+9. Use `gh release create ...` to attach the zip.
 
 If a requested tag already exists, do not overwrite it without explicit permission. Bump to the next patch version instead.
 

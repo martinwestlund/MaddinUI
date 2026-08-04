@@ -61,22 +61,40 @@ MaddinUI.profileData.KuiNameplates = {
 					["enabled"] = false,
 				},
         ["TankMode"] = {
-					["brackets"] = {
-						["scale"] = 0.599395751953125,
-					},
 					["tankmode"] = {
 						["enabled"] = 3,
+					},
+					["brackets"] = {
+						["scale"] = 0.599395751953125,
 					},
 				},
         ["profiles"] = {
-					["brackets"] = {
-						["scale"] = 0.599395751953125,
-					},
 					["tankmode"] = {
 						["enabled"] = 3,
 					},
+					["brackets"] = {
+						["scale"] = 0.599395751953125,
+					},
 				},
         ["Auras"] = {
+					["display"] = {
+						["timerThreshold"] = 5,
+					},
+					["icons"] = {
+						["squareness"] = 0.7000000000000001,
+						["icon_size"] = 32,
+					},
+				},
+        ["profiles"] = {
+					["display"] = {
+						["timerThreshold"] = 5,
+					},
+					["icons"] = {
+						["squareness"] = 0.7000000000000001,
+						["icon_size"] = 32,
+					},
+				},
+        ["profiles"] = {
 					["display"] = {
 						["timerThreshold"] = 5,
 					},

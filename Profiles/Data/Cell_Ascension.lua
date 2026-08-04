@@ -8,10 +8,16 @@ MaddinUI.profileData.Cell_Ascension = {
 	["general"] = {
 		["fadeOut"] = true,
 		["hideTooltipsInCombat"] = false,
-		["customRangeSpell"] = 0,
+		["hideBlizzardRaid"] = true,
 		["menuPosition"] = "left_right",
 		["translit"] = false,
-		["enableTooltips"] = true,
+		["tooltipsPosition"] = {
+			"BOTTOMLEFT", -- [1]
+			"Default", -- [2]
+			"TOPLEFT", -- [3]
+			0, -- [4]
+			15, -- [5]
+		},
 		["alwaysUpdateAuras"] = false,
 		["hideBlizzardRaidManager"] = true,
 		["hideBlizzardParty"] = true,
@@ -29,16 +35,10 @@ MaddinUI.profileData.Cell_Ascension = {
 				false, -- [2]
 			}, -- [3]
 		},
-		["locked"] = false,
+		["locked"] = true,
 		["useCleuHealthUpdater"] = false,
-		["hideBlizzardRaid"] = true,
-		["tooltipsPosition"] = {
-			"BOTTOMLEFT", -- [1]
-			"Default", -- [2]
-			"TOPLEFT", -- [3]
-			0, -- [4]
-			15, -- [5]
-		},
+		["customRangeSpell"] = 0,
+		["enableTooltips"] = true,
 	},
 	["customTextures"] = {
 	},
@@ -120,7 +120,86 @@ MaddinUI.profileData.Cell_Ascension = {
 		57723, -- [2]
 		57724, -- [3]
 	},
-	["dispelBlacklist"] = {
+	["spellRequest"] = {
+		["enabled"] = false,
+		["timeout"] = 10,
+		["checkIfExists"] = true,
+		["spells"] = {
+			{
+				["glowOptions"] = {
+					"pixel", -- [1]
+					{
+						{
+							1, -- [1]
+							1, -- [2]
+							0, -- [3]
+							1, -- [4]
+						}, -- [1]
+						0, -- [2]
+						0, -- [3]
+						9, -- [4]
+						0.25, -- [5]
+						8, -- [6]
+						2, -- [7]
+					}, -- [2]
+				},
+				["type"] = "icon",
+				["spellId"] = 10060,
+				["isBuiltIn"] = true,
+				["buffId"] = 10060,
+				["keywords"] = "Power Infusion",
+				["icon"] = "Interface\\Icons\\Spell_Holy_PowerInfusion",
+				["iconColor"] = {
+					1, -- [1]
+					1, -- [2]
+					0, -- [3]
+					1, -- [4]
+				},
+			}, -- [1]
+			{
+				["glowOptions"] = {
+					"pixel", -- [1]
+					{
+						{
+							0, -- [1]
+							1, -- [2]
+							1, -- [3]
+							1, -- [4]
+						}, -- [1]
+						0, -- [2]
+						0, -- [3]
+						9, -- [4]
+						0.25, -- [5]
+						8, -- [6]
+						2, -- [7]
+					}, -- [2]
+				},
+				["type"] = "icon",
+				["spellId"] = 29166,
+				["isBuiltIn"] = true,
+				["buffId"] = 29166,
+				["keywords"] = "Innervate",
+				["icon"] = "Interface\\Icons\\Spell_Nature_Lightning",
+				["iconColor"] = {
+					0, -- [1]
+					1, -- [2]
+					1, -- [3]
+					1, -- [4]
+				},
+			}, -- [2]
+		},
+		["sharedIconOptions"] = {
+			"beat", -- [1]
+			27, -- [2]
+			"BOTTOMRIGHT", -- [3]
+			"BOTTOMRIGHT", -- [4]
+			0, -- [5]
+			0, -- [6]
+		},
+		["knownSpellsOnly"] = true,
+		["responseType"] = "me",
+		["replyCooldown"] = true,
+		["freeCooldownOnly"] = true,
 	},
 	["changelogsViewed"] = "r1.0.6-release",
 	["tools"] = {
@@ -177,86 +256,7 @@ MaddinUI.profileData.Cell_Ascension = {
 			["code"] = "-- snippets can be found at https://github.com/enderneko/Cell/tree/master/.snippets\n-- use \"/run CellDB['snippets'][0]=nil ReloadUI()\" to reset this snippet\n\n-- cooldown style for icon/block indicators (\"VERTICAL\", \"CLOCK\")\nCELL_COOLDOWN_STYLE = \"VERTICAL\"\n\n-- fade out unit button if hp percent > (number: 0-1)\nCELL_FADE_OUT_HEALTH_PERCENT = nil\n\n-- add summon icons to Status Icon indicator (boolean, retail only)\nCELL_SUMMON_ICONS_ENABLED = false\n\n-- use separate width and height for custom indicator icons (boolean)\nCELL_RECTANGULAR_CUSTOM_INDICATOR_ICONS = false\n\n-- Use nicknames from Details! Damage Meter (boolean, NickTag-1.0 library)\nCELL_NICKTAG_ENABLED = false\n\n-- remove raid setup details from the tooltip of the Raid button (boolean)\nCELL_TOOLTIP_REMOVE_RAID_SETUP_DETAILS = false\n\n-- border thickness: unit button and icon (number)\nCELL_BORDER_SIZE = 1\n\n-- unit button border color ({r, g, b, a}, number: 0-1)\nCELL_BORDER_COLOR = {0, 0, 0, 1}\n\n-- show raid pet owner name (\"VEHICLE\", \"NAME\", nil)\nCELL_SHOW_GROUP_PET_OWNER_NAME = nil\n\n-- use LibHealComm (boolean, non-retail)\nCELL_USE_LIBHEALCOMM = true -- Auto-fixed for standard WotLK",
 		},
 	},
-	["spellRequest"] = {
-		["enabled"] = false,
-		["timeout"] = 10,
-		["responseType"] = "me",
-		["spells"] = {
-			{
-				["glowOptions"] = {
-					"pixel", -- [1]
-					{
-						{
-							1, -- [1]
-							1, -- [2]
-							0, -- [3]
-							1, -- [4]
-						}, -- [1]
-						0, -- [2]
-						0, -- [3]
-						9, -- [4]
-						0.25, -- [5]
-						8, -- [6]
-						2, -- [7]
-					}, -- [2]
-				},
-				["type"] = "icon",
-				["spellId"] = 10060,
-				["isBuiltIn"] = true,
-				["keywords"] = "Power Infusion",
-				["iconColor"] = {
-					1, -- [1]
-					1, -- [2]
-					0, -- [3]
-					1, -- [4]
-				},
-				["icon"] = "Interface\\Icons\\Spell_Holy_PowerInfusion",
-				["buffId"] = 10060,
-			}, -- [1]
-			{
-				["glowOptions"] = {
-					"pixel", -- [1]
-					{
-						{
-							0, -- [1]
-							1, -- [2]
-							1, -- [3]
-							1, -- [4]
-						}, -- [1]
-						0, -- [2]
-						0, -- [3]
-						9, -- [4]
-						0.25, -- [5]
-						8, -- [6]
-						2, -- [7]
-					}, -- [2]
-				},
-				["type"] = "icon",
-				["spellId"] = 29166,
-				["isBuiltIn"] = true,
-				["keywords"] = "Innervate",
-				["iconColor"] = {
-					0, -- [1]
-					1, -- [2]
-					1, -- [3]
-					1, -- [4]
-				},
-				["icon"] = "Interface\\Icons\\Spell_Nature_Lightning",
-				["buffId"] = 29166,
-			}, -- [2]
-		},
-		["sharedIconOptions"] = {
-			"beat", -- [1]
-			27, -- [2]
-			"BOTTOMRIGHT", -- [3]
-			"BOTTOMRIGHT", -- [4]
-			0, -- [5]
-			0, -- [6]
-		},
-		["knownSpellsOnly"] = true,
-		["checkIfExists"] = true,
-		["replyCooldown"] = true,
-		["freeCooldownOnly"] = true,
+	["dispelBlacklist"] = {
 	},
 	["indicatorPreview"] = {
 		["scale"] = 2,
@@ -275,150 +275,221 @@ MaddinUI.profileData.Cell_Ascension = {
 		806, -- [2]
 		-387, -- [3]
 	},
-	["targetedSpellsGlow"] = {
-		"Pixel", -- [1]
-		{
-			0.95, -- [1]
-			0.95, -- [2]
-			0.32, -- [3]
-			1, -- [4]
-		}, -- [2]
-		9, -- [3]
-		0.25, -- [4]
-		8, -- [5]
-		2, -- [6]
-	},
-	["dispelRequest"] = {
-		["enabled"] = false,
-		["debuffs"] = {
-		},
-		["timeout"] = 10,
-		["responseType"] = "all",
-		["glowOptions"] = {
-			"shine", -- [1]
-			{
+	["appearance"] = {
+		["optionsFontSizeOffset"] = 0,
+		["strata"] = "LOW",
+		["auraIconOptions"] = {
+			["durationColorEnabled"] = false,
+			["durationDecimal"] = 0,
+			["animation"] = "duration",
+			["durationRoundUp"] = false,
+			["durationColors"] = {
+				{
+					0, -- [1]
+					1, -- [2]
+					0, -- [3]
+				}, -- [1]
+				{
+					1, -- [1]
+					1, -- [2]
+					0, -- [3]
+					0.5, -- [4]
+				}, -- [2]
 				{
 					1, -- [1]
 					0, -- [2]
-					0.4, -- [3]
-					1, -- [4]
-				}, -- [1]
-				0, -- [2]
-				0, -- [3]
-				9, -- [4]
-				0.5, -- [5]
-				2, -- [6]
+					0, -- [3]
+					3, -- [4]
+				}, -- [3]
+			},
+		},
+		["bgAlpha"] = 0.45,
+		["scale"] = 1,
+		["targetColor"] = {
+			1, -- [1]
+			0.31, -- [2]
+			0.31, -- [3]
+			1, -- [4]
+		},
+		["fullColor"] = {
+			false, -- [1]
+			{
+				0.2, -- [1]
+				0.2, -- [2]
+				0.2, -- [3]
 			}, -- [2]
 		},
-		["textOptions"] = {
-			"A", -- [1]
+		["outOfRangeAlpha"] = 0.45,
+		["overshieldReverseFill"] = true,
+		["overshield"] = {
+			false, -- [1]
 			{
 				1, -- [1]
 				1, -- [2]
 				1, -- [3]
 				1, -- [4]
 			}, -- [2]
-			32, -- [3]
-			"TOPLEFT", -- [4]
-			"TOPLEFT", -- [5]
-			-1, -- [6]
-			5, -- [7]
 		},
-		["type"] = "text",
-		["dispellableByMe"] = true,
-	},
-	["aoeHealings"] = {
-		["disabled"] = {
+		["barAnimation"] = "Flash",
+		["texture"] = "Solid",
+		["shield"] = {
+			true, -- [1]
+			{
+				1, -- [1]
+				1, -- [2]
+				1, -- [3]
+				0.4, -- [4]
+			}, -- [2]
 		},
-		["custom"] = {
+		["healPrediction"] = {
+			false, -- [1]
+			false, -- [2]
+			{
+				1, -- [1]
+				1, -- [2]
+				1, -- [3]
+				0.4, -- [4]
+			}, -- [3]
 		},
-	},
-	["crowdControls"] = {
-		["disabled"] = {
+		["colorThresholds"] = {
+			{
+				1, -- [1]
+				0, -- [2]
+				0, -- [3]
+			}, -- [1]
+			{
+				1, -- [1]
+				0.7, -- [2]
+				0, -- [3]
+			}, -- [2]
+			{
+				0.7, -- [1]
+				1, -- [2]
+				0, -- [3]
+			}, -- [3]
+			0.05, -- [4]
+			0.95, -- [5]
+			true, -- [6]
 		},
-		["custom"] = {
+		["mouseoverColor"] = {
+			1, -- [1]
+			1, -- [2]
+			1, -- [3]
+			0.6, -- [4]
 		},
-	},
-	["defensives"] = {
-		["disabled"] = {
+		["highlightSize"] = -1,
+		["lossColor"] = {
+			"custom", -- [1]
+			{
+				1, -- [1]
+				1, -- [2]
+				1, -- [3]
+			}, -- [2]
 		},
-		["custom"] = {
+		["barColor"] = {
+			"custom", -- [1]
+			{
+				0, -- [1]
+				0, -- [2]
+				0, -- [3]
+			}, -- [2]
 		},
-	},
-	["raidDebuffs"] = {
-	},
-	["debuffTypeColor"] = {
-		[""] = {
-			["r"] = 0.8,
-			["g"] = 0,
-			["b"] = 0,
+		["useGameFont"] = true,
+		["lossAlpha"] = 1,
+		["deathColor"] = {
+			true, -- [1]
+			{
+				0.7300000190734863, -- [1]
+				0, -- [2]
+				0, -- [3]
+			}, -- [2]
 		},
-		["Disease"] = {
-			["r"] = 0.6,
-			["g"] = 0.4,
-			["b"] = 0,
+		["accentColor"] = {
+			"class_color", -- [1]
+			{
+				1, -- [1]
+				0.26667, -- [2]
+				0.4, -- [3]
+			}, -- [2]
 		},
-		["Bleed"] = {
-			["b"] = 0.6,
-			["g"] = 0.2,
-			["r"] = 1,
+		["healAbsorbInvertColor"] = false,
+		["colorThresholdsLoss"] = {
+			{
+				1, -- [1]
+				0, -- [2]
+				0, -- [3]
+			}, -- [1]
+			{
+				1, -- [1]
+				0.7, -- [2]
+				0, -- [3]
+			}, -- [2]
+			{
+				0.7, -- [1]
+				1, -- [2]
+				0, -- [3]
+			}, -- [3]
+			0.05, -- [4]
+			0.95, -- [5]
+			true, -- [6]
 		},
-		["Curse"] = {
-			["r"] = 0.6,
-			["g"] = 0,
-			["b"] = 1,
+		["healAbsorb"] = {
+			false, -- [1]
+			{
+				1, -- [1]
+				0.1, -- [2]
+				0.1, -- [3]
+				1, -- [4]
+			}, -- [2]
 		},
-		["Poison"] = {
-			["r"] = 0,
-			["g"] = 0.6,
-			["b"] = 0,
-		},
-		["Magic"] = {
-			["r"] = 0.2,
-			["g"] = 0.6,
-			["b"] = 1,
-		},
-		["none"] = {
-			["r"] = 0.8,
-			["g"] = 0,
-			["b"] = 0,
+		["barAlpha"] = 0.45,
+		["powerColor"] = {
+			"power_color", -- [1]
+			{
+				0.7, -- [1]
+				0.7, -- [2]
+				0.7, -- [3]
+			}, -- [2]
 		},
 	},
 	["layouts"] = {
 		["default"] = {
-			["pet"] = {
-				["sameArrangementAsMain"] = true,
-				["spacingY"] = 3,
-				["spacingX"] = 3,
-				["partyEnabled"] = false,
-				["orientation"] = "vertical",
-				["raidEnabled"] = false,
-				["sameSizeAsMain"] = true,
+			["main"] = {
+				["spacingY"] = 1,
+				["size"] = {
+					111, -- [1]
+					66, -- [2]
+				},
+				["spacingX"] = 1,
+				["unitsPerColumn"] = 5,
+				["combineGroups"] = false,
+				["groupSpacing"] = 0,
+				["maxColumns"] = 8,
+				["roleOrder"] = {
+					"HEALER", -- [1]
+					"TANK", -- [2]
+					"DAMAGER", -- [3]
+				},
 				["anchor"] = "TOPLEFT",
 				["position"] = {
+					"BOTTOM", -- [1]
+					-288, -- [2]
+					432, -- [3]
 				},
-				["powerSize"] = 2,
-				["size"] = {
-					66, -- [1]
-					46, -- [2]
-				},
+				["sortByRole"] = true,
+				["orientation"] = "horizontal",
+				["powerSize"] = 0,
+				["hideSelf"] = false,
 			},
-			["npc"] = {
-				["enabled"] = true,
-				["spacingY"] = 3,
-				["separate"] = false,
-				["spacingX"] = 3,
-				["sameArrangementAsMain"] = true,
-				["orientation"] = "vertical",
-				["sameSizeAsMain"] = true,
-				["anchor"] = "TOPLEFT",
-				["position"] = {
-				},
-				["powerSize"] = 2,
-				["size"] = {
-					66, -- [1]
-					46, -- [2]
-				},
+			["groupFilter"] = {
+				true, -- [1]
+				true, -- [2]
+				true, -- [3]
+				true, -- [4]
+				true, -- [5]
+				true, -- [6]
+				true, -- [7]
+				true, -- [8]
 			},
 			["indicators"] = {
 				{
@@ -452,11 +523,11 @@ MaddinUI.profileData.Cell_Ascension = {
 						0, -- [5]
 					},
 					["indicatorName"] = "nameText",
+					["showGroupNumber"] = false,
 					["textWidth"] = {
 						"percentage", -- [1]
 						0.75, -- [2]
 					},
-					["showGroupNumber"] = false,
 				}, -- [1]
 				{
 					["enabled"] = true,
@@ -476,7 +547,6 @@ MaddinUI.profileData.Cell_Ascension = {
 					},
 					["indicatorName"] = "statusText",
 					["showBackground"] = true,
-					["showTimer"] = true,
 					["colors"] = {
 						["OFFLINE"] = {
 							1, -- [1]
@@ -490,7 +560,7 @@ MaddinUI.profileData.Cell_Ascension = {
 							0.19, -- [3]
 							1, -- [4]
 						},
-						["AFK"] = {
+						["DECLINED"] = {
 							1, -- [1]
 							0.19, -- [2]
 							0.19, -- [3]
@@ -526,13 +596,14 @@ MaddinUI.profileData.Cell_Ascension = {
 							0.12, -- [3]
 							1, -- [4]
 						},
-						["DECLINED"] = {
+						["AFK"] = {
 							1, -- [1]
 							0.19, -- [2]
 							0.19, -- [3]
 							1, -- [4]
 						},
 					},
+					["showTimer"] = true,
 				}, -- [2]
 				{
 					["enabled"] = false,
@@ -569,8 +640,8 @@ MaddinUI.profileData.Cell_Ascension = {
 								}, -- [2]
 							},
 							["format"] = "none",
-							["hideIfEmptyOrFull"] = false,
 							["delimiter"] = " ",
+							["hideIfEmptyOrFull"] = false,
 						},
 						["shields"] = {
 							["color"] = {
@@ -597,13 +668,13 @@ MaddinUI.profileData.Cell_Ascension = {
 							["delimiter"] = "-",
 						},
 					},
-					["frameLevel"] = 2,
 					["font"] = {
 						"Cell Default", -- [1]
 						10, -- [2]
 						"None", -- [3]
 						true, -- [4]
 					},
+					["frameLevel"] = 2,
 				}, -- [3]
 				{
 					["enabled"] = false,
@@ -640,9 +711,8 @@ MaddinUI.profileData.Cell_Ascension = {
 							["DAMAGER"] = true,
 							["TANK"] = true,
 						},
-						["PALADIN"] = {
+						["SHAMAN"] = {
 							["DAMAGER"] = true,
-							["TANK"] = true,
 							["HEALER"] = true,
 						},
 						["MAGE"] = true,
@@ -651,22 +721,23 @@ MaddinUI.profileData.Cell_Ascension = {
 							["DAMAGER"] = true,
 							["HEALER"] = true,
 						},
-						["DEATHKNIGHT"] = {
+						["PALADIN"] = {
 							["DAMAGER"] = true,
 							["TANK"] = true,
+							["HEALER"] = true,
 						},
 						["WARLOCK"] = true,
-						["ROGUE"] = true,
+						["NPC"] = true,
 						["PET"] = true,
 						["DRUID"] = {
 							["DAMAGER"] = true,
 							["TANK"] = true,
 							["HEALER"] = true,
 						},
-						["NPC"] = true,
-						["SHAMAN"] = {
+						["ROGUE"] = true,
+						["DEATHKNIGHT"] = {
 							["DAMAGER"] = true,
-							["HEALER"] = true,
+							["TANK"] = true,
 						},
 					},
 				}, -- [4]
@@ -675,7 +746,6 @@ MaddinUI.profileData.Cell_Ascension = {
 					["type"] = "built-in",
 					["name"] = "Health Thresholds",
 					["indicatorName"] = "healthThresholds",
-					["thickness"] = 1,
 					["thresholds"] = {
 						{
 							0.35, -- [1]
@@ -687,6 +757,7 @@ MaddinUI.profileData.Cell_Ascension = {
 							}, -- [2]
 						}, -- [1]
 					},
+					["thickness"] = 1,
 				}, -- [5]
 				{
 					["enabled"] = true,
@@ -708,7 +779,7 @@ MaddinUI.profileData.Cell_Ascension = {
 				}, -- [6]
 				{
 					["enabled"] = true,
-					["type"] = "built-in",
+					["hideDamager"] = true,
 					["frameLevel"] = 5,
 					["name"] = "Role Icon",
 					["position"] = {
@@ -719,16 +790,16 @@ MaddinUI.profileData.Cell_Ascension = {
 						-1, -- [5]
 					},
 					["indicatorName"] = "roleIcon",
-					["size"] = {
-						15, -- [1]
-						15, -- [2]
-					},
-					["hideDamager"] = true,
 					["roleTexture"] = {
 						"miirgui", -- [1]
 						"Interface\\AddOns\\Cell_Ascension\\Media\\Roles\\Default_TANK.tga", -- [2]
 						"Interface\\AddOns\\Cell_Ascension\\Media\\Roles\\Default_HEALER.tga", -- [3]
 						"Interface\\AddOns\\Cell_Ascension\\Media\\Roles\\Default_DAMAGER.tga", -- [4]
+					},
+					["type"] = "built-in",
+					["size"] = {
+						15, -- [1]
+						15, -- [2]
 					},
 				}, -- [7]
 				{
@@ -865,8 +936,8 @@ MaddinUI.profileData.Cell_Ascension = {
 					["type"] = "built-in",
 					["name"] = "Aggro (border)",
 					["indicatorName"] = "aggroBorder",
-					["frameLevel"] = 3,
 					["thickness"] = 2,
+					["frameLevel"] = 3,
 				}, -- [15]
 				{
 					["enabled"] = false,
@@ -887,8 +958,8 @@ MaddinUI.profileData.Cell_Ascension = {
 						0, -- [5]
 					},
 					["indicatorName"] = "shieldBar",
-					["height"] = 4,
 					["onlyShowOvershields"] = false,
+					["height"] = 4,
 				}, -- [16]
 				{
 					["enabled"] = false,
@@ -914,27 +985,19 @@ MaddinUI.profileData.Cell_Ascension = {
 					["type"] = "built-in",
 					["name"] = "AoE Healing",
 					["indicatorName"] = "aoeHealing",
-					["height"] = 10,
 					["color"] = {
 						1, -- [1]
 						1, -- [2]
 						0, -- [3]
 					},
+					["height"] = 10,
 				}, -- [18]
 				{
 					["enabled"] = true,
 					["showDuration"] = false,
 					["frameLevel"] = 10,
 					["type"] = "built-in",
-					["glowOptions"] = {
-						"None", -- [1]
-						{
-							0.95, -- [1]
-							0.95, -- [2]
-							0.32, -- [3]
-							1, -- [4]
-						}, -- [2]
-					},
+					["orientation"] = "right-to-left",
 					["showAnimation"] = true,
 					["font"] = {
 						{
@@ -976,7 +1039,15 @@ MaddinUI.profileData.Cell_Ascension = {
 					},
 					["indicatorName"] = "externalCooldowns",
 					["num"] = 2,
-					["orientation"] = "right-to-left",
+					["glowOptions"] = {
+						"None", -- [1]
+						{
+							0.95, -- [1]
+							0.95, -- [2]
+							0.32, -- [3]
+							1, -- [4]
+						}, -- [2]
+					},
 					["size"] = {
 						12, -- [1]
 						20, -- [2]
@@ -987,15 +1058,7 @@ MaddinUI.profileData.Cell_Ascension = {
 					["showDuration"] = false,
 					["frameLevel"] = 10,
 					["type"] = "built-in",
-					["glowOptions"] = {
-						"None", -- [1]
-						{
-							0.95, -- [1]
-							0.95, -- [2]
-							0.32, -- [3]
-							1, -- [4]
-						}, -- [2]
-					},
+					["orientation"] = "left-to-right",
 					["showAnimation"] = true,
 					["font"] = {
 						{
@@ -1037,7 +1100,15 @@ MaddinUI.profileData.Cell_Ascension = {
 					},
 					["indicatorName"] = "defensiveCooldowns",
 					["num"] = 2,
-					["orientation"] = "left-to-right",
+					["glowOptions"] = {
+						"None", -- [1]
+						{
+							0.95, -- [1]
+							0.95, -- [2]
+							0.32, -- [3]
+							1, -- [4]
+						}, -- [2]
+					},
 					["size"] = {
 						12, -- [1]
 						20, -- [2]
@@ -1048,15 +1119,7 @@ MaddinUI.profileData.Cell_Ascension = {
 					["showDuration"] = false,
 					["frameLevel"] = 10,
 					["type"] = "built-in",
-					["glowOptions"] = {
-						"None", -- [1]
-						{
-							0.95, -- [1]
-							0.95, -- [2]
-							0.32, -- [3]
-							1, -- [4]
-						}, -- [2]
-					},
+					["orientation"] = "left-to-right",
 					["showAnimation"] = true,
 					["font"] = {
 						{
@@ -1098,7 +1161,15 @@ MaddinUI.profileData.Cell_Ascension = {
 					},
 					["indicatorName"] = "allCooldowns",
 					["num"] = 2,
-					["orientation"] = "left-to-right",
+					["glowOptions"] = {
+						"None", -- [1]
+						{
+							0.95, -- [1]
+							0.95, -- [2]
+							0.32, -- [3]
+							1, -- [4]
+						}, -- [2]
+					},
 					["size"] = {
 						12, -- [1]
 						20, -- [2]
@@ -1108,9 +1179,13 @@ MaddinUI.profileData.Cell_Ascension = {
 					["enabled"] = true,
 					["type"] = "built-in",
 					["frameLevel"] = 15,
-					["size"] = {
-						12, -- [1]
-						12, -- [2]
+					["filters"] = {
+						["dispellableByMe"] = false,
+						["Disease"] = true,
+						["Bleed"] = true,
+						["Curse"] = true,
+						["Magic"] = true,
+						["Poison"] = true,
 					},
 					["iconStyle"] = "blizzard",
 					["name"] = "Dispels",
@@ -1121,33 +1196,23 @@ MaddinUI.profileData.Cell_Ascension = {
 						0, -- [4]
 						4, -- [5]
 					},
-					["indicatorName"] = "dispels",
-					["highlightType"] = "gradient-half",
 					["orientation"] = "right-to-left",
-					["filters"] = {
-						["dispellableByMe"] = false,
-						["Disease"] = true,
-						["Bleed"] = true,
-						["Curse"] = true,
-						["Magic"] = true,
-						["Poison"] = true,
+					["highlightType"] = "gradient-half",
+					["indicatorName"] = "dispels",
+					["size"] = {
+						12, -- [1]
+						12, -- [2]
 					},
 				}, -- [22]
 				{
-					["dispellableByMe"] = false,
-					["type"] = "built-in",
+					["enabled"] = true,
+					["showDuration"] = false,
 					["frameLevel"] = 5,
 					["showJumpingAnimation"] = false,
-					["showDuration"] = false,
+					["type"] = "built-in",
 					["enableBlacklistShortcut"] = false,
-					["num"] = 3,
-					["position"] = {
-						"BOTTOMLEFT", -- [1]
-						"button", -- [2]
-						"BOTTOMLEFT", -- [3]
-						0, -- [4]
-						0, -- [5]
-					},
+					["dispellableByMe"] = false,
+					["orientation"] = "left-to-right",
 					["showAnimation"] = true,
 					["font"] = {
 						{
@@ -1180,10 +1245,16 @@ MaddinUI.profileData.Cell_Ascension = {
 						}, -- [2]
 					},
 					["name"] = "Debuffs",
-					["showTooltip"] = false,
+					["position"] = {
+						"BOTTOMLEFT", -- [1]
+						"button", -- [2]
+						"BOTTOMLEFT", -- [3]
+						0, -- [4]
+						0, -- [5]
+					},
 					["indicatorName"] = "debuffs",
-					["orientation"] = "left-to-right",
-					["enabled"] = true,
+					["showTooltip"] = false,
+					["num"] = 3,
 					["size"] = {
 						{
 							19, -- [1]
@@ -1199,10 +1270,10 @@ MaddinUI.profileData.Cell_Ascension = {
 					["enabled"] = true,
 					["num"] = 1,
 					["frameLevel"] = 20,
-					["showDuration"] = true,
-					["border"] = 2,
 					["type"] = "built-in",
-					["showTooltip"] = false,
+					["border"] = 2,
+					["showDuration"] = true,
+					["orientation"] = "left-to-right",
 					["font"] = {
 						{
 							"Cell Default", -- [1]
@@ -1234,6 +1305,8 @@ MaddinUI.profileData.Cell_Ascension = {
 						}, -- [2]
 					},
 					["name"] = "Raid Debuffs",
+					["showTooltip"] = false,
+					["indicatorName"] = "raidDebuffs",
 					["position"] = {
 						"CENTER", -- [1]
 						"button", -- [2]
@@ -1241,8 +1314,6 @@ MaddinUI.profileData.Cell_Ascension = {
 						0, -- [4]
 						3, -- [5]
 					},
-					["indicatorName"] = "raidDebuffs",
-					["orientation"] = "left-to-right",
 					["onlyShowTopGlow"] = false,
 					["size"] = {
 						22, -- [1]
@@ -1254,7 +1325,7 @@ MaddinUI.profileData.Cell_Ascension = {
 					["type"] = "built-in",
 					["frameLevel"] = 50,
 					["border"] = 2,
-					["indicatorName"] = "targetedSpells",
+					["orientation"] = "left-to-right",
 					["font"] = {
 						"Cell Default", -- [1]
 						12, -- [2]
@@ -1277,9 +1348,9 @@ MaddinUI.profileData.Cell_Ascension = {
 						-4, -- [4]
 						4, -- [5]
 					},
-					["orientation"] = "left-to-right",
-					["showAllSpells"] = false,
+					["indicatorName"] = "targetedSpells",
 					["num"] = 1,
+					["showAllSpells"] = false,
 					["size"] = {
 						20, -- [1]
 						20, -- [2]
@@ -1311,8 +1382,8 @@ MaddinUI.profileData.Cell_Ascension = {
 					["indicatorName"] = "targetCounter",
 					["filters"] = {
 						["pve"] = false,
-						["outdoor"] = false,
 						["pvp"] = true,
+						["outdoor"] = false,
 					},
 				}, -- [26]
 				{
@@ -1320,7 +1391,7 @@ MaddinUI.profileData.Cell_Ascension = {
 					["type"] = "built-in",
 					["frameLevel"] = 10,
 					["border"] = 2,
-					["indicatorName"] = "crowdControls",
+					["orientation"] = "left-to-right",
 					["font"] = {
 						{
 							"Cell Default", -- [1]
@@ -1359,9 +1430,9 @@ MaddinUI.profileData.Cell_Ascension = {
 						15, -- [4]
 						-4, -- [5]
 					},
-					["orientation"] = "left-to-right",
-					["num"] = 2,
+					["indicatorName"] = "crowdControls",
 					["showDuration"] = false,
+					["num"] = 2,
 					["size"] = {
 						20, -- [1]
 						20, -- [2]
@@ -1442,6 +1513,7 @@ MaddinUI.profileData.Cell_Ascension = {
 						803552, -- [11]
 						800347, -- [12]
 						801709, -- [13]
+						800857, -- [14]
 					},
 					["showAnimation"] = true,
 					["showStack"] = true,
@@ -1458,8 +1530,8 @@ MaddinUI.profileData.Cell_Ascension = {
 					["type"] = "icons",
 					["frameLevel"] = 5,
 					["auraType"] = "buff",
-					["castBy"] = "me",
-					["showJumpingAnimation"] = false,
+					["numPerLine"] = 5,
+					["num"] = 5,
 					["font"] = {
 						{
 							"Cell Default", -- [1]
@@ -1500,32 +1572,36 @@ MaddinUI.profileData.Cell_Ascension = {
 					},
 					["orientation"] = "right-to-left",
 					["trackByName"] = true,
-					["numPerLine"] = 5,
-					["num"] = 5,
+					["showJumpingAnimation"] = false,
+					["castBy"] = "me",
 				}, -- [31]
-			},
-			["barOrientation"] = {
-				"horizontal", -- [1]
-				false, -- [2]
-			},
-			["spotlight"] = {
-				["enabled"] = false,
-				["spacingY"] = 3,
-				["spacingX"] = 3,
-				["units"] = {
-				},
-				["position"] = {
-				},
-				["sameSizeAsMain"] = true,
-				["sameArrangementAsMain"] = true,
-				["hidePlaceholder"] = false,
-				["orientation"] = "vertical",
-				["anchor"] = "TOPLEFT",
-				["powerSize"] = 2,
-				["size"] = {
-					66, -- [1]
-					46, -- [2]
-				},
+				{
+					["enabled"] = false,
+					["type"] = "glow",
+					["frameLevel"] = 1,
+					["auraType"] = "buff",
+					["auras"] = {
+						800857, -- [1]
+					},
+					["name"] = "AR Glow",
+					["glowOptions"] = {
+						"Pixel", -- [1]
+						{
+							0.95, -- [1]
+							0.95, -- [2]
+							0.32, -- [3]
+							1, -- [4]
+						}, -- [2]
+						14, -- [3]
+						0.13, -- [4]
+						6, -- [5]
+						1, -- [6]
+					},
+					["indicatorName"] = "indicator2",
+					["trackByName"] = true,
+					["fadeOut"] = false,
+					["castBy"] = "me",
+				}, -- [32]
 			},
 			["powerFilters"] = {
 				["HUNTER"] = true,
@@ -1533,9 +1609,8 @@ MaddinUI.profileData.Cell_Ascension = {
 					["DAMAGER"] = true,
 					["TANK"] = true,
 				},
-				["PALADIN"] = {
+				["SHAMAN"] = {
 					["DAMAGER"] = true,
-					["TANK"] = true,
 					["HEALER"] = true,
 				},
 				["MAGE"] = true,
@@ -1544,239 +1619,192 @@ MaddinUI.profileData.Cell_Ascension = {
 					["DAMAGER"] = true,
 					["HEALER"] = true,
 				},
-				["DEATHKNIGHT"] = {
+				["PALADIN"] = {
 					["DAMAGER"] = true,
 					["TANK"] = true,
+					["HEALER"] = true,
 				},
 				["WARLOCK"] = true,
-				["ROGUE"] = true,
+				["NPC"] = true,
 				["PET"] = true,
 				["DRUID"] = {
 					["DAMAGER"] = true,
 					["TANK"] = true,
 					["HEALER"] = true,
 				},
-				["NPC"] = true,
-				["SHAMAN"] = {
+				["ROGUE"] = true,
+				["DEATHKNIGHT"] = {
 					["DAMAGER"] = true,
-					["HEALER"] = true,
+					["TANK"] = true,
 				},
 			},
-			["groupFilter"] = {
-				true, -- [1]
-				true, -- [2]
-				true, -- [3]
-				true, -- [4]
-				true, -- [5]
-				true, -- [6]
-				true, -- [7]
-				true, -- [8]
-			},
-			["main"] = {
-				["spacingY"] = 1,
-				["hideSelf"] = false,
-				["spacingX"] = 1,
-				["unitsPerColumn"] = 5,
-				["combineGroups"] = false,
-				["sortByRole"] = true,
-				["maxColumns"] = 8,
-				["roleOrder"] = {
-					"HEALER", -- [1]
-					"TANK", -- [2]
-					"DAMAGER", -- [3]
+			["spotlight"] = {
+				["sameArrangementAsMain"] = true,
+				["spacingY"] = 3,
+				["spacingX"] = 3,
+				["units"] = {
 				},
-				["orientation"] = "horizontal",
-				["position"] = {
-					"BOTTOM", -- [1]
-					-288, -- [2]
-					432, -- [3]
-				},
+				["enabled"] = false,
+				["sameSizeAsMain"] = true,
 				["anchor"] = "TOPLEFT",
-				["groupSpacing"] = 0,
-				["powerSize"] = 0,
+				["position"] = {
+				},
+				["orientation"] = "vertical",
+				["hidePlaceholder"] = false,
+				["powerSize"] = 2,
 				["size"] = {
-					111, -- [1]
-					65, -- [2]
+					66, -- [1]
+					46, -- [2]
+				},
+			},
+			["barOrientation"] = {
+				"horizontal", -- [1]
+				false, -- [2]
+			},
+			["pet"] = {
+				["sameArrangementAsMain"] = true,
+				["spacingY"] = 3,
+				["spacingX"] = 3,
+				["partyEnabled"] = false,
+				["anchor"] = "TOPLEFT",
+				["powerSize"] = 2,
+				["sameSizeAsMain"] = true,
+				["orientation"] = "vertical",
+				["position"] = {
+				},
+				["raidEnabled"] = false,
+				["size"] = {
+					66, -- [1]
+					46, -- [2]
+				},
+			},
+			["npc"] = {
+				["sameArrangementAsMain"] = true,
+				["spacingY"] = 3,
+				["separate"] = false,
+				["spacingX"] = 3,
+				["enabled"] = true,
+				["anchor"] = "TOPLEFT",
+				["sameSizeAsMain"] = true,
+				["orientation"] = "vertical",
+				["position"] = {
+				},
+				["powerSize"] = 2,
+				["size"] = {
+					66, -- [1]
+					46, -- [2]
 				},
 			},
 		},
 	},
-	["appearance"] = {
-		["optionsFontSizeOffset"] = 0,
-		["strata"] = "LOW",
-		["auraIconOptions"] = {
-			["durationColorEnabled"] = false,
-			["durationDecimal"] = 0,
-			["animation"] = "duration",
-			["durationRoundUp"] = false,
-			["durationColors"] = {
-				{
-					0, -- [1]
-					1, -- [2]
-					0, -- [3]
-				}, -- [1]
-				{
-					1, -- [1]
-					1, -- [2]
-					0, -- [3]
-					0.5, -- [4]
-				}, -- [2]
+	["debuffTypeColor"] = {
+		[""] = {
+			["b"] = 0,
+			["g"] = 0,
+			["r"] = 0.8,
+		},
+		["Disease"] = {
+			["b"] = 0,
+			["g"] = 0.4,
+			["r"] = 0.6,
+		},
+		["Bleed"] = {
+			["r"] = 1,
+			["g"] = 0.2,
+			["b"] = 0.6,
+		},
+		["Poison"] = {
+			["b"] = 0,
+			["g"] = 0.6,
+			["r"] = 0,
+		},
+		["Curse"] = {
+			["b"] = 1,
+			["g"] = 0,
+			["r"] = 0.6,
+		},
+		["Magic"] = {
+			["b"] = 1,
+			["g"] = 0.6,
+			["r"] = 0.2,
+		},
+		["none"] = {
+			["b"] = 0,
+			["g"] = 0,
+			["r"] = 0.8,
+		},
+	},
+	["crowdControls"] = {
+		["disabled"] = {
+		},
+		["custom"] = {
+		},
+	},
+	["defensives"] = {
+		["disabled"] = {
+		},
+		["custom"] = {
+		},
+	},
+	["raidDebuffs"] = {
+	},
+	["aoeHealings"] = {
+		["disabled"] = {
+		},
+		["custom"] = {
+		},
+	},
+	["dispelRequest"] = {
+		["enabled"] = false,
+		["debuffs"] = {
+		},
+		["timeout"] = 10,
+		["responseType"] = "all",
+		["dispellableByMe"] = true,
+		["textOptions"] = {
+			"A", -- [1]
+			{
+				1, -- [1]
+				1, -- [2]
+				1, -- [3]
+				1, -- [4]
+			}, -- [2]
+			32, -- [3]
+			"TOPLEFT", -- [4]
+			"TOPLEFT", -- [5]
+			-1, -- [6]
+			5, -- [7]
+		},
+		["type"] = "text",
+		["glowOptions"] = {
+			"shine", -- [1]
+			{
 				{
 					1, -- [1]
 					0, -- [2]
-					0, -- [3]
-					3, -- [4]
-				}, -- [3]
-			},
-		},
-		["bgAlpha"] = 0.45,
-		["shield"] = {
-			true, -- [1]
-			{
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				0.4, -- [4]
+					0.4, -- [3]
+					1, -- [4]
+				}, -- [1]
+				0, -- [2]
+				0, -- [3]
+				9, -- [4]
+				0.5, -- [5]
+				2, -- [6]
 			}, -- [2]
 		},
-		["targetColor"] = {
-			1, -- [1]
-			0.31, -- [2]
-			0.31, -- [3]
+	},
+	["targetedSpellsGlow"] = {
+		"Pixel", -- [1]
+		{
+			0.95, -- [1]
+			0.95, -- [2]
+			0.32, -- [3]
 			1, -- [4]
-		},
-		["texture"] = "Solid",
-		["outOfRangeAlpha"] = 0.45,
-		["overshieldReverseFill"] = true,
-		["overshield"] = {
-			false, -- [1]
-			{
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				1, -- [4]
-			}, -- [2]
-		},
-		["barAnimation"] = "Flash",
-		["powerColor"] = {
-			"power_color", -- [1]
-			{
-				0.7, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-			}, -- [2]
-		},
-		["scale"] = 1,
-		["lossColor"] = {
-			"custom", -- [1]
-			{
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-			}, -- [2]
-		},
-		["colorThresholds"] = {
-			{
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-			}, -- [1]
-			{
-				1, -- [1]
-				0.7, -- [2]
-				0, -- [3]
-			}, -- [2]
-			{
-				0.7, -- [1]
-				1, -- [2]
-				0, -- [3]
-			}, -- [3]
-			0.05, -- [4]
-			0.95, -- [5]
-			true, -- [6]
-		},
-		["barColor"] = {
-			"custom", -- [1]
-			{
-				0, -- [1]
-				0, -- [2]
-				0, -- [3]
-			}, -- [2]
-		},
-		["highlightSize"] = -1,
-		["healPrediction"] = {
-			true, -- [1]
-			false, -- [2]
-			{
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				0.4, -- [4]
-			}, -- [3]
-		},
-		["mouseoverColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			0.6, -- [4]
-		},
-		["useGameFont"] = true,
-		["lossAlpha"] = 1,
-		["deathColor"] = {
-			true, -- [1]
-			{
-				0.7300000190734863, -- [1]
-				0, -- [2]
-				0, -- [3]
-			}, -- [2]
-		},
-		["accentColor"] = {
-			"class_color", -- [1]
-			{
-				1, -- [1]
-				0.26667, -- [2]
-				0.4, -- [3]
-			}, -- [2]
-		},
-		["healAbsorbInvertColor"] = false,
-		["colorThresholdsLoss"] = {
-			{
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-			}, -- [1]
-			{
-				1, -- [1]
-				0.7, -- [2]
-				0, -- [3]
-			}, -- [2]
-			{
-				0.7, -- [1]
-				1, -- [2]
-				0, -- [3]
-			}, -- [3]
-			0.05, -- [4]
-			0.95, -- [5]
-			true, -- [6]
-		},
-		["healAbsorb"] = {
-			false, -- [1]
-			{
-				1, -- [1]
-				0.1, -- [2]
-				0.1, -- [3]
-				1, -- [4]
-			}, -- [2]
-		},
-		["barAlpha"] = 0.45,
-		["fullColor"] = {
-			false, -- [1]
-			{
-				0.2, -- [1]
-				0.2, -- [2]
-				0.2, -- [3]
-			}, -- [2]
-		},
+		}, -- [2]
+		9, -- [3]
+		0.25, -- [4]
+		8, -- [5]
+		2, -- [6]
 	},
 	["revise"] = "r1.0.6-release",
 	["targetedSpellsList"] = {
