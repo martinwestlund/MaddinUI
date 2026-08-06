@@ -1,7 +1,5 @@
 local MaddinUI = _G.MaddinUI
-if not MaddinUI then
-    return
-end
+if not MaddinUI then return end
 
 MaddinUI.profileData = MaddinUI.profileData or {}
 MaddinUI.profileData.Cell_Ascension = {
@@ -120,86 +118,7 @@ MaddinUI.profileData.Cell_Ascension = {
 		57723, -- [2]
 		57724, -- [3]
 	},
-	["spellRequest"] = {
-		["enabled"] = false,
-		["timeout"] = 10,
-		["checkIfExists"] = true,
-		["spells"] = {
-			{
-				["glowOptions"] = {
-					"pixel", -- [1]
-					{
-						{
-							1, -- [1]
-							1, -- [2]
-							0, -- [3]
-							1, -- [4]
-						}, -- [1]
-						0, -- [2]
-						0, -- [3]
-						9, -- [4]
-						0.25, -- [5]
-						8, -- [6]
-						2, -- [7]
-					}, -- [2]
-				},
-				["type"] = "icon",
-				["spellId"] = 10060,
-				["isBuiltIn"] = true,
-				["buffId"] = 10060,
-				["keywords"] = "Power Infusion",
-				["icon"] = "Interface\\Icons\\Spell_Holy_PowerInfusion",
-				["iconColor"] = {
-					1, -- [1]
-					1, -- [2]
-					0, -- [3]
-					1, -- [4]
-				},
-			}, -- [1]
-			{
-				["glowOptions"] = {
-					"pixel", -- [1]
-					{
-						{
-							0, -- [1]
-							1, -- [2]
-							1, -- [3]
-							1, -- [4]
-						}, -- [1]
-						0, -- [2]
-						0, -- [3]
-						9, -- [4]
-						0.25, -- [5]
-						8, -- [6]
-						2, -- [7]
-					}, -- [2]
-				},
-				["type"] = "icon",
-				["spellId"] = 29166,
-				["isBuiltIn"] = true,
-				["buffId"] = 29166,
-				["keywords"] = "Innervate",
-				["icon"] = "Interface\\Icons\\Spell_Nature_Lightning",
-				["iconColor"] = {
-					0, -- [1]
-					1, -- [2]
-					1, -- [3]
-					1, -- [4]
-				},
-			}, -- [2]
-		},
-		["sharedIconOptions"] = {
-			"beat", -- [1]
-			27, -- [2]
-			"BOTTOMRIGHT", -- [3]
-			"BOTTOMRIGHT", -- [4]
-			0, -- [5]
-			0, -- [6]
-		},
-		["knownSpellsOnly"] = true,
-		["responseType"] = "me",
-		["replyCooldown"] = true,
-		["freeCooldownOnly"] = true,
+	["dispelBlacklist"] = {
 	},
 	["changelogsViewed"] = "r1.0.6-release",
 	["tools"] = {
@@ -256,7 +175,86 @@ MaddinUI.profileData.Cell_Ascension = {
 			["code"] = "-- snippets can be found at https://github.com/enderneko/Cell/tree/master/.snippets\n-- use \"/run CellDB['snippets'][0]=nil ReloadUI()\" to reset this snippet\n\n-- cooldown style for icon/block indicators (\"VERTICAL\", \"CLOCK\")\nCELL_COOLDOWN_STYLE = \"VERTICAL\"\n\n-- fade out unit button if hp percent > (number: 0-1)\nCELL_FADE_OUT_HEALTH_PERCENT = nil\n\n-- add summon icons to Status Icon indicator (boolean, retail only)\nCELL_SUMMON_ICONS_ENABLED = false\n\n-- use separate width and height for custom indicator icons (boolean)\nCELL_RECTANGULAR_CUSTOM_INDICATOR_ICONS = false\n\n-- Use nicknames from Details! Damage Meter (boolean, NickTag-1.0 library)\nCELL_NICKTAG_ENABLED = false\n\n-- remove raid setup details from the tooltip of the Raid button (boolean)\nCELL_TOOLTIP_REMOVE_RAID_SETUP_DETAILS = false\n\n-- border thickness: unit button and icon (number)\nCELL_BORDER_SIZE = 1\n\n-- unit button border color ({r, g, b, a}, number: 0-1)\nCELL_BORDER_COLOR = {0, 0, 0, 1}\n\n-- show raid pet owner name (\"VEHICLE\", \"NAME\", nil)\nCELL_SHOW_GROUP_PET_OWNER_NAME = nil\n\n-- use LibHealComm (boolean, non-retail)\nCELL_USE_LIBHEALCOMM = true -- Auto-fixed for standard WotLK",
 		},
 	},
-	["dispelBlacklist"] = {
+	["spellRequest"] = {
+		["enabled"] = false,
+		["timeout"] = 10,
+		["responseType"] = "me",
+		["spells"] = {
+			{
+				["glowOptions"] = {
+					"pixel", -- [1]
+					{
+						{
+							1, -- [1]
+							1, -- [2]
+							0, -- [3]
+							1, -- [4]
+						}, -- [1]
+						0, -- [2]
+						0, -- [3]
+						9, -- [4]
+						0.25, -- [5]
+						8, -- [6]
+						2, -- [7]
+					}, -- [2]
+				},
+				["type"] = "icon",
+				["spellId"] = 10060,
+				["isBuiltIn"] = true,
+				["iconColor"] = {
+					1, -- [1]
+					1, -- [2]
+					0, -- [3]
+					1, -- [4]
+				},
+				["buffId"] = 10060,
+				["icon"] = "Interface\\Icons\\Spell_Holy_PowerInfusion",
+				["keywords"] = "Power Infusion",
+			}, -- [1]
+			{
+				["glowOptions"] = {
+					"pixel", -- [1]
+					{
+						{
+							0, -- [1]
+							1, -- [2]
+							1, -- [3]
+							1, -- [4]
+						}, -- [1]
+						0, -- [2]
+						0, -- [3]
+						9, -- [4]
+						0.25, -- [5]
+						8, -- [6]
+						2, -- [7]
+					}, -- [2]
+				},
+				["type"] = "icon",
+				["spellId"] = 29166,
+				["isBuiltIn"] = true,
+				["iconColor"] = {
+					0, -- [1]
+					1, -- [2]
+					1, -- [3]
+					1, -- [4]
+				},
+				["buffId"] = 29166,
+				["icon"] = "Interface\\Icons\\Spell_Nature_Lightning",
+				["keywords"] = "Innervate",
+			}, -- [2]
+		},
+		["sharedIconOptions"] = {
+			"beat", -- [1]
+			27, -- [2]
+			"BOTTOMRIGHT", -- [3]
+			"BOTTOMRIGHT", -- [4]
+			0, -- [5]
+			0, -- [6]
+		},
+		["knownSpellsOnly"] = true,
+		["checkIfExists"] = true,
+		["replyCooldown"] = true,
+		["freeCooldownOnly"] = true,
 	},
 	["indicatorPreview"] = {
 		["scale"] = 2,
@@ -304,7 +302,15 @@ MaddinUI.profileData.Cell_Ascension = {
 			},
 		},
 		["bgAlpha"] = 0.45,
-		["scale"] = 1,
+		["shield"] = {
+			true, -- [1]
+			{
+				1, -- [1]
+				1, -- [2]
+				1, -- [3]
+				0.4, -- [4]
+			}, -- [2]
+		},
 		["targetColor"] = {
 			1, -- [1]
 			0.31, -- [2]
@@ -332,15 +338,7 @@ MaddinUI.profileData.Cell_Ascension = {
 		},
 		["barAnimation"] = "Flash",
 		["texture"] = "Solid",
-		["shield"] = {
-			true, -- [1]
-			{
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				0.4, -- [4]
-			}, -- [2]
-		},
+		["scale"] = 1,
 		["healPrediction"] = {
 			false, -- [1]
 			false, -- [2]
@@ -462,9 +460,9 @@ MaddinUI.profileData.Cell_Ascension = {
 				},
 				["spacingX"] = 1,
 				["unitsPerColumn"] = 5,
-				["combineGroups"] = false,
-				["groupSpacing"] = 0,
 				["maxColumns"] = 8,
+				["groupSpacing"] = 0,
+				["combineGroups"] = false,
 				["roleOrder"] = {
 					"HEALER", -- [1]
 					"TANK", -- [2]
@@ -706,7 +704,10 @@ MaddinUI.profileData.Cell_Ascension = {
 					["format"] = "number",
 					["hideIfEmptyOrFull"] = true,
 					["filters"] = {
-						["HUNTER"] = true,
+						["DEATHKNIGHT"] = {
+							["DAMAGER"] = true,
+							["TANK"] = true,
+						},
 						["WARRIOR"] = {
 							["DAMAGER"] = true,
 							["TANK"] = true,
@@ -735,10 +736,7 @@ MaddinUI.profileData.Cell_Ascension = {
 							["HEALER"] = true,
 						},
 						["ROGUE"] = true,
-						["DEATHKNIGHT"] = {
-							["DAMAGER"] = true,
-							["TANK"] = true,
-						},
+						["HUNTER"] = true,
 					},
 				}, -- [4]
 				{
@@ -779,7 +777,7 @@ MaddinUI.profileData.Cell_Ascension = {
 				}, -- [6]
 				{
 					["enabled"] = true,
-					["hideDamager"] = true,
+					["type"] = "built-in",
 					["frameLevel"] = 5,
 					["name"] = "Role Icon",
 					["position"] = {
@@ -796,7 +794,7 @@ MaddinUI.profileData.Cell_Ascension = {
 						"Interface\\AddOns\\Cell_Ascension\\Media\\Roles\\Default_HEALER.tga", -- [3]
 						"Interface\\AddOns\\Cell_Ascension\\Media\\Roles\\Default_DAMAGER.tga", -- [4]
 					},
-					["type"] = "built-in",
+					["hideDamager"] = true,
 					["size"] = {
 						15, -- [1]
 						15, -- [2]
@@ -993,7 +991,15 @@ MaddinUI.profileData.Cell_Ascension = {
 					["height"] = 10,
 				}, -- [18]
 				{
-					["enabled"] = true,
+					["glowOptions"] = {
+						"None", -- [1]
+						{
+							0.95, -- [1]
+							0.95, -- [2]
+							0.32, -- [3]
+							1, -- [4]
+						}, -- [2]
+					},
 					["showDuration"] = false,
 					["frameLevel"] = 10,
 					["type"] = "built-in",
@@ -1039,6 +1045,13 @@ MaddinUI.profileData.Cell_Ascension = {
 					},
 					["indicatorName"] = "externalCooldowns",
 					["num"] = 2,
+					["enabled"] = true,
+					["size"] = {
+						12, -- [1]
+						20, -- [2]
+					},
+				}, -- [19]
+				{
 					["glowOptions"] = {
 						"None", -- [1]
 						{
@@ -1048,13 +1061,6 @@ MaddinUI.profileData.Cell_Ascension = {
 							1, -- [4]
 						}, -- [2]
 					},
-					["size"] = {
-						12, -- [1]
-						20, -- [2]
-					},
-				}, -- [19]
-				{
-					["enabled"] = true,
 					["showDuration"] = false,
 					["frameLevel"] = 10,
 					["type"] = "built-in",
@@ -1100,6 +1106,13 @@ MaddinUI.profileData.Cell_Ascension = {
 					},
 					["indicatorName"] = "defensiveCooldowns",
 					["num"] = 2,
+					["enabled"] = true,
+					["size"] = {
+						12, -- [1]
+						20, -- [2]
+					},
+				}, -- [20]
+				{
 					["glowOptions"] = {
 						"None", -- [1]
 						{
@@ -1109,13 +1122,6 @@ MaddinUI.profileData.Cell_Ascension = {
 							1, -- [4]
 						}, -- [2]
 					},
-					["size"] = {
-						12, -- [1]
-						20, -- [2]
-					},
-				}, -- [20]
-				{
-					["enabled"] = false,
 					["showDuration"] = false,
 					["frameLevel"] = 10,
 					["type"] = "built-in",
@@ -1161,15 +1167,7 @@ MaddinUI.profileData.Cell_Ascension = {
 					},
 					["indicatorName"] = "allCooldowns",
 					["num"] = 2,
-					["glowOptions"] = {
-						"None", -- [1]
-						{
-							0.95, -- [1]
-							0.95, -- [2]
-							0.32, -- [3]
-							1, -- [4]
-						}, -- [2]
-					},
+					["enabled"] = false,
 					["size"] = {
 						12, -- [1]
 						20, -- [2]
@@ -1196,9 +1194,9 @@ MaddinUI.profileData.Cell_Ascension = {
 						0, -- [4]
 						4, -- [5]
 					},
-					["orientation"] = "right-to-left",
-					["highlightType"] = "gradient-half",
 					["indicatorName"] = "dispels",
+					["highlightType"] = "gradient-half",
+					["orientation"] = "right-to-left",
 					["size"] = {
 						12, -- [1]
 						12, -- [2]
@@ -1206,10 +1204,10 @@ MaddinUI.profileData.Cell_Ascension = {
 				}, -- [22]
 				{
 					["enabled"] = true,
-					["showDuration"] = false,
+					["type"] = "built-in",
 					["frameLevel"] = 5,
 					["showJumpingAnimation"] = false,
-					["type"] = "built-in",
+					["num"] = 3,
 					["enableBlacklistShortcut"] = false,
 					["dispellableByMe"] = false,
 					["orientation"] = "left-to-right",
@@ -1254,7 +1252,7 @@ MaddinUI.profileData.Cell_Ascension = {
 					},
 					["indicatorName"] = "debuffs",
 					["showTooltip"] = false,
-					["num"] = 3,
+					["showDuration"] = false,
 					["size"] = {
 						{
 							19, -- [1]
@@ -1270,9 +1268,9 @@ MaddinUI.profileData.Cell_Ascension = {
 					["enabled"] = true,
 					["num"] = 1,
 					["frameLevel"] = 20,
-					["type"] = "built-in",
-					["border"] = 2,
 					["showDuration"] = true,
+					["border"] = 2,
+					["type"] = "built-in",
 					["orientation"] = "left-to-right",
 					["font"] = {
 						{
@@ -1514,6 +1512,11 @@ MaddinUI.profileData.Cell_Ascension = {
 						800347, -- [12]
 						801709, -- [13]
 						800857, -- [14]
+						502951, -- [15]
+						502975, -- [16]
+						800901, -- [17]
+						800939, -- [18]
+						502941, -- [19]
 					},
 					["showAnimation"] = true,
 					["showStack"] = true,
@@ -1529,7 +1532,7 @@ MaddinUI.profileData.Cell_Ascension = {
 					["enabled"] = true,
 					["type"] = "icons",
 					["frameLevel"] = 5,
-					["auraType"] = "buff",
+					["showJumpingAnimation"] = false,
 					["numPerLine"] = 5,
 					["num"] = 5,
 					["font"] = {
@@ -1572,7 +1575,7 @@ MaddinUI.profileData.Cell_Ascension = {
 					},
 					["orientation"] = "right-to-left",
 					["trackByName"] = true,
-					["showJumpingAnimation"] = false,
+					["auraType"] = "buff",
 					["castBy"] = "me",
 				}, -- [31]
 				{
@@ -1604,7 +1607,10 @@ MaddinUI.profileData.Cell_Ascension = {
 				}, -- [32]
 			},
 			["powerFilters"] = {
-				["HUNTER"] = true,
+				["DEATHKNIGHT"] = {
+					["DAMAGER"] = true,
+					["TANK"] = true,
+				},
 				["WARRIOR"] = {
 					["DAMAGER"] = true,
 					["TANK"] = true,
@@ -1633,24 +1639,21 @@ MaddinUI.profileData.Cell_Ascension = {
 					["HEALER"] = true,
 				},
 				["ROGUE"] = true,
-				["DEATHKNIGHT"] = {
-					["DAMAGER"] = true,
-					["TANK"] = true,
-				},
+				["HUNTER"] = true,
 			},
 			["spotlight"] = {
-				["sameArrangementAsMain"] = true,
+				["enabled"] = false,
 				["spacingY"] = 3,
 				["spacingX"] = 3,
 				["units"] = {
 				},
-				["enabled"] = false,
-				["sameSizeAsMain"] = true,
+				["hidePlaceholder"] = false,
+				["sameArrangementAsMain"] = true,
 				["anchor"] = "TOPLEFT",
+				["sameSizeAsMain"] = true,
+				["orientation"] = "vertical",
 				["position"] = {
 				},
-				["orientation"] = "vertical",
-				["hidePlaceholder"] = false,
 				["powerSize"] = 2,
 				["size"] = {
 					66, -- [1]
@@ -1679,11 +1682,11 @@ MaddinUI.profileData.Cell_Ascension = {
 				},
 			},
 			["npc"] = {
-				["sameArrangementAsMain"] = true,
+				["enabled"] = true,
 				["spacingY"] = 3,
 				["separate"] = false,
 				["spacingX"] = 3,
-				["enabled"] = true,
+				["sameArrangementAsMain"] = true,
 				["anchor"] = "TOPLEFT",
 				["sameSizeAsMain"] = true,
 				["orientation"] = "vertical",
