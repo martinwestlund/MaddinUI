@@ -17,7 +17,6 @@ done
 grep -q 'MaddinUI.profileData.ElvUI' Profiles/Data/ElvUI.lua
 grep -q 'dpsTankProfileName = "MaddinUI DPS/Tank"' Profiles/Data/ElvUI.lua
 grep -q 'healerProfileName = "MaddinUI Healer"' Profiles/Data/ElvUI.lua
-grep -q '\["dateFormat"\] = ""' Profiles/Data/ElvUI.lua
 grep -q 'MaddinUI.profileData.WeakAurasSaved' Profiles/Data/WeakAuras.lua
 grep -q '\["displays"\]' Profiles/Data/WeakAuras.lua
 grep -q '\["dbVersion"\]' Profiles/Data/WeakAuras.lua

@@ -3,7 +3,7 @@ local MaddinUI = _G.MaddinUI or {}
 _G.MaddinUI = MaddinUI
 
 MaddinUI.name = ADDON_NAME
-MaddinUI.version = "0.1.6"
+MaddinUI.version = "0.1.8"
 MaddinUI.profiles = MaddinUI.profiles or {}
 
 local DEFAULT_DB = {
@@ -99,7 +99,33 @@ local function GetElvPrivateProfileName()
     return characterKey or "Default"
 end
 
-local function DisableElvUINameplatesAndGroupFrames(db)
+function MaddinUI.GetCurrentElvUIProfileName()
+    local characterKey = GetCharacterKey()
+
+    if type(ElvDB) == "table" and type(ElvDB.profileKeys) == "table" and characterKey then
+        return ElvDB.profileKeys[characterKey]
+    end
+
+    return nil
+end
+
+function MaddinUI.ShouldUseElvUIGroupFrames()
+    local data = MaddinUI.profileData and MaddinUI.profileData.ElvUI
+    local dpsTankProfileName = (data and data.dpsTankProfileName) or "MaddinUI DPS/Tank"
+    local currentProfileName = MaddinUI.GetCurrentElvUIProfileName()
+
+    if currentProfileName == dpsTankProfileName then
+        return true
+    end
+
+    if currentProfileName then
+        return false
+    end
+
+    return nil
+end
+
+function MaddinUI.ApplyElvUIGroupFramePolicy(db, shouldUseElvUIGroupFrames)
     if type(db) ~= "table" then
         return
     end
@@ -113,15 +139,19 @@ local function DisableElvUINameplatesAndGroupFrames(db)
     unitframe.disabledBlizzardFrames.party = true
     unitframe.disabledBlizzardFrames.raid = true
 
+    if shouldUseElvUIGroupFrames == nil then
+        return
+    end
+
     unitframe.units = unitframe.units or {}
     unitframe.units.party = unitframe.units.party or {}
-    unitframe.units.party.enable = false
+    unitframe.units.party.enable = shouldUseElvUIGroupFrames
     unitframe.units.raid = unitframe.units.raid or {}
-    unitframe.units.raid.enable = false
+    unitframe.units.raid.enable = shouldUseElvUIGroupFrames
     unitframe.units.raid2 = unitframe.units.raid2 or {}
-    unitframe.units.raid2.enable = false
+    unitframe.units.raid2.enable = shouldUseElvUIGroupFrames
     unitframe.units.raid40 = unitframe.units.raid40 or {}
-    unitframe.units.raid40.enable = false
+    unitframe.units.raid40.enable = shouldUseElvUIGroupFrames
 end
 
 local function EnsureElvPrivateProfile()
@@ -220,8 +250,9 @@ function MaddinUI.PrepareSmoothFirstRun()
         E.private = E.private or {}
         E.private.nameplates = E.private.nameplates or {}
         E.private.nameplates.enable = false
-        DisableElvUINameplatesAndGroupFrames(E.private)
-        DisableElvUINameplatesAndGroupFrames(E.db)
+        local shouldUseElvUIGroupFrames = MaddinUI.ShouldUseElvUIGroupFrames()
+        MaddinUI.ApplyElvUIGroupFramePolicy(E.private, shouldUseElvUIGroupFrames)
+        MaddinUI.ApplyElvUIGroupFramePolicy(E.db, shouldUseElvUIGroupFrames)
 
         if E.version then
             E.private.install_complete = E.version
@@ -237,7 +268,8 @@ function MaddinUI.PrepareSmoothFirstRun()
     local privateProfile = EnsureElvPrivateProfile()
     privateProfile.nameplates = privateProfile.nameplates or {}
     privateProfile.nameplates.enable = false
-    DisableElvUINameplatesAndGroupFrames(privateProfile)
+    local shouldUseElvUIGroupFrames = MaddinUI.ShouldUseElvUIGroupFrames()
+    MaddinUI.ApplyElvUIGroupFramePolicy(privateProfile, shouldUseElvUIGroupFrames)
     privateProfile.install_complete = (E and E.version) or privateProfile.install_complete or true
 end
 

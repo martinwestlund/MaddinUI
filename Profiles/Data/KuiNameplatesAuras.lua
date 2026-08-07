@@ -9,6 +9,9 @@ MaddinUI.profileData.KuiSpellListCustom = {
 			[804982] = true,
 			[805896] = true,
 		},
+		["CULTIST"] = {
+			[502215] = true,
+		},
 	},
 	["Ignore"] = {
 	},

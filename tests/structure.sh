@@ -76,20 +76,28 @@ if ! grep -q 'E.private.nameplates.enable = false' Core.lua; then
   echo "smooth first-run must disable ElvUI nameplates for KuiNameplates" >&2
   exit 1
 fi
-if ! grep -q 'unitframe.disabledBlizzardFrames.party = true' Core.lua; then
-  echo "smooth first-run must disable Blizzard party frames for Cell_Ascension" >&2
+if ! grep -q 'function MaddinUI.GetCurrentElvUIProfileName' Core.lua; then
+  echo "smooth first-run must detect the active ElvUI profile" >&2
   exit 1
 fi
-if ! grep -q 'unitframe.disabledBlizzardFrames.raid = true' Core.lua; then
-  echo "smooth first-run must disable Blizzard raid frames for Cell_Ascension" >&2
+if ! grep -q 'function MaddinUI.ShouldUseElvUIGroupFrames' Core.lua; then
+  echo "smooth first-run must enable group frames only for the ElvUI DPS/Tank profile" >&2
   exit 1
 fi
-if ! grep -q 'unitframe.units.party.enable = false' Core.lua; then
-  echo "smooth first-run must disable ElvUI party frames for Cell_Ascension" >&2
+if ! grep -q 'function MaddinUI.ApplyElvUIGroupFramePolicy' Core.lua; then
+  echo "smooth first-run must apply profile-aware ElvUI group frame policy" >&2
   exit 1
 fi
-if ! grep -q 'unitframe.units.raid.enable = false' Core.lua; then
-  echo "smooth first-run must disable ElvUI raid frames for Cell_Ascension" >&2
+if ! grep -q 'currentProfileName == dpsTankProfileName' Core.lua; then
+  echo "smooth first-run must only enable group frames while using the ElvUI DPS/Tank profile" >&2
+  exit 1
+fi
+if ! grep -q 'unitframe.units.party.enable = shouldUseElvUIGroupFrames' Core.lua; then
+  echo "smooth first-run must enable ElvUI party frames outside the healer profile" >&2
+  exit 1
+fi
+if ! grep -q 'unitframe.units.raid.enable = shouldUseElvUIGroupFrames' Core.lua; then
+  echo "smooth first-run must enable ElvUI raid frames outside the healer profile" >&2
   exit 1
 fi
 if ! grep -q 'E:StaticPopup_Hide("INCOMPATIBLE_ADDON")' Core.lua; then

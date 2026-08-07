@@ -81,7 +81,7 @@ local function RefreshElvUIScale(E)
     end
 end
 
-local function DisableElvUINameplatesAndGroupFrames(db)
+local function ApplyElvUIGroupFramePolicy(db, shouldUseElvUIGroupFrames)
     if type(db) ~= "table" then
         return
     end
@@ -97,13 +97,13 @@ local function DisableElvUINameplatesAndGroupFrames(db)
 
     unitframe.units = unitframe.units or {}
     unitframe.units.party = unitframe.units.party or {}
-    unitframe.units.party.enable = false
+    unitframe.units.party.enable = shouldUseElvUIGroupFrames
     unitframe.units.raid = unitframe.units.raid or {}
-    unitframe.units.raid.enable = false
+    unitframe.units.raid.enable = shouldUseElvUIGroupFrames
     unitframe.units.raid2 = unitframe.units.raid2 or {}
-    unitframe.units.raid2.enable = false
+    unitframe.units.raid2.enable = shouldUseElvUIGroupFrames
     unitframe.units.raid40 = unitframe.units.raid40 or {}
-    unitframe.units.raid40.enable = false
+    unitframe.units.raid40.enable = shouldUseElvUIGroupFrames
 end
 
 local function ApplyElvUIProfileTable(E, profileType, profileName, profileTable, data)
@@ -117,8 +117,10 @@ local function ApplyElvUIProfileTable(E, profileType, profileName, profileTable,
     ElvDB.profileKeys = ElvDB.profileKeys or {}
     ElvDB.global = ElvDB.global or {}
 
+    local shouldUseElvUIGroupFrames = profileName == (data.dpsTankProfileName or "MaddinUI DPS/Tank")
+
     ElvDB.profiles[profileName] = MaddinUI.CopyTable(profileTable, {})
-    DisableElvUINameplatesAndGroupFrames(ElvDB.profiles[profileName])
+    ApplyElvUIGroupFramePolicy(ElvDB.profiles[profileName], shouldUseElvUIGroupFrames)
 
     if type(data.global) == "table" then
         ElvDB.global = MaddinUI.CopyTable(data.global, {})
@@ -127,8 +129,8 @@ local function ApplyElvUIProfileTable(E, profileType, profileName, profileTable,
     if type(data.private) == "table" then
         ElvPrivateDB = MaddinUI.CopyTable(data.private, {})
         if type(ElvPrivateDB.profiles) == "table" then
-            for _, privateProfile in pairs(ElvPrivateDB.profiles) do
-                DisableElvUINameplatesAndGroupFrames(privateProfile)
+            for privateProfileName, privateProfile in pairs(ElvPrivateDB.profiles) do
+                ApplyElvUIGroupFramePolicy(privateProfile, privateProfileName == (data.dpsTankProfileName or "MaddinUI DPS/Tank"))
             end
         end
     end
@@ -143,7 +145,7 @@ local function ApplyElvUIProfileTable(E, profileType, profileName, profileTable,
 
     if E then
         E.db = MaddinUI.CopyTable(profileTable, {})
-        DisableElvUINameplatesAndGroupFrames(E.db)
+        ApplyElvUIGroupFramePolicy(E.db, shouldUseElvUIGroupFrames)
         if type(ElvDB.global) == "table" then
             E.global = MaddinUI.CopyTable(ElvDB.global, {})
         end
