@@ -65,11 +65,11 @@ MaddinUI.profileData.KuiNameplates = {
 					},
 				},
         ["TankMode"] = {
-					["tankmode"] = {
-						["enabled"] = 2,
-					},
 					["brackets"] = {
 						["scale"] = 0.599395751953125,
+					},
+					["tankmode"] = {
+						["enabled"] = 2,
 					},
 				},
     },
